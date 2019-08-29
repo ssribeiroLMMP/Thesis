@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Aug 19 15:07:36 2019
+
+@author: sergio
+@description: calls main.py execution
+"""
+from Info import *
+
+createDirectories(inputs)
+
+# Overwrite the previous Execution.txt with new Header
+os.system(infoCommand())
+
+# Append Execution.txt with Simulation Residues
+os.system(solveCommand())

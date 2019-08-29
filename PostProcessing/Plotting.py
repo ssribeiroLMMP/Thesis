@@ -1,0 +1,127 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jul 29 08:21:14 2019
+
+@author: Sergio Ribeiro
+Description: Set of functions to plot pressure, velocity, concentration and 
+             other variables
+"""
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+
+def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█'):
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        length      - Optional  : character length of bar (Int)
+        fill        - Optional  : bar fill character (Str)
+    """
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end = '\r')
+
+def prettyplot(fig,mesh,t,ui,pi,li,dicTitle, pnlevels=10,resultspath='',tag='',cbarU=0,cbarP=0,cbarDirection = 0):
+    # Mesh Vertices' Coordinates
+    x = mesh.coordinates()[:,0]
+    y = mesh.coordinates()[:,1]
+    nVertices = len(x)
+    
+    mycmap = cm.get_cmap('jet')
+    
+    shape = (nVertices, 2)
+
+    
+    if pi != 0:
+        # Get P Values
+        pValues = pi.compute_vertex_values(mesh)
+        # Plot Pressure
+        plt.figure(num=fig, figsize=(10, 10), dpi=100, facecolor='w', edgecolor='k')
+        plt.clf()
+        pax = plot(pi,title=dicTitle[1], cmap = mycmap)
+        # plt.axis('equal')
+        minP = pValues.min()
+        meanP = pValues.mean()
+        maxP = pValues.max()
+        pticks = [minP]
+        pticklabels = ['{:.0f} Pa'.format(minP)]
+        for l in range(1,pnlevels+1):
+            levelPvalue = (l*(maxP-minP)/pnlevels) + minP
+            pticks.append(levelPvalue)
+            pticklabels.append('{:.0f} Pa'.format(levelPvalue))
+        
+        if cbarDirection == 1:
+            cbarP = plt.colorbar(pax,orientation='vertical',cmap = mycmap) #
+            cbarP.set_ticks(pticks)
+            cbarP.ax.set_yticklabels(pticklabels)
+        else:
+            cbarP = plt.colorbar(pax,orientation='horizontal',cmap = mycmap) #
+            cbarP.set_ticks(pticks)
+            cbarP.ax.set_xticklabels(pticklabels)   
+        
+        # Save Figure as .PNG file
+        if resultspath != '':
+            plt.savefig(resultspath+tag+'_Pressure_t='+'{:.2f}'.format(t) +'.png')
+        
+        dpdx = ((pValues[len(pValues)-1]-pValues[1])/x.max())
+        
+        
+    # Plot Level or concentration
+    if li != 0:
+        # Get L Values
+        pValues = li.compute_vertex_values(mesh)
+        # Plot Level
+        plt.figure(num=fig+1, figsize=(10, 10), dpi=100, facecolor='w', edgecolor='k')
+        plt.clf()
+        lax = plot(li,title=dicTitle[2], cmap = mycmap)
+    
+        # Save Figure as .PNG file
+        if resultspath != '':
+            plt.savefig(resultspath+tag+'_Level_t='+'{:.2f}'.format(t) +'.png')
+        
+    # Plot Velocities
+    if ui != 0:
+        # Get Cell Values
+        uValues = ui.compute_vertex_values(mesh)
+        # Plot Velocities
+        plt.figure(num=fig+2, figsize=(10, 10), dpi=100, facecolor='w', edgecolor='k')
+        plt.clf()
+        uax = plot(ui,title=dicTitle[3], cmap = mycmap)
+    
+        # Calculate Arrow Sizes
+        C = np.hypot(uXYValues[:,0], uXYValues[:,1])
+        # plt.axis('equal')
+        minVel = '{:.0f} m/s'.format(C.min()) 
+        meanVel = '{:.3f} m/s'.format(C.mean())
+        maxVel = '{:.3f} m/s'.format(C.max())
+        
+        if cbarDirection == 1:
+            cbarU = plt.colorbar(uax,orientation='vertical', cmap = mycmap) #,
+            cbarU.set_ticks([C.min(), C.mean(), C.max()])    
+            cbarU.ax.set_yticklabels([minVel, meanVel, maxVel])
+        else:
+            cbarU = plt.colorbar(uax,orientation='horizontal', cmap = mycmap) #,
+            cbarU.set_ticks([C.min(), C.mean(), C.max()])    
+            cbarU.ax.set_xticklabels([minVel, meanVel, maxVel])
+        
+        # Get Velocity Values    
+        uXYValues = np.zeros(shape)    
+        
+        # Colect velocity data in Arrays
+        for j in range(0,nVertices):
+            uXYValues[j,0] = uValues[j]
+            uXYValues[j,1] = uValues[j+nVertices]
+        
+        # Save Figure as .PNG file
+        if resultspath != '':
+            plt.savefig(resultspath+tag+'_Velocities_t='+'{:.2f}'.format(t) +'.png')
+    
+    
+        
+    return cbarU, cbarP, uXYValues, lValues, pValues, nVertices;
