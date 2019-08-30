@@ -7,11 +7,17 @@ Created on Mon Jul 29 08:21:14 2019
 Description: Problem Definitions: Input Dictionary
 """
 from dolfin import *
+import math
+
+# Sigmoid Function S(x) = (dtMax-dtMin)/(1+exp(Inclination*(-t+t0)))+dtMin
+def dynamicTimestep(t,dtMax,dtMin,t0): 
+    Inclination = 3
+    return (dtMax-dtMin)/(1+math.exp(Inclination*(-t+t0)))+dtMin
 
 class Inputs():
     def __init__(self):
         ############### Case Definition    ##############################
-        self.caseId = 'Re_1000' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'WellSimulatorTestOnlyFlow' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -21,7 +27,7 @@ class Inputs():
         
         ############### Problem Geometry   ##############################
         ## Mesh File
-        self.meshFile = 'MacroParallelPlates'
+        self.meshFile = 'WellSimulator'
         
         ## Mesh Elements
         # Velocity
@@ -66,21 +72,24 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 100 # s
+        self.tEnd = 0.1 # s
         
-        # Calculation time step
-        self.dt = 1 # s
+        # Variable time step
+        self.dtMin = 0.01    # s
+        self.dtMax = 0.01     # s
+        self.tChange = 0.04   # point in time of sigmoid inflection occurs (s) 
+        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
         
         ############### Logging Options   ###############################
         # Result Saving time step
-        self.savedt = 10 # s
+        self.savedt = 0.02 # s
         
         ############### Solver parameters ###############################
         # Absolute Tolerance    
-        self.absTol = 1e-18
+        self.absTol = 1e-12
         
         # Relative Tolerance
-        self.relTol = 1e-15
+        self.relTol = 1e-10
         
         # Maximum Iterations
         self.maxIter = 200

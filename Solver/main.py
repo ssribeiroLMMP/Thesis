@@ -44,20 +44,7 @@ def main(inputs, geopath, meshpath):
     
     # Get Mesh Dimension: 1, 2 or 3
     Dim = meshObj.geometric_dimension()
-    
-    # Get Element Shape: Triangle, etc...
-    elementShape = meshObj.ufl_cell()
-    
-    # Set Mesh Elements
-    ### Calculate Measurements
-    Uel = VectorElement(inputs.velocityElementfamily, elementShape, inputs.velocityElementOrder) # Velocity vector field
-    Pel = FiniteElement(inputs.pressureElementfamily, elementShape, inputs.pressureElementOrder) # Pressure field
-    UPel = MixedElement([Uel,Pel])
-    
-    ####################    Function Spaces 
-    # Mixed Function Space: Pressure and Velocity
-    W = FunctionSpace(meshObj,UPel)
-    
+        
     #%%#################    Time Loop - If Transient
     t = inputs.t0
     saveDt = inputs.savedt
@@ -70,28 +57,40 @@ def main(inputs, geopath, meshpath):
     # Start timer
     start = timeit.default_timer()
     
-    # Initialize results Vector
-    results = []
-    
-    begin('Flow - Time:{:.3f}s'.format(t))
-    # Solve Equations
-    w = flow(W,rho,mu,inputs,meshObj,boundaries,Subdomains)
-    end()
-    
-    (u1, p1) = w.leaf_node().split()
-    
-    # Save Paraview Files
-    if t==0 or t >= saveDt:
-        begin('---------------- Saving ----------------')
-        # Append and save Results
-        results.append(u1)
-        results.append(p1)
-        saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
-        saveDt = t + inputs.savedt
+    # Time Loop
+    w0 = []
+    while t <= inputs.tEnd:
+           
+        # Set Dynamic Timestep
+        dt = dynamicTimestep(t,inputs.dtMax,inputs.dtMin,inputs.tChange)
+        
+        # Initialize results Vector
+        results = []
+        
+        begin('Flow - Time:{:.3f}s'.format(t))
+        
+        # Solve Equations
+        w0 = transientFlow(w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
         end()
-        # Store Initial Solution in Time t=t
-    #        solutions.append({'t':t, 'variables':results})
-                  
+        
+        (u1, p1) = w0.leaf_node().split()
+        
+        
+        # Save Paraview Files
+        if t==0 or t >= saveDt:
+            begin('---------------- Saving ----------------')
+            # Append and save Results
+            results.append(u1)
+            results.append(p1)
+            saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
+            saveDt = t + inputs.savedt
+            end()
+            # Store Initial Solution in Time t=t
+        #        solutions.append({'t':t, 'variables':results})
+                
+        # Update current time
+        t += dt    
+            
     #####################  Post Processing
     print('Finished')
     # End Time
