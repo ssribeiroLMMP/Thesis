@@ -14,10 +14,19 @@ def dynamicTimestep(t,dtMax,dtMin,t0):
     Inclination = 3
     return (dtMax-dtMin)/(1+math.exp(Inclination*(-t+t0)))+dtMin
 
+def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
+    # Check if 
+    if no_iterations < limitIterations:
+        dt = min(increment*dt,inputs.dtMax)
+    else:
+        dt = max((1/increment)*dt,inputs.dtMin)
+    
+    return dt
+
 class Inputs():
     def __init__(self):
         ############### Case Definition    ##############################
-        self.caseId = 'WellSimulatorTestOnlyFlow' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransFlowPois5000sAutoTimestep' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -27,7 +36,7 @@ class Inputs():
         
         ############### Problem Geometry   ##############################
         ## Mesh File
-        self.meshFile = 'WellSimulator'
+        self.meshFile = 'MacroParallelPlates'
         
         ## Mesh Elements
         # Velocity
@@ -48,7 +57,7 @@ class Inputs():
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        self.pressureBCs.update({'Inlet' : 0.3164557}) # Pa
+        self.pressureBCs.update({'Inlet' : 0.1}) # Pa
         self.pressureBCs.update({'Outlet' : 0}) # Pa
         
         ## Velocity Inputs
@@ -65,24 +74,25 @@ class Inputs():
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
-        self.mu0 = 0.01
+        self.mu0 = 0.02
         
         ############### Time Parameters #################################
         # Start Time
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 0.1 # s
+        self.tEnd = 5000 # s
         
         # Variable time step
-        self.dtMin = 0.01    # s
-        self.dtMax = 0.01     # s
-        self.tChange = 0.04   # point in time of sigmoid inflection occurs (s) 
-        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
+        self.dtMin = 0.1    # s
+        self.dtMax = 500     # s
+        self.tChange = 0   # point in time of sigmoid inflection occurs (s)
+        self.dt = 10
+#        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
         
         ############### Logging Options   ###############################
         # Result Saving time step
-        self.savedt = 0.02 # s
+        self.savedt = 20 # s
         
         ############### Solver parameters ###############################
         # Absolute Tolerance    
@@ -98,7 +108,7 @@ class Inputs():
         self.linearSolver = 'mumps'
             
         # Relaxation Factor
-        self.alpha = 0.95
+        self.alpha = 1
             
             
         #%% Possible Solvers

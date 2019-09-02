@@ -15,3 +15,4 @@ os.system(infoCommand())
 
 # Append Execution.txt with Simulation Residues
 os.system(solveCommand())
+#main(inputs)

@@ -27,9 +27,9 @@ sys.path.append(os.path.abspath('.'))
 from ProblemInputs import *
 from PreProcessing.meshConversion import *
 from Solver.Equations import *
-from PostProcessing.Saving import *
-    
-def main(inputs, geopath, meshpath):
+from PostProcessing.Saving import *  
+
+def main(inputs):
     
     # Prepare for saving
     meshpath, paraFullPath, imFullPath,parapath, imagespath,geopath,  \
@@ -40,11 +40,13 @@ def main(inputs, geopath, meshpath):
     # Type 1 - from XML File            -- OK
     # Type 2 - Converts from .msh       -- to do
     # Type 3 - Manual FEniCs Creation   -- to do
+    print(meshpath);print(geopath);print(inputs.meshFile)
     meshObj, boundaries, markers, Subdomains = applyMesh(1,geopath,meshpath,inputs.meshFile)
+    
     
     # Get Mesh Dimension: 1, 2 or 3
     Dim = meshObj.geometric_dimension()
-        
+    
     #%%#################    Time Loop - If Transient
     t = inputs.t0
     saveDt = inputs.savedt
@@ -57,40 +59,56 @@ def main(inputs, geopath, meshpath):
     # Start timer
     start = timeit.default_timer()
     
+    # Space Functions
+    W = flowSpaceCreation(inputs,meshObj)
+    w0 = Function(W)
+    
+    ## Result Functions
+    w = Function(W)
+#    print('Space Functions Created')
     # Time Loop
-    w0 = []
+    dt = inputs.dt
+    lastStep = False
+    
     while t <= inputs.tEnd:
-           
-        # Set Dynamic Timestep
-        dt = dynamicTimestep(t,inputs.dtMax,inputs.dtMin,inputs.tChange)
-        
         # Initialize results Vector
         results = []
         
         begin('Flow - Time:{:.3f}s'.format(t))
         
         # Solve Equations
-        w0 = transientFlow(w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
+        (w,no_iterations,converged) = transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
         end()
         
-        (u1, p1) = w0.leaf_node().split()
-        
-        
-        # Save Paraview Files
-        if t==0 or t >= saveDt:
-            begin('---------------- Saving ----------------')
-            # Append and save Results
-            results.append(u1)
-            results.append(p1)
-            saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
-            saveDt = t + inputs.savedt
-            end()
-            # Store Initial Solution in Time t=t
-        #        solutions.append({'t':t, 'variables':results})
-                
-        # Update current time
-        t += dt    
+        if converged:
             
+            (u1, p1) = w.leaf_node().split()
+            # Save Paraview Files
+            if t==0 or t >= saveDt: #  
+                begin('---------------- Saving ----------------')
+                # Append and save Results
+                results.append(u1)
+                results.append(p1)
+                saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
+                saveDt = t + inputs.savedt
+                end()
+                # Store Initial Solution in Time t=t
+            #        solutions.append({'t':t, 'variables':results})                
+            
+            # Update current time
+            w0.assign(w)
+            t += dt
+            if t > inputs.tEnd and not(lastStep):
+                t = inputs.tEnd
+                lastStep = True
+        
+        ### Set next timestep
+        #Dynamic Timestep
+        # dt = dynamicTimestep(t,inputs.dtMax,inputs.dtMin,inputs.tChange)
+        
+        # Auto-adjustable timestep
+        dt = autoTimestep(no_iterations,dt,inputs)
+                    
     #####################  Post Processing
     print('Finished')
     # End Time
@@ -122,10 +140,9 @@ def main(inputs, geopath, meshpath):
      
 if __name__ == '__main__':
     inputs = Inputs()
-    mainPaths = Paths()
     
     # Check directories for saving
 #    meshFile = savingCheckings(inputs.meshFile,inputs.caseId,mainPaths)
 
     # Prepare for saving
-    main(inputs,mainPaths.geopath,mainPaths.meshpath)
+    main(inputs)

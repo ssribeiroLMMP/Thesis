@@ -9,7 +9,6 @@ Version: 1.0
 import os
 from dolfin import *
 
-
 ### Function Definition - Converts .msh to .xml
 # no formats should be passed
 def msh2xml(inPath,inFile,outPath,outFile):
