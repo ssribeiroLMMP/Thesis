@@ -12,19 +12,18 @@ import os
 sys.path.append(os.path.abspath('..'))
 from Solver.BoundaryConditions import *
 
-#%% Body Forces Term: Gravity
+# Body Forces Term: Gravity
 def fb():
     # Body Forces: Gravity
     return Constant((g, 0.0))
 
-#%% Mesh mesures
-def meshMeasures(meshId,boundariesId):
+def meshMeasures(meshObj,boundaries):
     # Define any measure associated with domain and subdomains
-    dx = Measure('dx', domain=meshId)
-    ds = Measure('ds', domain=meshId, subdomain_data=boundariesId)
+    dx = Measure('dx', domain=meshObj)
+    ds = Measure('ds', domain=meshObj, subdomain_data=boundaries)
     
     # Vectors Normal to the Mesh
-    n = FacetNormal(meshId) # Normal vector to mesh
+    n = FacetNormal(meshObj) # Normal vector to mesh
     return dx, ds, n
 
 def flowSpaceCreation(inputs,meshObj):
@@ -41,9 +40,8 @@ def flowSpaceCreation(inputs,meshObj):
     
     return W
 
-#%% Steady State Coupled scheeme for Flow 
 def steadyStateFlow(rho,mu,inputs,meshObj,boundaries,Subdomains):
-    W = flowSpaceCreation(inputs,meshObj)
+    W = flowSpaceCreation(inputs,meshObj)    
     
     ## Result Functions
     w = Function(W)
@@ -62,22 +60,21 @@ def steadyStateFlow(rho,mu,inputs,meshObj,boundaries,Subdomains):
     Dt = Constant(inputs.dt)
    
     alpha = Constant(inputs.alpha)
-    ############   Equations
+    #%%##############################   Equations
     # Linear Momentum Conservation
          # Transient Term: dot((u - u0) / Dt, v)*dx()
-                # Inertia Term             # Surface Forces Term                  # Pressure Force
-    a1 = alpha*(inner(grad(u )* u ,v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p/rho)*dx() + \
-    (1 - alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p0/rho)*dx()    # Relaxation
+         # Inertia Term             # Surface Forces Term                  # Pressure Force
+    a1 = alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p/rho)*dx() + \
+    (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v))- div(v)*p0/rho)*dx()  # Relaxation
                       
-    # Body Forces Term: Gravity
+            # Pressure Force: Natural Boundary Conditions             # Body Forces Term: Gravity         
     L1 = 0
     for key, value in inputs.pressureBCs.items():
         Pi = Constant(value)
-          # Pressure Force: Natural Boundary Conditions   
         L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
     L1 = - L1
     
-    # Mass Conservation
+    # Add Mass Conservation
     a2 = (q*div(u))*dx() 
     L2 = 0
     
@@ -87,11 +84,10 @@ def steadyStateFlow(rho,mu,inputs,meshObj,boundaries,Subdomains):
     # Jacobian Matrix
     J = derivative(F,w,dw)
     
-    # Apply flow boundary Conditions
     bcU = flowBC(U,inputs,meshObj,boundaries,Subdomains)
     
     
-    ########   Numerical Solver Properties
+    #%%##############################   Numerical Solver Properties
     # Problem and Solver definitions
     problemU = NonlinearVariationalProblem(F,w,bcU,J)
     solverU = NonlinearVariationalSolver(problemU)
@@ -178,3 +174,52 @@ def transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     
     # Append Flow Problem
     return w,no_iterations,converged
+
+#%% Field Advection Functions
+
+def fieldSpaceCreation(inputs,meshObj):
+    # Get Element Shape: Triangle, etc...
+    elementShape = meshObj.ufl_cell()
+    
+    # Set Mesh Elements
+    Cel = VectorElement(inputs.scalarFieldElementfamily, elementShape, inputs.scalarFieldElementOrder) # Scalar Field
+  
+    # Mixed Function Space: Pressure and Velocity
+    C = FunctionSpace(meshObj,Cel)
+    
+    return C
+
+## Fluid Mixture
+def initialConditionField(C):
+    c0 = Function(C)
+    c0.assign(Constant(inputs.))
+    
+    return c0
+
+def transienFieldTransport(C,c0,u1,D,rho,mu,meshObj,boundaries,Subdomains):
+    ## Trial and Test function(s)
+    c = TrialFunction(C)
+    l = TestFunction(C)
+    
+    ## Result Functions
+    c1 = Function(C)
+    
+    # Load Important Measures: Omega, deltaOmega, Normal Vector
+    dx, ds, n = meshMeasures(meshObj,boundaries)
+    
+    # Time step Constant
+    Dt = Constant(dt)
+    
+    # Concentration Equation
+          # Transient Term   #                 Advection Term                         # Diffusion Term                            
+    F = rho*inner((c - c0)/Dt,l)*dx() + alpha*(rho*inner(u1,(grad(c ))*l) + D*dot(grad(c ), grad(l)))*dx() \
+                                  + (1-alpha)*(rho*inner(u1,(grad(c0))*l) + D*dot(grad(c0), grad(l)))*dx() # Relaxation
+    a, L = lhs(F), rhs(F)
+
+    # Boundary Conditions    
+    bcC = transportBC(C,meshObj,boundaries,Subdomains)
+    
+    # Solve Problem
+    solve(a == L, c1, bcC)
+    
+    return c1

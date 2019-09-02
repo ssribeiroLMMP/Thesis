@@ -27,8 +27,8 @@ sys.path.append(os.path.abspath('.'))
 from ProblemInputs import *
 from PreProcessing.meshConversion import *
 from Solver.Equations import *
-from PostProcessing.Saving import *  
-
+from PostProcessing.Saving import *
+    
 def main(inputs):
     
     # Prepare for saving
@@ -40,12 +40,11 @@ def main(inputs):
     # Type 1 - from XML File            -- OK
     # Type 2 - Converts from .msh       -- to do
     # Type 3 - Manual FEniCs Creation   -- to do
-    print(meshpath);print(geopath);print(inputs.meshFile)
     meshObj, boundaries, markers, Subdomains = applyMesh(1,geopath,meshpath,inputs.meshFile)
-    
     
     # Get Mesh Dimension: 1, 2 or 3
     Dim = meshObj.geometric_dimension()
+        
     
     #%%#################    Time Loop - If Transient
     t = inputs.t0
@@ -59,56 +58,60 @@ def main(inputs):
     # Start timer
     start = timeit.default_timer()
     
-    # Space Functions
+    # Space Functions: Flow and Scalar Field
     W = flowSpaceCreation(inputs,meshObj)
+    C = fieldSpaceCreation(inputs,meshObj)
     w0 = Function(W)
+    c0 = initialConditionField(C)
     
-    ## Result Functions
-    w = Function(W)
-#    print('Space Functions Created')
-    # Time Loop
+    # Timestep
     dt = inputs.dt
     lastStep = False
-    
+
     while t <= inputs.tEnd:
         # Initialize results Vector
         results = []
-        
+    	
+    	   # Solve Equations
         begin('Flow - Time:{:.3f}s'.format(t))
-        
-        # Solve Equations
         (w,no_iterations,converged) = transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
         end()
         
         if converged:
-            
             (u1, p1) = w.leaf_node().split()
+            
+            begin('Concentration')
+            c1 = transienTransport(C,c0,u1,D,rho,mu,meshObj,boundaries,Subdomains)
+            end()
+            
             # Save Paraview Files
-            if t==0 or t >= saveDt: #  
+            if t==0 or t >= saveDt:
                 begin('---------------- Saving ----------------')
                 # Append and save Results
                 results.append(u1)
                 results.append(p1)
+                results.append(c1)
                 saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
                 saveDt = t + inputs.savedt
                 end()
                 # Store Initial Solution in Time t=t
-            #        solutions.append({'t':t, 'variables':results})                
-            
-            # Update current time
+                # solutions.append({'t':t, 'variables':results})
+                    
+        	   # Update current time
             w0.assign(w)
+            c0.assign(c1)
             t += dt
-            if t > inputs.tEnd and not(lastStep):
-                t = inputs.tEnd
-                lastStep = True
         
+        if t > inputs.tEnd and not(lastStep):
+            t = inputs.tEnd
+            lastStep = True    
+
         ### Set next timestep
         #Dynamic Timestep
         # dt = dynamicTimestep(t,inputs.dtMax,inputs.dtMin,inputs.tChange)
-        
         # Auto-adjustable timestep
         dt = autoTimestep(no_iterations,dt,inputs)
-                    
+          
     #####################  Post Processing
     print('Finished')
     # End Time
@@ -122,27 +125,13 @@ def main(inputs):
     begin("Total running time: %dh:%dmin:%ds \n" % (hours, mins, secs))
     end()
     
-    #%%################     Save Simulation Properties and Results  : TO DO
-    #file = open(fileDir+'/Results_'+tag+'.txt','w') 
-    #file.write('----'+tag +'\n') # Title
-    #
-    #file.write('-- Properties of '+'\n') # Properties
-    #file.write("Total running time: %dh:%dmin:%ds" % (hours, mins, secs)+'\n') 
-    #file.write('rhoH20:{:.0f}'.format(rho0)+' | rhoCement:{:.0f}'.format(rho1)+'\n') 
-    #file.write('muH20:{:.0f}'.format(mu0)+' | muCement:{:.0f}'.format(mu1)+'\n')
-    #file.write('Newtonian Fluids'+'\n')
-    #file.write('Density not a function of time'+'\n') 
-    #
-    #file.write('-- Results of '+ '\n') # Results
-    #file.write('Mass Out:') 
-    #
-    #file.close() 
      
 if __name__ == '__main__':
     inputs = Inputs()
+    mainPaths = Paths()
     
     # Check directories for saving
-#    meshFile = savingCheckings(inputs.meshFile,inputs.caseId,mainPaths)
+    savingCheckings(inputs,mainPaths)
 
     # Prepare for saving
     main(inputs)

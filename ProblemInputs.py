@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
 class Inputs():
     def __init__(self):
         ############### Case Definition    ##############################
-        self.caseId = 'TransFlowPois5000sAutoTimestep' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWithAdvectedFieldTest' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -45,7 +45,9 @@ class Inputs():
         # Pressure
         self.pressureElementfamily = 'Lagrange'
         self.pressureElementOrder = 1
-        
+        # Advected Scalar Field
+        self.scalarFieldElementfamily = 'Lagrange'
+        self.scalarFieldElementOrder = 1
         
         ############### Boundary Conditions
         
@@ -59,6 +61,13 @@ class Inputs():
         self.pressureBCs = {}
         self.pressureBCs.update({'Inlet' : 0.1}) # Pa
         self.pressureBCs.update({'Outlet' : 0}) # Pa
+        
+        ## Advected Scalar Field Inputs
+        self.TTopWall = 200
+        self.TInlet = 50
+        self.scalarFieldBCs = {}
+        self.scalarFieldBCs.update({'Inlet' : self.TInlet}) # T
+        self.scalarFieldBCs.update({'TopWall': self.TTopWall}) # T
         
         ## Velocity Inputs
         self.velocityBCs = []
@@ -81,11 +90,11 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 5000 # s
+        self.tEnd = 3000 # s
         
         # Variable time step
         self.dtMin = 0.1    # s
-        self.dtMax = 500     # s
+        self.dtMax = 10000  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
         self.dt = 10
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s

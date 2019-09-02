@@ -1,7 +1,7 @@
-Simulation Execution: 2019-09-02 18:49:36.026667
-Case: TransFlowPois5000sAutoTimestep
+Simulation Execution: 2019-09-02 19:06:32.258327
+Case: TransWithAdvectedFieldTest
 Source: fcs_v1.0
-caseId=TransFlowPois5000sAutoTimestep
+caseId=TransWithAdvectedFieldTest
 ParaViewFilenames=['velocity', 'pressure']
 ParaViewTitles=['Velocity (m/s)', 'Pressure (Pa)']
 meshFile=MacroParallelPlates
@@ -13,6 +13,9 @@ scalarFieldElementfamily=Lagrange
 scalarFieldElementOrder=1
 noSlipBCs=['TopWall', 'BottomWall']
 pressureBCs={'Inlet': 0.1, 'Outlet': 0}
+TTopWall=200
+TInlet=50
+scalarFieldBCs={'Inlet': 50, 'TopWall': 200}
 velocityBCs=[]
 g=9.81
 rho0=1000
