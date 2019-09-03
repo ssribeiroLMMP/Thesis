@@ -51,9 +51,10 @@ def main(inputs):
     saveDt = inputs.savedt
     #solutions = []
     
-    # Fluid Properties
+    # Mixture Properties
     rho = Constant(inputs.rho0)
     mu = Constant(inputs.mu0)
+    D = Constant(inputs.D)
     
     # Start timer
     start = timeit.default_timer()
@@ -62,7 +63,7 @@ def main(inputs):
     W = flowSpaceCreation(inputs,meshObj)
     C = fieldSpaceCreation(inputs,meshObj)
     w0 = Function(W)
-    c0 = initialConditionField(C)
+    c0 = initialConditionField(C,inputs)
     
     # Timestep
     dt = inputs.dt
@@ -81,7 +82,7 @@ def main(inputs):
             (u1, p1) = w.leaf_node().split()
             
             begin('Concentration')
-            c1 = transienTransport(C,c0,u1,D,rho,mu,meshObj,boundaries,Subdomains)
+            c1 = transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains)
             end()
             
             # Save Paraview Files
@@ -97,7 +98,7 @@ def main(inputs):
                 # Store Initial Solution in Time t=t
                 # solutions.append({'t':t, 'variables':results})
                     
-        	   # Update current time
+        	   # Update current time #ERROR ON VERSION 1.0.4
             w0.assign(w)
             c0.assign(c1)
             t += dt

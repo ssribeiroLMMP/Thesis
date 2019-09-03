@@ -182,7 +182,7 @@ def fieldSpaceCreation(inputs,meshObj):
     elementShape = meshObj.ufl_cell()
     
     # Set Mesh Elements
-    Cel = VectorElement(inputs.scalarFieldElementfamily, elementShape, inputs.scalarFieldElementOrder) # Scalar Field
+    Cel = FiniteElement(inputs.scalarFieldElementfamily, elementShape, inputs.scalarFieldElementOrder) # Scalar Field
   
     # Mixed Function Space: Pressure and Velocity
     C = FunctionSpace(meshObj,Cel)
@@ -190,13 +190,13 @@ def fieldSpaceCreation(inputs,meshObj):
     return C
 
 ## Fluid Mixture
-def initialConditionField(C):
+def initialConditionField(C,inputs):
+    init = Expression('C0','C0',C0=inputs.TInlet,degree=2)
     c0 = Function(C)
-    c0.assign(Constant(inputs.))
-    
+    c0.assign(project(init,C))
     return c0
 
-def transienFieldTransport(C,c0,u1,D,rho,mu,meshObj,boundaries,Subdomains):
+def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains):
     ## Trial and Test function(s)
     c = TrialFunction(C)
     l = TestFunction(C)
@@ -209,15 +209,16 @@ def transienFieldTransport(C,c0,u1,D,rho,mu,meshObj,boundaries,Subdomains):
     
     # Time step Constant
     Dt = Constant(dt)
+    alphaC = Constant(inputs.alphaC)
     
     # Concentration Equation
           # Transient Term   #                 Advection Term                         # Diffusion Term                            
-    F = rho*inner((c - c0)/Dt,l)*dx() + alpha*(rho*inner(u1,(grad(c ))*l) + D*dot(grad(c ), grad(l)))*dx() \
-                                  + (1-alpha)*(rho*inner(u1,(grad(c0))*l) + D*dot(grad(c0), grad(l)))*dx() # Relaxation
+    F = rho*inner((c - c0)/Dt,l)*dx() + alphaC*(rho*inner(u1,(grad(c ))*l) + D*dot(grad(c ), grad(l)))*dx() #\
+                                 # + (1-alphaC)*(rho*inner(u1,(grad(c0))*l) + D*dot(grad(c0), grad(l)))*dx() # Relaxation
     a, L = lhs(F), rhs(F)
 
     # Boundary Conditions    
-    bcC = transportBC(C,meshObj,boundaries,Subdomains)
+    bcC = fieldTransportBC(C,inputs,meshObj,boundaries,Subdomains)
     
     # Solve Problem
     solve(a == L, c1, bcC)

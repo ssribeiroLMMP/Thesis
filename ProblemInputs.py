@@ -33,6 +33,7 @@ class Inputs():
         self.ParaViewFilenames = []; self.ParaViewTitles = []
         self.ParaViewFilenames.append("velocity"); self.ParaViewTitles.append('Velocity (m/s)')
         self.ParaViewFilenames.append("pressure"); self.ParaViewTitles.append('Pressure (Pa)')
+        self.ParaViewFilenames.append("temperature"); self.ParaViewTitles.append('Temperature (°C)')
         
         ############### Problem Geometry   ##############################
         ## Mesh File
@@ -81,6 +82,9 @@ class Inputs():
         # Density (kg/m³)
         self.rho0 = 1000
         
+        # Diffusity of Between species (m²/s)
+        self.D = 0.01
+        
         # Rheology
         # Newtonian Viscosity (Pa.s)
         self.mu0 = 0.02
@@ -116,9 +120,9 @@ class Inputs():
         # Linear Solver
         self.linearSolver = 'mumps'
             
-        # Relaxation Factor
+        # Relaxation Factors
         self.alpha = 1
-            
+        self.alphaC = 1
             
         #%% Possible Solvers
         # Solver method  |  Description    

@@ -1,9 +1,9 @@
-Simulation Execution: 2019-09-02 19:06:32.258327
+Simulation Execution: 2019-09-03 15:11:53.094336
 Case: TransWithAdvectedFieldTest
-Source: fcs_v1.0
+Source: FCS_v1.0
 caseId=TransWithAdvectedFieldTest
-ParaViewFilenames=['velocity', 'pressure']
-ParaViewTitles=['Velocity (m/s)', 'Pressure (Pa)']
+ParaViewFilenames=['velocity', 'pressure', 'temperature']
+ParaViewTitles=['Velocity (m/s)', 'Pressure (Pa)', 'Temperature (°C)']
 meshFile=MacroParallelPlates
 velocityElementfamily=Lagrange
 velocityElementOrder=2
@@ -19,6 +19,7 @@ scalarFieldBCs={'Inlet': 50, 'TopWall': 200}
 velocityBCs=[]
 g=9.81
 rho0=1000
+D=0.01
 mu0=0.02
 t0=0
 tEnd=3000
@@ -32,5 +33,6 @@ relTol=1e-10
 maxIter=200
 linearSolver=mumps
 alpha=1
+alphaC=1
 
 

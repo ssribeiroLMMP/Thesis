@@ -36,20 +36,21 @@ def flowBC(U,inputs,meshId,boundariesId,subdomainsDict):
         bc.append(DirichletBC(U,noSlipU,boundariesId,subdomainsDict[inputs.noSlipBCs[i]]))
     
     return bc
-    # Velocity Condition
-    for key,value in inputs.velocityBCs.items:
-        Vi = interpolate(U,value)
+    # Velocity Conditions  #ERROR ON VERSION 1.0.4
+    for key,value in inputs.velocityBCs.items():
+        Vi = project(value,U)
         bc.append(DirichletBC(U,Vi,boundariesId,subdomainsDict[key]))
     
     return bc
-# Concentration Boundary Conditions
-#def concentrationBC(C,meshId,boundariesId,Subdomains):
-#    Dim = meshId.geometric_dimension()
-#    
-#    # Initialize Boundary Condition
-#    bc = []
-#    # Dirichlet Conditions
-#    bc.append(DirichletBC(C,InletConcentration,boundariesId,Subdomains['Inlet']))
-#    bc.append(DirichletBC(C,OutletConcentration,boundariesId,Subdomains['Outlet']))
-#    
-#    return bc
+
+# Advected Field Boundary Conditions
+def fieldTransportBC(C,inputs,meshId,boundariesId,subdomainsDict):
+    Dim = meshId.geometric_dimension()
+    
+    # Initialize Boundary Condition
+    bc = []
+    # Scalar Field Conditions
+    for key,value in inputs.scalarFieldBCs.items():
+        Ci = project(value,C)
+        bc.append(DirichletBC(C,Ci,boundariesId,subdomainsDict[key]))
+    return bc
