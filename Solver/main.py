@@ -52,8 +52,8 @@ def main(inputs):
     #solutions = []
     
     # Mixture Properties
-    rho = Constant(inputs.rho0)
-    mu = Constant(inputs.mu0)
+    rho = Constant(inputs.rho_values[0])
+    mu = Constant(inputs.mu_values[0])
     D = Constant(inputs.D)
     
     # Start timer

@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWithAdvectedInterfaceTest' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWithAdvectedInterfaceShortTest' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -45,31 +45,31 @@ class Inputs():
         self.Fluid1 = 0
                 
         # Density (kg/m³)
-        self.rho0 = 1000
+        self.rho_values = [1000, 1000]
         
         # Initial Interface position
         self.InterfaceX0 = 0.05
         # self.InterfaceY0 = 0.01
         
         # Diffusity of Between species (m²/s)
-        self.D = 0.000001
+        self.D = 0.0000001
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
-        self.mu0 = 0.02
+        self.mu_values = [0.2, 0.02]
         
         #%%############ Time Parameters #################################
         # Start Time
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 3000 # s
+        self.tEnd = 20 # s
         
         # Variable time step
         self.dtMin = 0.1    # s
-        self.dtMax = 10000  # s
+        self.dtMax = 10  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 10
+        self.dt = 1
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
         
         #%%############ Logging Options   ###############################
