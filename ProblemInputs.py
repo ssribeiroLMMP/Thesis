@@ -25,71 +25,40 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
 
 class Inputs():
     def __init__(self):
-        ############### Case Definition    ##############################
-        self.caseId = 'TransWithAdvectedFieldTest' ## If name already exists in folder ./PostProcessing/Cases, 
+        #%%############ Case Definition    ##############################
+        self.caseId = 'TransWithAdvectedInterfaceTest' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
         self.ParaViewFilenames = []; self.ParaViewTitles = []
         self.ParaViewFilenames.append("velocity"); self.ParaViewTitles.append('Velocity (m/s)')
         self.ParaViewFilenames.append("pressure"); self.ParaViewTitles.append('Pressure (Pa)')
-        self.ParaViewFilenames.append("temperature"); self.ParaViewTitles.append('Temperature (°C)')
+        self.ParaViewFilenames.append("concentration"); self.ParaViewTitles.append('Mass Fraction (Fluid Tags)')
         
-        ############### Problem Geometry   ##############################
-        ## Mesh File
-        self.meshFile = 'MacroParallelPlates'
-        
-        ## Mesh Elements
-        # Velocity
-        self.velocityElementfamily = 'Lagrange'
-        self.velocityElementOrder = 2
-        # Pressure
-        self.pressureElementfamily = 'Lagrange'
-        self.pressureElementOrder = 1
-        # Advected Scalar Field
-        self.scalarFieldElementfamily = 'Lagrange'
-        self.scalarFieldElementOrder = 1
-        
-        ############### Boundary Conditions
-        
-        ## No slip Boundaries
-        self.noSlipBCs = []
-        self.noSlipBCs.append('TopWall')
-        self.noSlipBCs.append('BottomWall')
-        #noSlipBoundaries.append('InnerWalls')
-        
-        ## Pressure Inputs
-        self.pressureBCs = {}
-        self.pressureBCs.update({'Inlet' : 0.1}) # Pa
-        self.pressureBCs.update({'Outlet' : 0}) # Pa
-        
-        ## Advected Scalar Field Inputs
-        self.TTopWall = 200
-        self.TInlet = 50
-        self.scalarFieldBCs = {}
-        self.scalarFieldBCs.update({'Inlet' : self.TInlet}) # T
-        self.scalarFieldBCs.update({'TopWall': self.TTopWall}) # T
-        
-        ## Velocity Inputs
-        self.velocityBCs = []
-        #velocityBCs.update({'Inlet' : Constant(5.0)}) # m/s
-        
-        ############### Gravitationa Field ##############################
+        #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²)
         self.g = 9.81
         
-        ############### Fluids' Properties ##############################
+        #%%############ Fluids' Properties ##############################
+        # Tags
+        self.Fluid0 = 1
+        self.Fluid1 = 0
+                
         # Density (kg/m³)
         self.rho0 = 1000
         
+        # Initial Interface position
+        self.InterfaceX0 = 0.05
+        # self.InterfaceY0 = 0.01
+        
         # Diffusity of Between species (m²/s)
-        self.D = 0.01
+        self.D = 0.000001
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
         self.mu0 = 0.02
         
-        ############### Time Parameters #################################
+        #%%############ Time Parameters #################################
         # Start Time
         self.t0 = 0 # s
         
@@ -103,11 +72,47 @@ class Inputs():
         self.dt = 10
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
         
-        ############### Logging Options   ###############################
+        #%%############ Logging Options   ###############################
         # Result Saving time step
         self.savedt = 20 # s
         
-        ############### Solver parameters ###############################
+        #%%############ Problem Geometry   ##############################
+        ## Mesh File
+        self.meshFile = 'MacroParallelPlates'
+        ## Mesh Elements
+        # Velocity
+        self.velocityElementfamily = 'Lagrange'
+        self.velocityElementOrder = 2
+        # Pressure
+        self.pressureElementfamily = 'Lagrange'
+        self.pressureElementOrder = 1
+        # Advected Scalar Field
+        self.scalarFieldElementfamily = 'Lagrange'
+        self.scalarFieldElementOrder = 1
+        
+        #%%############ Boundary Conditions
+        
+        ## No slip Boundaries
+        self.noSlipBCs = []
+        self.noSlipBCs.append('TopWall')
+        self.noSlipBCs.append('BottomWall')
+        #noSlipBoundaries.append('InnerWalls')
+        
+        ## Pressure Inputs
+        self.pressureBCs = {}
+        self.pressureBCs.update({'Inlet' : 0.1}) # Pa
+        self.pressureBCs.update({'Outlet' : 0}) # Pa
+        
+        ## Advected Scalar Field Inputs
+        self.scalarFieldBCs = {}
+        self.scalarFieldBCs.update({'Inlet' : Constant(self.Fluid0)}) # T
+        #self.scalarFieldBCs.update({'TopWall': self.TTopWall}) # T
+        
+        ## Velocity Inputs
+        self.velocityBCs = []
+        #velocityBCs.update({'Inlet' : Constant(5.0)}) # m/s
+        
+        #%%############ Solver parameters ###############################
         # Absolute Tolerance    
         self.absTol = 1e-12
         

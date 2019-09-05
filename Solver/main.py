@@ -63,8 +63,8 @@ def main(inputs):
     W = flowSpaceCreation(inputs,meshObj)
     C = fieldSpaceCreation(inputs,meshObj)
     w0 = Function(W)
-    c0 = initialConditionField(C,inputs)
-    
+    c0 = initialInterface(C,inputs)
+        
     # Timestep
     dt = inputs.dt
     lastStep = False

@@ -196,6 +196,13 @@ def initialConditionField(C,inputs):
     c0.assign(project(init,C))
     return c0
 
+## Fluid Interface 
+def initialInterface(C,inputs):
+    smoothstep = Expression('(CMax-CMin)/(1+exp(IntIncl*(-x[0]+x0)))+CMin',IntIncl = 20000,x0=inputs.InterfaceX0,CMax=inputs.Fluid1,CMin=inputs.Fluid0,degree=2)
+    c0 = Function(C)
+    c0.assign(project(smoothstep,C))
+    return c0
+
 def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains):
     ## Trial and Test function(s)
     c = TrialFunction(C)
