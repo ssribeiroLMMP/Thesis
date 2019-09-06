@@ -1,12 +1,11 @@
-Simulation Execution: 2019-09-06 09:07:32.812362
-Case: TransWithAdvectedInterfaceShortTest
+Simulation Execution: 2019-09-06 09:29:42.054657
+Case: TransAdvectedInterf_ReinitShortTest
 Source: FCS_v1.0
-caseId=TransWithAdvectedInterfaceShortTest
+caseId=TransAdvectedInterf_ReinitShortTest
 ParaViewFilenames=['velocity', 'pressure', 'concentration']
 ParaViewTitles=['Velocity (m/s)', 'Pressure (Pa)', 'Mass Fraction (Fluid Tags)']
 g=9.81
-Fluid0=1
-Fluid1=0
+FluidTags=[0, 1]
 rho_values=[1000, 1000]
 InterfaceX0=0.05
 D=1e-07
@@ -44,6 +43,7 @@ Flow - Time:0.000s
     Newton solver finished in 1 iterations and 1 linear solver iterations.
 Concentration
   Solving linear variational problem.
+Interface Reinitialization
 ---------------- Saving ----------------
 Flow - Time:1.000s
   Solving nonlinear variational problem.
@@ -52,6 +52,7 @@ Flow - Time:1.000s
     Newton solver finished in 1 iterations and 1 linear solver iterations.
 Concentration
   Solving linear variational problem.
+Interface Reinitialization
 ---------------- Saving ----------------
 Flow - Time:3.000s
   Solving nonlinear variational problem.
@@ -60,6 +61,7 @@ Flow - Time:3.000s
     Newton solver finished in 1 iterations and 1 linear solver iterations.
 Concentration
   Solving linear variational problem.
+Interface Reinitialization
 ---------------- Saving ----------------
 Flow - Time:7.000s
   Solving nonlinear variational problem.
@@ -68,6 +70,7 @@ Flow - Time:7.000s
     Newton solver finished in 1 iterations and 1 linear solver iterations.
 Concentration
   Solving linear variational problem.
+Interface Reinitialization
 ---------------- Saving ----------------
 Flow - Time:15.000s
   Solving nonlinear variational problem.
@@ -76,6 +79,7 @@ Flow - Time:15.000s
     Newton solver finished in 1 iterations and 1 linear solver iterations.
 Concentration
   Solving linear variational problem.
+Interface Reinitialization
 ---------------- Saving ----------------
 Flow - Time:25.000s
   Solving nonlinear variational problem.
@@ -84,6 +88,7 @@ Flow - Time:25.000s
     Newton solver finished in 1 iterations and 1 linear solver iterations.
 Concentration
   Solving linear variational problem.
+Interface Reinitialization
 ---------------- Saving ----------------
 Flow - Time:35.000s
   Solving nonlinear variational problem.
@@ -92,6 +97,7 @@ Flow - Time:35.000s
     Newton solver finished in 1 iterations and 1 linear solver iterations.
 Concentration
   Solving linear variational problem.
+Interface Reinitialization
 ---------------- Saving ----------------
 Flow - Time:45.000s
   Solving nonlinear variational problem.
@@ -100,6 +106,7 @@ Flow - Time:45.000s
     Newton solver finished in 1 iterations and 1 linear solver iterations.
 Concentration
   Solving linear variational problem.
+Interface Reinitialization
 ---------------- Saving ----------------
 Flow - Time:50.000s
   Solving nonlinear variational problem.
@@ -108,7 +115,8 @@ Flow - Time:50.000s
     Newton solver finished in 1 iterations and 1 linear solver iterations.
 Concentration
   Solving linear variational problem.
+Interface Reinitialization
 ---------------- Saving ----------------
-Total running time: 0h:0min:11s 
+Total running time: 0h:0min:12s 
 
 Finished

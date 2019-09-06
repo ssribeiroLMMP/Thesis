@@ -85,6 +85,10 @@ def main(inputs):
             c1 = transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains)
             end()
             
+            begin('Interface Reinitialization')
+            c1.assign(simpleReinit(C, c1, inputs))
+            end()
+            
             # Save Paraview Files
             if t==0 or t >= saveDt:
                 begin('---------------- Saving ----------------')
@@ -97,7 +101,8 @@ def main(inputs):
                 end()
                 # Store Initial Solution in Time t=t
                 # solutions.append({'t':t, 'variables':results})
-                    
+            
+            
         	   # Update current time #ERROR ON VERSION 1.0.4
             w0.assign(w)
             c0.assign(c1)

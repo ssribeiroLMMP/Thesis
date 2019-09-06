@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWithAdvectedInterfaceShortTest' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransAdvectedInterf_ReinitShortTest' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -41,8 +41,7 @@ class Inputs():
         
         #%%############ Fluids' Properties ##############################
         # Tags
-        self.Fluid0 = 1
-        self.Fluid1 = 0
+        self.FluidTags = [0,1]
                 
         # Density (kg/m³)
         self.rho_values = [1000, 1000]
@@ -63,7 +62,7 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 20 # s
+        self.tEnd = 50 # s
         
         # Variable time step
         self.dtMin = 0.1    # s
@@ -74,7 +73,7 @@ class Inputs():
         
         #%%############ Logging Options   ###############################
         # Result Saving time step
-        self.savedt = 20 # s
+        self.savedt = 1 # s
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
@@ -105,7 +104,7 @@ class Inputs():
         
         ## Advected Scalar Field Inputs
         self.scalarFieldBCs = {}
-        self.scalarFieldBCs.update({'Inlet' : Constant(self.Fluid0)}) # T
+        self.scalarFieldBCs.update({'Inlet' : Constant(self.FluidTags[0])}) # % of Fluid 0
         #self.scalarFieldBCs.update({'TopWall': self.TTopWall}) # T
         
         ## Velocity Inputs

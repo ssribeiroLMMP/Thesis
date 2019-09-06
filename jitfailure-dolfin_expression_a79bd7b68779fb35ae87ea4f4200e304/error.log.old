@@ -1,0 +1,29 @@
+/tmp/tmptlf3smf8/dolfin_expression_a79bd7b68779fb35ae87ea4f4200e304.cpp: In member function ‘virtual void dolfin::dolfin_expression_a79bd7b68779fb35ae87ea4f4200e304::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmptlf3smf8/dolfin_expression_a79bd7b68779fb35ae87ea4f4200e304.cpp:66:24: error: ‘CMax’ was not declared in this scope
+           values[0] = (CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin;
+                        ^~~~
+/tmp/tmptlf3smf8/dolfin_expression_a79bd7b68779fb35ae87ea4f4200e304.cpp:66:24: note: suggested alternative: ‘fmax’
+           values[0] = (CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin;
+                        ^~~~
+                        fmax
+/tmp/tmptlf3smf8/dolfin_expression_a79bd7b68779fb35ae87ea4f4200e304.cpp:66:29: error: ‘CMin’ was not declared in this scope
+           values[0] = (CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin;
+                             ^~~~
+/tmp/tmptlf3smf8/dolfin_expression_a79bd7b68779fb35ae87ea4f4200e304.cpp:66:29: note: suggested alternative: ‘sin’
+           values[0] = (CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin;
+                             ^~~~
+                             sin
+/tmp/tmptlf3smf8/dolfin_expression_a79bd7b68779fb35ae87ea4f4200e304.cpp:66:42: error: ‘IntIncl’ was not declared in this scope
+           values[0] = (CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin;
+                                          ^~~~~~~
+/tmp/tmptlf3smf8/dolfin_expression_a79bd7b68779fb35ae87ea4f4200e304.cpp:66:42: note: suggested alternative: ‘__truncl’
+           values[0] = (CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin;
+                                          ^~~~~~~
+                                          __truncl
+/tmp/tmptlf3smf8/dolfin_expression_a79bd7b68779fb35ae87ea4f4200e304.cpp: In member function ‘virtual double dolfin::dolfin_expression_a79bd7b68779fb35ae87ea4f4200e304::get_property(std::__cxx11::string) const’:
+/tmp/tmptlf3smf8/dolfin_expression_a79bd7b68779fb35ae87ea4f4200e304.cpp:78:11: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+           if (name == "k") return k;          if (name == "x0") return x0;
+           ^~
+/tmp/tmptlf3smf8/dolfin_expression_a79bd7b68779fb35ae87ea4f4200e304.cpp:78:47: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+           if (name == "k") return k;          if (name == "x0") return x0;
+                                               ^~

@@ -198,7 +198,9 @@ def initialConditionField(C,inputs):
 
 ## Fluid Interface 
 def initialInterface(C,inputs):
-    smoothstep = Expression('(CMax-CMin)/(1+exp(IntIncl*(-x[0]+x0)))+CMin',IntIncl = 20000,x0=inputs.InterfaceX0,CMax=inputs.Fluid1,CMin=inputs.Fluid0,degree=2)
+    CIn = inputs.FluidTags[0]
+    COut = inputs.FluidTags[1]
+    smoothstep = Expression('(CMax-CMin)/(1+exp(IntIncl*(-x[0]+x0)))+CMin',IntIncl = 20000,x0=inputs.InterfaceX0,CMin=CIn,CMax=COut,degree=2)
     c0 = Function(C)
     c0.assign(project(smoothstep,C))
     return c0
@@ -231,3 +233,11 @@ def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdoma
     solve(a == L, c1, bcC)
     
     return c1
+
+def simpleReinit(C, c1, inputs, IntIncl = 200000, inflection = 0.5):
+    CIn = inputs.FluidTags[0]
+    COut = inputs.FluidTags[1]
+    sharpener = Expression('(CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin',CMin=CIn,CMax=COut, IntIncl=IntIncl,cAdv=c1,x0=inflection,degree=2)
+    
+    return interpolate(sharpener,C)
+    

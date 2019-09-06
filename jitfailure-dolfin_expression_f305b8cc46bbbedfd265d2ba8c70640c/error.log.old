@@ -1,0 +1,22 @@
+/tmp/tmpxi9hwvz6/dolfin_expression_f305b8cc46bbbedfd265d2ba8c70640c.cpp: In member function ‘virtual void dolfin::dolfin_expression_f305b8cc46bbbedfd265d2ba8c70640c::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmpxi9hwvz6/dolfin_expression_f305b8cc46bbbedfd265d2ba8c70640c.cpp:67:24: error: ‘CMax’ was not declared in this scope
+           values[0] = (CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin;
+                        ^~~~
+/tmp/tmpxi9hwvz6/dolfin_expression_f305b8cc46bbbedfd265d2ba8c70640c.cpp:67:24: note: suggested alternative: ‘CMin’
+           values[0] = (CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin;
+                        ^~~~
+                        CMin
+/tmp/tmpxi9hwvz6/dolfin_expression_f305b8cc46bbbedfd265d2ba8c70640c.cpp:67:42: error: ‘IntIncl’ was not declared in this scope
+           values[0] = (CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin;
+                                          ^~~~~~~
+/tmp/tmpxi9hwvz6/dolfin_expression_f305b8cc46bbbedfd265d2ba8c70640c.cpp:67:42: note: suggested alternative: ‘__truncl’
+           values[0] = (CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin;
+                                          ^~~~~~~
+                                          __truncl
+/tmp/tmpxi9hwvz6/dolfin_expression_f305b8cc46bbbedfd265d2ba8c70640c.cpp: In member function ‘virtual double dolfin::dolfin_expression_f305b8cc46bbbedfd265d2ba8c70640c::get_property(std::__cxx11::string) const’:
+/tmp/tmpxi9hwvz6/dolfin_expression_f305b8cc46bbbedfd265d2ba8c70640c.cpp:79:11: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+           if (name == "CMin") return CMin;          if (name == "k") return k;          if (name == "x0") return x0;
+           ^~
+/tmp/tmpxi9hwvz6/dolfin_expression_f305b8cc46bbbedfd265d2ba8c70640c.cpp:79:53: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+           if (name == "CMin") return CMin;          if (name == "k") return k;          if (name == "x0") return x0;
+                                                     ^~
