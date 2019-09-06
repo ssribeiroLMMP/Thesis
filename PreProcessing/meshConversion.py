@@ -74,3 +74,5 @@ def applyMesh(Type,geopath, meshpath,meshFile):
     
 
     
+File = 'WiderHeleShaw'
+msh2xml('./Geometry/',File,'./Mesh/',File)

@@ -15,4 +15,4 @@ Mesh in .msh or .xml
 Output into .txt and .pvd (paraview) Files.
 
 # Physical Problem Description:
-Steady-State single-phase flow
+Transient two-phase flow without interfacial tension

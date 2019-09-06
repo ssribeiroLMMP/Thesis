@@ -52,8 +52,6 @@ def main(inputs):
     #solutions = []
     
     # Mixture Properties
-    rho = Constant(inputs.rho_values[0])
-    mu = Constant(inputs.mu_values[0])
     D = Constant(inputs.D)
     
     # Start timer
@@ -72,7 +70,10 @@ def main(inputs):
     while t <= inputs.tEnd:
         # Initialize results Vector
         results = []
-    	
+        	
+        # Assign Fluids Properties
+        rho,mu = assignFluidProperties(inputs,c0)
+        
     	   # Solve Equations
         begin('Flow - Time:{:.3f}s'.format(t))
         (w,no_iterations,converged) = transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)

@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransAdvectedInterf_ReinitShortTest' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransAdvectedInterf_ReinitThinnerMesh' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -55,18 +55,18 @@ class Inputs():
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
-        self.mu_values = [0.2, 0.02]
+        self.mu_values = [0.1, 0.8]
         
         #%%############ Time Parameters #################################
         # Start Time
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 50 # s
+        self.tEnd = 400 # s
         
         # Variable time step
-        self.dtMin = 0.1    # s
-        self.dtMax = 10  # s
+        self.dtMin = 0.5    # s
+        self.dtMax = 5  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
         self.dt = 1
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
@@ -77,7 +77,7 @@ class Inputs():
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
-        self.meshFile = 'MacroParallelPlates'
+        self.meshFile = 'WiderHeleShaw'
         ## Mesh Elements
         # Velocity
         self.velocityElementfamily = 'Lagrange'
@@ -99,12 +99,12 @@ class Inputs():
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        self.pressureBCs.update({'Inlet' : 0.1}) # Pa
+        self.pressureBCs.update({'Inlet' : 0.5}) # Pa
         self.pressureBCs.update({'Outlet' : 0}) # Pa
         
         ## Advected Scalar Field Inputs
         self.scalarFieldBCs = {}
-        self.scalarFieldBCs.update({'Inlet' : Constant(self.FluidTags[0])}) # % of Fluid 0
+        self.scalarFieldBCs.update({'Inlet' : Constant(self.FluidTags[0])}) # % Only fluid 0 enters
         #self.scalarFieldBCs.update({'TopWall': self.TTopWall}) # T
         
         ## Velocity Inputs
@@ -119,7 +119,7 @@ class Inputs():
         self.relTol = 1e-10
         
         # Maximum Iterations
-        self.maxIter = 200
+        self.maxIter = 100
         
         # Linear Solver
         self.linearSolver = 'mumps'
