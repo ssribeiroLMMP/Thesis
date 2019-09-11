@@ -66,7 +66,18 @@ def main(inputs):
     # Timestep
     dt = inputs.dt
     lastStep = False
-
+    (u0,p0) = w0.split()
+    
+    # Initialize results Vector
+    results = []
+    begin('--------- Saving Initial Conditions ----------')
+    # Append and save Results
+    results.append(u0)
+    results.append(p0)
+    results.append(c0)
+    saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
+    end()
+    
     while t <= inputs.tEnd:
         # Initialize results Vector
         results = []
@@ -75,7 +86,7 @@ def main(inputs):
         rho,mu = assignFluidProperties(inputs,c0)
         
     	   # Solve Equations
-        begin('Flow - Time:{:.3f}s'.format(t))
+        begin('Flow - Time:{:.3f}s, dt:{:.6f}'.format(t,dt))
         (w,no_iterations,converged) = transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
         end()
         
@@ -87,7 +98,7 @@ def main(inputs):
             end()
             
             begin('Interface Reinitialization')
-            c1.assign(simpleReinit(C, c1, inputs))
+            c0.assign(simpleReinit(C, c1, inputs))
             end()
             
             # Save Paraview Files
@@ -106,7 +117,6 @@ def main(inputs):
             
         	   # Update current time #ERROR ON VERSION 1.0.4
             w0.assign(w)
-            c0.assign(c1)
             t += dt
         
         if t > inputs.tEnd and not(lastStep):

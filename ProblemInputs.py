@@ -14,7 +14,7 @@ def dynamicTimestep(t,dtMax,dtMin,t0):
     Inclination = 3
     return (dtMax-dtMin)/(1+math.exp(Inclination*(-t+t0)))+dtMin
 
-def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
+def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=1.5):
     # Check if 
     if no_iterations < limitIterations:
         dt = min(increment*dt,inputs.dtMax)
@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransAdvectedInterf_ReinitThinnerMesh' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'vargesPR_HeleShawCell_etaStar1_8e-1' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -44,10 +44,10 @@ class Inputs():
         self.FluidTags = [0,1]
                 
         # Density (kg/m³)
-        self.rho_values = [1000, 1000]
+        self.rho_values = [1191, 867.6]
         
         # Initial Interface position
-        self.InterfaceX0 = 0.05
+        self.InterfaceX0 = 0.01
         # self.InterfaceY0 = 0.01
         
         # Diffusity of Between species (m²/s)
@@ -55,29 +55,29 @@ class Inputs():
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
-        self.mu_values = [0.1, 0.8]
+        self.mu_values = [0.0251,0.134]
         
         #%%############ Time Parameters #################################
         # Start Time
         self.t0 = 0 # s
-        
         # Simulation Time
-        self.tEnd = 400 # s
+        self.tEnd = 35 # s
         
         # Variable time step
-        self.dtMin = 0.5    # s
-        self.dtMax = 5  # s
+        self.dtMin = 0.1   # s
+        self.dtMax = 1  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 1
+        self.dt = 0.5
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
         
         #%%############ Logging Options   ###############################
         # Result Saving time step
-        self.savedt = 1 # s
+        self.savedt = 0.5 # s
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
-        self.meshFile = 'WiderHeleShaw'
+        self.meshFile = 'OriginalHeleShaw'
+        self.CellThickness = 0.7e-3
         ## Mesh Elements
         # Velocity
         self.velocityElementfamily = 'Lagrange'
@@ -99,7 +99,7 @@ class Inputs():
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        self.pressureBCs.update({'Inlet' : 0.5}) # Pa
+#        self.pressureBCs.update({'Inlet' : 0.5}) # Pa
         self.pressureBCs.update({'Outlet' : 0}) # Pa
         
         ## Advected Scalar Field Inputs
@@ -108,8 +108,8 @@ class Inputs():
         #self.scalarFieldBCs.update({'TopWall': self.TTopWall}) # T
         
         ## Velocity Inputs
-        self.velocityBCs = []
-        #velocityBCs.update({'Inlet' : Constant(5.0)}) # m/s
+        self.velocityBCs = {}
+        self.velocityBCs.update({'Inlet' : Constant((1e-2,0.0))}) # m/s
         
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
@@ -125,7 +125,7 @@ class Inputs():
         self.linearSolver = 'mumps'
             
         # Relaxation Factors
-        self.alpha = 1
+        self.alpha = 0.95
         self.alphaC = 1
             
         #%% Possible Solvers

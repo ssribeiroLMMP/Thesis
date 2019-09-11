@@ -1,8 +1,8 @@
 // Gmsh project created on Mon Jul 15 18:34:03 2019
 Lx0 = 0;
-Lxf = 0.7;
+Lxf = 0.770;
 Ly0 = 0.0;
-Lyf = 0.25;
+Lyf = 0.15;
 p1 = newp;
 Point(p1) = {Lx0, Ly0, 0.1};
 p2 = newp;

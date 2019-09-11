@@ -19,7 +19,8 @@ def fb():
 
 def assignFluidProperties(inputs,c0):
     mu = inputs.mu_values[1]*c0 + inputs.mu_values[0]*(1-c0)
-    rho = Constant(inputs.rho_values[0])
+    rho = inputs.rho_values[1]*c0 + inputs.rho_values[0]*(1-c0)
+#    rho = Constant(inputs.rho_values[0])
     return rho, mu
 
 def meshMeasures(meshObj,boundaries):
@@ -120,11 +121,11 @@ def transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     w = Function(W)
     
     # Split into Velocity and Pressure
-    (u, p) = (as_vector((w[0], w[1])), w[2])
+    (u, p) = split(w)
     (U, P) = W.split()
     
     # Initial Conditions or previous timestep
-    (u0, p0) = (as_vector((w0[0], w0[1])), w0[2])
+    (u0, p0) = split(w0)
     
     # Calculate Important Measures: Omega, deltaOmega, Normal Vector
     dx, ds, n = meshMeasures(meshObj,boundaries)
@@ -137,18 +138,18 @@ def transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     # Linear Momentum Conservation
           
            # Transient Term            # Inertia Term             # Surface Forces Term           # Pressure Force
-    a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho)*dx() #+ \
-#                             (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p/rho)*dx()    # Relaxation
+    a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho)*dx() + \
+                               (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p/rho)*dx()    # Relaxation
                       
     # Body Forces Term: Gravity         
-    L1 = 0
+    L1 = + (12/(inputs.CellThickness**2))*(mu/rho)*inner(u,v)*dx()
     for key, value in inputs.pressureBCs.items():
         Pi = Constant(value)
                # Pressure Force: Natural Boundary Conditions
         L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
     L1 = - L1
     
-    # Add Mass Conservation
+    # Add Mass ConservationVi = project(value,U)
     a2 = (q*div(u))*dx() 
     L2 = 0
     
@@ -239,7 +240,7 @@ def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdoma
     
     return c1
 
-def simpleReinit(C, c1, inputs, IntIncl = 200000, inflection = 0.5):
+def simpleReinit(C, c1, inputs, IntIncl = 500000, inflection = 0.5):
     CIn = inputs.FluidTags[0]
     COut = inputs.FluidTags[1]
     sharpener = Expression('(CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin',CMin=CIn,CMax=COut, IntIncl=IntIncl,cAdv=c1,x0=inflection,degree=2)

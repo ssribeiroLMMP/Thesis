@@ -34,12 +34,10 @@ def flowBC(U,inputs,meshId,boundariesId,subdomainsDict):
     # No-slip Condition
     for i in range(0,len(inputs.noSlipBCs)):
         bc.append(DirichletBC(U,noSlipU,boundariesId,subdomainsDict[inputs.noSlipBCs[i]]))
-    
-    return bc
+        
     # Velocity Conditions  #ERROR ON VERSION 1.0.4
     for key,value in inputs.velocityBCs.items():
-        Vi = project(value,U)
-        bc.append(DirichletBC(U,Vi,boundariesId,subdomainsDict[key]))
+        bc.append(DirichletBC(U,value,boundariesId,subdomainsDict[key]))
     
     return bc
 

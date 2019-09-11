@@ -4,10 +4,9 @@
 Created on Mon Aug 19 15:07:36 2019
 
 @author: sergio
-@description: calls main.py execution
+@description: calls main.py execution.
 """
 from Info import *
-
 createDirectories(inputs)
 
 # Overwrite the previous Execution.txt with new Header
