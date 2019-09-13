@@ -1,4 +1,4 @@
-Simulation Execution: 2019-09-05 09:57:16.362032
+Simulation Execution: 2019-09-13 09:09:15.939265
 Case: TransWithAdvectedInterfaceTest
 Source: FCS_v1.0
 caseId=TransWithAdvectedInterfaceTest
@@ -123,6 +123,6 @@ Flow - Time:3000.000s
 Concentration
   Solving linear variational problem.
 ---------------- Saving ----------------
-Total running time: 0h:0min:18s 
+Total running time: 0h:0min:17s 
 
 Finished

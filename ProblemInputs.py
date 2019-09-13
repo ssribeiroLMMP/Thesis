@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWithAdvectedInterfaceTest' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWithAdvectedInterfaceTest_2' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -45,25 +45,25 @@ class Inputs():
         self.Fluid1 = 0
                 
         # Density (kg/m³)
-        self.rho0 = 1000
+        self.rho_values = [1191, 867.6]
         
         # Initial Interface position
         self.InterfaceX0 = 0.05
         # self.InterfaceY0 = 0.01
         
         # Diffusity of Between species (m²/s)
-        self.D = 0.000001
+        self.D = 1e-8
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
-        self.mu0 = 0.02
+        self.mu_values = [0.134 , 0.0251]
         
         #%%############ Time Parameters #################################
         # Start Time
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 3000 # s
+        self.tEnd = 100 # s
         
         # Variable time step
         self.dtMin = 0.1    # s

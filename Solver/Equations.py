@@ -17,6 +17,13 @@ def fb():
     # Body Forces: Gravity
     return Constant((g, 0.0))
 
+def assignFluidProperties(inputs,c0):
+    mu = inputs.mu_values[1]*c0 + inputs.mu_values[0]*(1-c0)
+    rho = inputs.rho_values[1]*c0 + inputs.rho_values[0]*(1-c0)
+#    rho = Constant(inputs.rho_values[0])
+    return rho, mu
+
+
 def meshMeasures(meshObj,boundaries):
     # Define any measure associated with domain and subdomains
     dx = Measure('dx', domain=meshObj)
