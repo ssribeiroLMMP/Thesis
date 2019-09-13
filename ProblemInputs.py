@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWithAdvectedInterfaceTest_2' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWith2Species_FiltrationTest' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -41,8 +41,8 @@ class Inputs():
         
         #%%############ Fluids' Properties ##############################
         # Tags
-        self.Fluid0 = 1
-        self.Fluid1 = 0
+        self.Fluid0 = 0 # Cement 
+        self.Fluid1 = 1 - self.Fluid0 # Water
                 
         # Density (kg/m³)
         self.rho_values = [1191, 867.6]
@@ -52,24 +52,24 @@ class Inputs():
         # self.InterfaceY0 = 0.01
         
         # Diffusity of Between species (m²/s)
-        self.D = 1e-8
+        self.D = 1e-2
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
-        self.mu_values = [0.134 , 0.0251]
+        self.mu_values = [0.01 , 0.1]
         
         #%%############ Time Parameters #################################
         # Start Time
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 100 # s
+        self.tEnd = 1000 # s
         
         # Variable time step
         self.dtMin = 0.1    # s
-        self.dtMax = 10000  # s
+        self.dtMax = 10  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 10
+        self.dt = 0.1
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
         
         #%%############ Logging Options   ###############################
@@ -100,13 +100,14 @@ class Inputs():
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        self.pressureBCs.update({'Inlet' : 0.1}) # Pa
+        self.pressureBCs.update({'Inlet' : 0.001}) # Pa
         self.pressureBCs.update({'Outlet' : 0}) # Pa
         
         ## Advected Scalar Field Inputs
+        self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
         self.scalarFieldBCs = {}
-        self.scalarFieldBCs.update({'Inlet' : Constant(self.Fluid0)}) # T
-        #self.scalarFieldBCs.update({'TopWall': self.TTopWall}) # T
+        self.scalarFieldBCs.update({'Inlet' : Constant(self.CInitialMixture)}) # CMix
+        self.scalarFieldBCs.update({'Outlet': Constant(self.Fluid1)}) # C1
         
         ## Velocity Inputs
         self.velocityBCs = []

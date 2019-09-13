@@ -61,7 +61,9 @@ def main(inputs):
     W = flowSpaceCreation(inputs,meshObj)
     C = fieldSpaceCreation(inputs,meshObj)
     w0 = Function(W)
-    c0 = initialInterface(C,inputs)
+    
+    # Initial Conditions
+    c0 = initialMixture(C,inputs)
         
     # Timestep
     dt = inputs.dt

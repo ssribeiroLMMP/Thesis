@@ -198,9 +198,15 @@ def fieldSpaceCreation(inputs,meshObj):
 
 ## Fluid Mixture
 def initialConditionField(C,inputs):
-    init = Expression('C0','C0',C0=inputs.TInlet,degree=2)
+    init = Expression('C0','C0',C0=inputs.CMixture,degree=2)
     c0 = Function(C)
     c0.assign(project(init,C))
+    return c0
+
+## Fluid Interface 
+def initialMixture(C,inputs):
+    c0 = Function(C)
+    c0.assign(project(Constant(inputs.CInitialMixture),C))
     return c0
 
 ## Fluid Interface 
