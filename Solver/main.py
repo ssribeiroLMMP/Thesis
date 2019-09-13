@@ -69,7 +69,7 @@ def main(inputs):
     dt = inputs.dt
     lastStep = False
 
-    while t <= inputs.tEnd:
+    while t <= inputs.tEnd and dt > inputs.dtMin:
         # Initialize results Vector
         results = []
         
@@ -77,10 +77,15 @@ def main(inputs):
         rho,mu = assignFluidProperties(inputs,c0)
         
     	   # Solve Equations
-        begin('Flow - Time:{:.3f}s'.format(t))
-        (w,no_iterations,converged) = transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
-        end()
+        try: 
+            begin('Flow - Time:{:.5f}s ; dt:{:.5f}s'.format(t,dt))
+            (w,no_iterations,converged) = transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
+            
+        except:
+            converged = False
+            no_iterations = inputs.maxIter
         
+        end()
         if converged:
             (u1, p1) = w.leaf_node().split()
             
@@ -104,7 +109,7 @@ def main(inputs):
         	   # Update current time #ERROR ON VERSION 1.0.4
             w0.assign(w)
             c0.assign(c1)
-            t += dt
+            t += dt            
         
         if t > inputs.tEnd and not(lastStep):
             t = inputs.tEnd
@@ -117,7 +122,11 @@ def main(inputs):
         dt = autoTimestep(no_iterations,dt,inputs)
           
     #####################  Post Processing
-    print('Finished')
+    if no_iterations < inputs.maxIter:
+        print('Successfully Finished Simulation')
+    else:
+        print('Failed: Minimum timestep reached without convergence')
+    
     # End Time
     stop = timeit.default_timer()
     total_time = stop - start
