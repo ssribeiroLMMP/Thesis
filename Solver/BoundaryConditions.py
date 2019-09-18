@@ -51,6 +51,5 @@ def fieldTransportBC(C,inputs,meshId,boundariesId,subdomainsDict):
     bc = []
     # Scalar Field Conditions
     for key,value in inputs.scalarFieldBCs.items():
-        Ci = project(value,C)
-        bc.append(DirichletBC(C,Ci,boundariesId,subdomainsDict[key]))
+        bc.append(DirichletBC(C,value,boundariesId,subdomainsDict[key]))
     return bc

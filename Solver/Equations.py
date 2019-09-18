@@ -13,9 +13,16 @@ sys.path.append(os.path.abspath('..'))
 from Solver.BoundaryConditions import *
 
 # Body Forces Term: Gravity
-def fb():
+def fb(inputs):
     # Body Forces: Gravity
-    return Constant((g, 0.0))
+    return Constant((inputs.g, 0.0))
+
+def assignFluidProperties(inputs,c0):
+    mu = inputs.mu_values[1]*c0 + inputs.mu_values[0]*(1-c0)
+    rho = inputs.rho_values[1]*c0 + inputs.rho_values[0]*(1-c0)
+#    rho = Constant(inputs.rho_values[0])
+    return rho, mu
+
 
 def meshMeasures(meshObj,boundaries):
     # Define any measure associated with domain and subdomains
@@ -72,7 +79,7 @@ def steadyStateFlow(rho,mu,inputs,meshObj,boundaries,Subdomains):
     for key, value in inputs.pressureBCs.items():
         Pi = Constant(value)
         L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
-    L1 = - L1
+    L1 = - L1 + inner(fb(inputs),v)*dx()
     
     # Add Mass Conservation
     a2 = (q*div(u))*dx() 
@@ -141,7 +148,7 @@ def transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
         Pi = Constant(value)
                # Pressure Force: Natural Boundary Conditions
         L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
-    L1 = - L1
+    L1 = - L1 + inner(fb(inputs),v)*dx()
     
     # Add Mass Conservation
     a2 = (q*div(u))*dx() 
@@ -191,9 +198,22 @@ def fieldSpaceCreation(inputs,meshObj):
 
 ## Fluid Mixture
 def initialConditionField(C,inputs):
-    init = Expression('C0','C0',C0=inputs.TInlet,degree=2)
+    init = Expression('C0','C0',C0=inputs.CMixture,degree=2)
     c0 = Function(C)
     c0.assign(project(init,C))
+    return c0
+
+## Fluid Interface 
+def initialMixture(C,inputs):
+    c0 = Function(C)
+    c0.assign(project(Constant(inputs.CInitialMixture),C))
+    return c0
+
+## Fluid Interface 
+def initialInterface(C,inputs):
+    smoothstep = Expression('(CMax-CMin)/(1+exp(IntIncl*(-x[0]+x0)))+CMin',IntIncl = 20000,x0=inputs.InterfaceX0,CMax=inputs.Fluid1,CMin=inputs.Fluid0,degree=2)
+    c0 = Function(C)
+    c0.assign(project(smoothstep,C))
     return c0
 
 def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains):

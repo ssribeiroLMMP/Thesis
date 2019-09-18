@@ -14,31 +14,71 @@ def dynamicTimestep(t,dtMax,dtMin,t0):
     Inclination = 3
     return (dtMax-dtMin)/(1+math.exp(Inclination*(-t+t0)))+dtMin
 
-def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
+def autoTimestep(no_iterations,dt,inputs,MinIterations=4, MaxIterations=5,increment=1.5):
     # Check if 
-    if no_iterations < limitIterations:
+    if no_iterations < MinIterations:
         dt = min(increment*dt,inputs.dtMax)
-    else:
+    elif no_iterations > MaxIterations:
         dt = max((1/increment)*dt,inputs.dtMin)
     
     return dt
 
 class Inputs():
     def __init__(self):
-        ############### Case Definition    ##############################
-        self.caseId = 'TransWithAdvectedFieldTest' ## If name already exists in folder ./PostProcessing/Cases, 
+        #%%############ Case Definition    ##############################
+        self.caseId = 'WellSimulator_FiltrationTest' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
         self.ParaViewFilenames = []; self.ParaViewTitles = []
         self.ParaViewFilenames.append("velocity"); self.ParaViewTitles.append('Velocity (m/s)')
         self.ParaViewFilenames.append("pressure"); self.ParaViewTitles.append('Pressure (Pa)')
-        self.ParaViewFilenames.append("temperature"); self.ParaViewTitles.append('Temperature (°C)')
+        self.ParaViewFilenames.append("concentration"); self.ParaViewTitles.append('Mass Fraction (Fluid Tags)')
         
-        ############### Problem Geometry   ##############################
+        #%%############ Gravitationa Field ##############################
+        # Gravity Acceleration (m/s²)
+        self.g =  9.81
+        
+        #%%############ Fluids' Properties ##############################
+        # Tags
+        self.Fluid0 = 0 # Cement 
+        self.Fluid1 = 1 - self.Fluid0 # Water
+                
+        # Density (kg/m³)
+        self.rho_values = [1000, 1000]
+        
+        # Initial Interface position
+        self.InterfaceX0 = 0.05
+        # self.InterfaceY0 = 0.01
+        
+        # Diffusity of Between species (m²/s)
+        self.D = 10
+        
+        # Rheology
+        # Newtonian Viscosity (Pa.s)
+        self.mu_values = [0.01 , 0.01]
+        
+        #%%############ Time Parameters #################################
+        # Start Time
+        self.t0 = 0 # s
+        
+        # Simulation Time
+        self.tEnd = 10 # s
+        
+        # Variable time step
+        self.dtMin = 0.0000001    # s
+        self.dtMax = 1  # s
+        self.tChange = 0   # point in time of sigmoid inflection occurs (s)
+        self.dt = 0.01
+#        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
+        
+        #%%############ Logging Options   ###############################
+        # Result Saving time step
+        self.savedt = 0.01 # s
+        
+        #%%############ Problem Geometry   ##############################
         ## Mesh File
-        self.meshFile = 'MacroParallelPlates'
-        
+        self.meshFile = 'WellSimulator'
         ## Mesh Elements
         # Velocity
         self.velocityElementfamily = 'Lagrange'
@@ -50,64 +90,33 @@ class Inputs():
         self.scalarFieldElementfamily = 'Lagrange'
         self.scalarFieldElementOrder = 1
         
-        ############### Boundary Conditions
+        #%%############ Boundary Conditions
         
         ## No slip Boundaries
         self.noSlipBCs = []
-        self.noSlipBCs.append('TopWall')
+        self.noSlipBCs.append('InnerPipe')
+        self.noSlipBCs.append('OuterWall')
         self.noSlipBCs.append('BottomWall')
+#        self.noSlipBCs.append('TopWall')
+#        self.noSlipBCs.append('BottomWall')
         #noSlipBoundaries.append('InnerWalls')
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        self.pressureBCs.update({'Inlet' : 0.1}) # Pa
-        self.pressureBCs.update({'Outlet' : 0}) # Pa
+        self.pressureBCs.update({'Inlet' : 1000}) # Pa
+#        self.pressureBCs.update({'Outlet' : 0}) # Pa
         
         ## Advected Scalar Field Inputs
-        self.TTopWall = 200
-        self.TInlet = 50
+        self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
         self.scalarFieldBCs = {}
-        self.scalarFieldBCs.update({'Inlet' : self.TInlet}) # T
-        self.scalarFieldBCs.update({'TopWall': self.TTopWall}) # T
+        self.scalarFieldBCs.update({'Inlet' : Constant(self.CInitialMixture)}) # CMix
+        self.scalarFieldBCs.update({'Outlet': Constant(self.Fluid1)}) # C1
         
         ## Velocity Inputs
-        self.velocityBCs = []
-        #velocityBCs.update({'Inlet' : Constant(5.0)}) # m/s
+        self.velocityBCs = {}
+        self.velocityBCs.update({'Oulet' : Constant(1e-5)}) # m/s
         
-        ############### Gravitationa Field ##############################
-        # Gravity Acceleration (m/s²)
-        self.g = 9.81
-        
-        ############### Fluids' Properties ##############################
-        # Density (kg/m³)
-        self.rho0 = 1000
-        
-        # Diffusity of Between species (m²/s)
-        self.D = 0.01
-        
-        # Rheology
-        # Newtonian Viscosity (Pa.s)
-        self.mu0 = 0.02
-        
-        ############### Time Parameters #################################
-        # Start Time
-        self.t0 = 0 # s
-        
-        # Simulation Time
-        self.tEnd = 3000 # s
-        
-        # Variable time step
-        self.dtMin = 0.1    # s
-        self.dtMax = 10000  # s
-        self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 10
-#        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
-        
-        ############### Logging Options   ###############################
-        # Result Saving time step
-        self.savedt = 20 # s
-        
-        ############### Solver parameters ###############################
+        #%%############ Solver parameters ###############################
         # Absolute Tolerance    
         self.absTol = 1e-12
         
@@ -115,7 +124,7 @@ class Inputs():
         self.relTol = 1e-10
         
         # Maximum Iterations
-        self.maxIter = 200
+        self.maxIter = 15
         
         # Linear Solver
         self.linearSolver = 'mumps'
