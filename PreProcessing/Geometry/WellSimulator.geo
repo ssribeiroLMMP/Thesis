@@ -39,5 +39,8 @@ Physical Line("InnerPipe") = l1;
 Physical Line("OuterWall") = {l3,l5};
 Physical Line("BottomWall") = l2;
 Physical Surface("Fluid") = s1;
-//+
-Characteristic Length {5, 4} = 0.001;
+Transfinite Line{l4} = 100;
+Transfinite Line{l5} = 500;
+Transfinite Line{l6} = 100;
+Transfinite Line{l1} = 800;
+
