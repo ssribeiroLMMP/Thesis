@@ -40,7 +40,12 @@ def main(inputs):
     # Type 1 - from XML File            -- OK
     # Type 2 - Converts from .msh       -- to do
     # Type 3 - Manual FEniCs Creation   -- to do
-    meshObj, boundaries, markers, Subdomains = applyMesh(1,geopath,meshpath,inputs.meshFile)
+#    meshObj, boundaries, markers, Subdomains = applyMesh(1,geopath,meshpath,inputs.meshFile)
+    lx = 0.770;
+    ly = 0.15;
+    nx  = int(0.42*400)
+    ny = int(0.42*150)
+    meshObj, boundaries, markers, Subdomains = applyMesh (3,[lx,ly],[nx,ny],'crossed')
     
     # Get Mesh Dimension: 1, 2 or 3
     Dim = meshObj.geometric_dimension()
@@ -86,9 +91,16 @@ def main(inputs):
         rho,mu = assignFluidProperties(inputs,c0)
         
     	   # Solve Equations
-        begin('Flow - Time:{:.3f}s, dt:{:.6f}'.format(t,dt))
-        (w,no_iterations,converged) = transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
-        end()
+        try:
+            begin('Flow - Time:{:.3f}s, dt:{:.6f}'.format(t,dt))
+            (w,no_iterations,converged) = transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
+            end()
+        except:
+            no_iterations = inputs.maxIter
+            converged = False
+            begin('Did not converge!')
+            end()
+            end()
         
         if converged:
             (u1, p1) = w.leaf_node().split()

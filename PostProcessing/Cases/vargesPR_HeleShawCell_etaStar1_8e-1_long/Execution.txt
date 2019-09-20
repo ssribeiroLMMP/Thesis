@@ -1,0 +1,624 @@
+Simulation Execution: 2019-09-12 14:29:56.958848
+Case: vargesPR_HeleShawCell_etaStar1_8e-1_long
+Source: FCS_v1.0
+caseId=vargesPR_HeleShawCell_etaStar1_8e-1_long
+ParaViewFilenames=['velocity', 'pressure', 'concentration']
+ParaViewTitles=['Velocity (m/s)', 'Pressure (Pa)', 'Mass Fraction (Fluid Tags)']
+g=9.81
+FluidTags=[0, 1]
+rho_values=[1191, 867.6]
+InterfaceX0=0.01
+D=1e-07
+mu_values=[0.0251, 0.134]
+t0=0
+tEnd=100
+dtMin=0.1
+dtMax=2
+tChange=0
+dt=0.5
+savedt=1
+meshFile=OriginalHeleShaw
+CellThickness=0.0007
+velocityElementfamily=Lagrange
+velocityElementOrder=2
+pressureElementfamily=Lagrange
+pressureElementOrder=1
+scalarFieldElementfamily=Lagrange
+scalarFieldElementOrder=1
+noSlipBCs=['TopWall', 'BottomWall']
+pressureBCs={'Outlet': 0}
+scalarFieldBCs={'Inlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 0)}
+velocityBCs={'Inlet': Coefficient(FunctionSpace(None, VectorElement(FiniteElement('Real', None, 0), dim=2)), 1)}
+absTol=1e-12
+relTol=1e-10
+maxIter=100
+linearSolver=mumps
+alpha=0.95
+alphaC=1
+
+
+--------- Saving Initial Conditions ----------
+Flow - Time:0.000s, dt:0.500000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.259e-06 (tol = 1.000e-12) r (rel) = 1.176e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 6.539e-11 (tol = 1.000e-12) r (rel) = 3.404e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.393e-15 (tol = 1.000e-12) r (rel) = 1.246e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:0.500s, dt:0.750000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.291e-06 (tol = 1.000e-12) r (rel) = 6.720e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.196e-11 (tol = 1.000e-12) r (rel) = 6.226e-11 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+Flow - Time:1.250s, dt:1.125000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.254e-06 (tol = 1.000e-12) r (rel) = 6.530e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.978e-11 (tol = 1.000e-12) r (rel) = 1.030e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.392e-15 (tol = 1.000e-12) r (rel) = 1.245e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:2.375s, dt:1.687500
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.426e-06 (tol = 1.000e-12) r (rel) = 7.424e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.814e-11 (tol = 1.000e-12) r (rel) = 1.465e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.403e-15 (tol = 1.000e-12) r (rel) = 1.251e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:4.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.604e-06 (tol = 1.000e-12) r (rel) = 8.350e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 4.106e-11 (tol = 1.000e-12) r (rel) = 2.137e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.385e-15 (tol = 1.000e-12) r (rel) = 1.241e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:6.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.724e-06 (tol = 1.000e-12) r (rel) = 8.972e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 6.670e-11 (tol = 1.000e-12) r (rel) = 3.472e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.369e-15 (tol = 1.000e-12) r (rel) = 1.233e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:8.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.737e-06 (tol = 1.000e-12) r (rel) = 9.042e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 6.025e-11 (tol = 1.000e-12) r (rel) = 3.136e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.350e-15 (tol = 1.000e-12) r (rel) = 1.223e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:10.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.804e-06 (tol = 1.000e-12) r (rel) = 9.393e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 6.236e-11 (tol = 1.000e-12) r (rel) = 3.246e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.346e-15 (tol = 1.000e-12) r (rel) = 1.221e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:12.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.817e-06 (tol = 1.000e-12) r (rel) = 9.457e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.521e-11 (tol = 1.000e-12) r (rel) = 3.915e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.334e-15 (tol = 1.000e-12) r (rel) = 1.215e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:14.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.840e-06 (tol = 1.000e-12) r (rel) = 9.578e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 9.788e-11 (tol = 1.000e-12) r (rel) = 5.096e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.316e-15 (tol = 1.000e-12) r (rel) = 1.206e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:16.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.939e-06 (tol = 1.000e-12) r (rel) = 1.009e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 8.392e-11 (tol = 1.000e-12) r (rel) = 4.369e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.289e-15 (tol = 1.000e-12) r (rel) = 1.191e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:18.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.910e-06 (tol = 1.000e-12) r (rel) = 9.943e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.665e-11 (tol = 1.000e-12) r (rel) = 3.990e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.282e-15 (tol = 1.000e-12) r (rel) = 1.188e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:20.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.905e-06 (tol = 1.000e-12) r (rel) = 9.917e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.526e-11 (tol = 1.000e-12) r (rel) = 3.918e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.257e-15 (tol = 1.000e-12) r (rel) = 1.175e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:22.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.846e-06 (tol = 1.000e-12) r (rel) = 9.610e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 6.933e-11 (tol = 1.000e-12) r (rel) = 3.609e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.233e-15 (tol = 1.000e-12) r (rel) = 1.162e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:24.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.967e-06 (tol = 1.000e-12) r (rel) = 1.024e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 9.280e-11 (tol = 1.000e-12) r (rel) = 4.831e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.189e-15 (tol = 1.000e-12) r (rel) = 1.140e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:26.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.936e-06 (tol = 1.000e-12) r (rel) = 1.008e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.133e-11 (tol = 1.000e-12) r (rel) = 3.713e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.169e-15 (tol = 1.000e-12) r (rel) = 1.129e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:28.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.891e-06 (tol = 1.000e-12) r (rel) = 9.842e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.294e-11 (tol = 1.000e-12) r (rel) = 3.797e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.132e-15 (tol = 1.000e-12) r (rel) = 1.110e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:30.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.882e-06 (tol = 1.000e-12) r (rel) = 9.797e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.645e-11 (tol = 1.000e-12) r (rel) = 3.980e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.090e-15 (tol = 1.000e-12) r (rel) = 1.088e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:32.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.912e-06 (tol = 1.000e-12) r (rel) = 9.952e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.494e-11 (tol = 1.000e-12) r (rel) = 3.901e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.046e-15 (tol = 1.000e-12) r (rel) = 1.065e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:34.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.883e-06 (tol = 1.000e-12) r (rel) = 9.802e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.662e-11 (tol = 1.000e-12) r (rel) = 3.989e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.012e-15 (tol = 1.000e-12) r (rel) = 1.047e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:36.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.990e-06 (tol = 1.000e-12) r (rel) = 1.036e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.497e-11 (tol = 1.000e-12) r (rel) = 3.903e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.968e-15 (tol = 1.000e-12) r (rel) = 1.025e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:38.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.947e-06 (tol = 1.000e-12) r (rel) = 1.014e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 6.689e-11 (tol = 1.000e-12) r (rel) = 3.482e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.928e-15 (tol = 1.000e-12) r (rel) = 1.003e-14 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:40.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.906e-06 (tol = 1.000e-12) r (rel) = 9.923e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 6.365e-11 (tol = 1.000e-12) r (rel) = 3.313e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.868e-15 (tol = 1.000e-12) r (rel) = 9.722e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:42.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.974e-06 (tol = 1.000e-12) r (rel) = 1.028e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 6.999e-11 (tol = 1.000e-12) r (rel) = 3.643e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.832e-15 (tol = 1.000e-12) r (rel) = 9.536e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:44.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.952e-06 (tol = 1.000e-12) r (rel) = 1.016e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 8.283e-11 (tol = 1.000e-12) r (rel) = 4.312e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.787e-15 (tol = 1.000e-12) r (rel) = 9.300e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:46.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.967e-06 (tol = 1.000e-12) r (rel) = 1.024e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 9.444e-11 (tol = 1.000e-12) r (rel) = 4.916e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.743e-15 (tol = 1.000e-12) r (rel) = 9.076e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:48.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.027e-06 (tol = 1.000e-12) r (rel) = 1.055e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 8.327e-11 (tol = 1.000e-12) r (rel) = 4.335e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.704e-15 (tol = 1.000e-12) r (rel) = 8.869e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:50.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.073e-06 (tol = 1.000e-12) r (rel) = 1.079e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 6.824e-11 (tol = 1.000e-12) r (rel) = 3.552e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.650e-15 (tol = 1.000e-12) r (rel) = 8.591e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:52.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.114e-06 (tol = 1.000e-12) r (rel) = 1.100e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.278e-11 (tol = 1.000e-12) r (rel) = 3.789e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.602e-15 (tol = 1.000e-12) r (rel) = 8.341e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:54.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.236e-06 (tol = 1.000e-12) r (rel) = 1.164e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.025e-10 (tol = 1.000e-12) r (rel) = 5.334e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.538e-15 (tol = 1.000e-12) r (rel) = 8.007e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:56.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.338e-06 (tol = 1.000e-12) r (rel) = 1.217e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.029e-10 (tol = 1.000e-12) r (rel) = 5.354e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.482e-15 (tol = 1.000e-12) r (rel) = 7.714e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:58.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.248e-06 (tol = 1.000e-12) r (rel) = 1.170e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 9.022e-11 (tol = 1.000e-12) r (rel) = 4.697e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.426e-15 (tol = 1.000e-12) r (rel) = 7.421e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:60.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.187e-06 (tol = 1.000e-12) r (rel) = 1.139e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.715e-11 (tol = 1.000e-12) r (rel) = 4.016e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.360e-15 (tol = 1.000e-12) r (rel) = 7.079e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:62.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.235e-06 (tol = 1.000e-12) r (rel) = 1.163e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.441e-11 (tol = 1.000e-12) r (rel) = 3.873e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.294e-15 (tol = 1.000e-12) r (rel) = 6.737e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:64.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.157e-06 (tol = 1.000e-12) r (rel) = 1.123e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.324e-11 (tol = 1.000e-12) r (rel) = 3.813e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.233e-15 (tol = 1.000e-12) r (rel) = 6.417e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:66.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.198e-06 (tol = 1.000e-12) r (rel) = 1.144e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.085e-11 (tol = 1.000e-12) r (rel) = 3.688e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.157e-15 (tol = 1.000e-12) r (rel) = 6.025e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:68.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.096e-06 (tol = 1.000e-12) r (rel) = 1.091e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.080e-11 (tol = 1.000e-12) r (rel) = 3.685e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.090e-15 (tol = 1.000e-12) r (rel) = 5.673e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:70.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.142e-06 (tol = 1.000e-12) r (rel) = 1.115e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.041e-10 (tol = 1.000e-12) r (rel) = 5.419e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 1.025e-15 (tol = 1.000e-12) r (rel) = 5.336e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:72.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.196e-06 (tol = 1.000e-12) r (rel) = 1.143e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 9.876e-11 (tol = 1.000e-12) r (rel) = 5.141e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 9.630e-16 (tol = 1.000e-12) r (rel) = 5.013e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:74.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.133e-06 (tol = 1.000e-12) r (rel) = 1.111e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 6.966e-11 (tol = 1.000e-12) r (rel) = 3.626e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 8.914e-16 (tol = 1.000e-12) r (rel) = 4.640e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:76.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.154e-06 (tol = 1.000e-12) r (rel) = 1.122e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 8.911e-11 (tol = 1.000e-12) r (rel) = 4.639e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 8.210e-16 (tol = 1.000e-12) r (rel) = 4.274e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:78.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.210e-06 (tol = 1.000e-12) r (rel) = 1.150e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.037e-10 (tol = 1.000e-12) r (rel) = 5.398e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 7.504e-16 (tol = 1.000e-12) r (rel) = 3.906e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:80.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.254e-06 (tol = 1.000e-12) r (rel) = 1.173e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 8.335e-11 (tol = 1.000e-12) r (rel) = 4.339e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 6.767e-16 (tol = 1.000e-12) r (rel) = 3.523e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:82.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.317e-06 (tol = 1.000e-12) r (rel) = 1.206e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 8.391e-11 (tol = 1.000e-12) r (rel) = 4.368e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 6.059e-16 (tol = 1.000e-12) r (rel) = 3.154e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:84.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.511e-06 (tol = 1.000e-12) r (rel) = 1.307e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 9.603e-11 (tol = 1.000e-12) r (rel) = 4.999e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 5.285e-16 (tol = 1.000e-12) r (rel) = 2.751e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:86.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.761e-06 (tol = 1.000e-12) r (rel) = 1.437e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.036e-10 (tol = 1.000e-12) r (rel) = 5.394e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 4.516e-16 (tol = 1.000e-12) r (rel) = 2.351e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:88.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.139e-06 (tol = 1.000e-12) r (rel) = 1.113e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 5.520e-11 (tol = 1.000e-12) r (rel) = 2.874e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 4.206e-16 (tol = 1.000e-12) r (rel) = 2.189e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:90.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.931e-06 (tol = 1.000e-12) r (rel) = 1.005e-05 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 4.375e-11 (tol = 1.000e-12) r (rel) = 2.277e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 4.085e-16 (tol = 1.000e-12) r (rel) = 2.127e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:92.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.527e-06 (tol = 1.000e-12) r (rel) = 7.949e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 3.088e-11 (tol = 1.000e-12) r (rel) = 1.607e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 4.033e-16 (tol = 1.000e-12) r (rel) = 2.099e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:94.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.484e-06 (tol = 1.000e-12) r (rel) = 7.723e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 3.300e-11 (tol = 1.000e-12) r (rel) = 1.718e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 3.984e-16 (tol = 1.000e-12) r (rel) = 2.074e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:96.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.407e-06 (tol = 1.000e-12) r (rel) = 7.327e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.668e-11 (tol = 1.000e-12) r (rel) = 1.389e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 3.966e-16 (tol = 1.000e-12) r (rel) = 2.065e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:98.062s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.363e-06 (tol = 1.000e-12) r (rel) = 7.097e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.638e-11 (tol = 1.000e-12) r (rel) = 1.373e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 3.944e-16 (tol = 1.000e-12) r (rel) = 2.053e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Flow - Time:100.000s, dt:2.000000
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.921e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.275e-06 (tol = 1.000e-12) r (rel) = 6.637e-06 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.204e-11 (tol = 1.000e-12) r (rel) = 1.147e-10 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 3.914e-16 (tol = 1.000e-12) r (rel) = 2.038e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Interface Reinitialization
+---------------- Saving ----------------
+Total running time: 0h:15min:22s 
+
+Finished

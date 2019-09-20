@@ -1,0 +1,38 @@
+Simulation Execution: 2019-09-06 16:10:30.972399
+Case: TransAdvectedInterf_ReinitThinnerMesh_VelInlet
+Source: FCS_v1.0
+caseId=TransAdvectedInterf_ReinitThinnerMesh_VelInlet
+ParaViewFilenames=['velocity', 'pressure', 'concentration']
+ParaViewTitles=['Velocity (m/s)', 'Pressure (Pa)', 'Mass Fraction (Fluid Tags)']
+g=9.81
+FluidTags=[0, 1]
+rho_values=[1000, 1000]
+InterfaceX0=0.05
+D=1e-07
+mu_values=[0.1, 0.4]
+t0=0
+tEnd=400
+dtMin=0.5
+dtMax=5
+tChange=0
+dt=1
+savedt=1
+meshFile=WiderHeleShaw
+velocityElementfamily=Lagrange
+velocityElementOrder=2
+pressureElementfamily=Lagrange
+pressureElementOrder=1
+scalarFieldElementfamily=Lagrange
+scalarFieldElementOrder=1
+noSlipBCs=['TopWall', 'BottomWall']
+pressureBCs={'Inlet': 0.5, 'Outlet': 0}
+scalarFieldBCs={'Inlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 0)}
+velocityBCs={}
+absTol=1e-12
+relTol=1e-10
+maxIter=100
+linearSolver=mumps
+alpha=1
+alphaC=1
+
+
