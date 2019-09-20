@@ -40,12 +40,12 @@ def main(inputs):
     # Type 1 - from XML File            -- OK
     # Type 2 - Converts from .msh       -- to do
     # Type 3 - Manual FEniCs Creation   -- to do
-#    meshObj, boundaries, markers, Subdomains = applyMesh(1,geopath,meshpath,inputs.meshFile)
-    lx = 0.770;
-    ly = 0.15;
-    nx  = int(0.42*400)
-    ny = int(0.42*150)
-    meshObj, boundaries, markers, Subdomains = applyMesh (3,[lx,ly],[nx,ny],'crossed')
+    meshObj, boundaries, markers, Subdomains = applyMesh(1,geopath,meshpath,inputs.meshFile)
+#    lx = 0.770;
+#    ly = 0.15;
+#    nx  = int(0.42*400)
+#    ny = int(0.42*150)
+#    meshObj, boundaries, markers, Subdomains = applyMesh (3,[lx,ly],[nx,ny],'crossed')
     
     # Get Mesh Dimension: 1, 2 or 3
     Dim = meshObj.geometric_dimension()
@@ -101,6 +101,7 @@ def main(inputs):
             begin('Did not converge!')
             end()
             end()
+            break            
         
         if converged:
             (u1, p1) = w.leaf_node().split()

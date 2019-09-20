@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=1.5):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'vargesPR_HeleShawCell_etaStar1_8e-1_CrossedTriangMesh'
+        self.caseId = 'vargesPR_HeleShawCell_SurfTensTest'
 #        self.caseId = 'vargesPR_HeleShawCell_etaStar5_3_RectTriangMesh' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
@@ -54,6 +54,10 @@ class Inputs():
         # Diffusity of Between species (m²/s)
         self.D = 1e-7
         
+        # Interfacial Tension (N/m)
+        self.sigma = 0.007
+                
+        
         # Rheology
         # Newtonian Viscosity (Pa.s)
         self.mu_values = [0.0251,0.134]
@@ -78,7 +82,7 @@ class Inputs():
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
-        self.meshFile = 'OriginalHeleShaw2'
+        self.meshFile = 'OriginalHeleShaw'
         self.CellThickness = 0.7e-3
         ## Mesh Elements
         # Velocity

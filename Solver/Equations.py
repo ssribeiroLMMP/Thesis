@@ -12,6 +12,11 @@ import os
 sys.path.append(os.path.abspath('..'))
 from Solver.BoundaryConditions import *
 
+# Dirac's Delta to find Interface
+def delta(c,N):
+    grad_c = project(grad(c),N)
+    return grad_c/sqrt(dot(grad_c,grad_c))
+
 # Body Forces Term: Gravity
 def fb():
     # Body Forces: Gravity
@@ -61,6 +66,8 @@ def steadyStateFlow(rho,mu,inputs,meshObj,boundaries,Subdomains):
     
     # Load Important Measures: Omega, deltaOmega, Normal Vector
     dx, ds, n = meshMeasures(meshObj,boundaries)
+    # Space to calculate normal Vector
+    N = VectorFunctionSpace(meshObj, "CG", 1, dim=2) 
     
     # Time step Constant
     Dt = Constant(inputs.dt)
@@ -137,17 +144,24 @@ def transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     ##########   Equations
     # Linear Momentum Conservation
           
-           # Transient Term            # Inertia Term             # Surface Forces Term           # Pressure Force
-    a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho)*dx() + \
+           # Transient Term            # Inertia Term             # Surface Forces Term           # Pressure Force              
+    a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho )*dx() + \
                                (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p/rho)*dx()    # Relaxation
                       
     # Body Forces Term: Gravity         
-    L1 = + (12/(inputs.CellThickness**2))*(mu/rho)*inner(u,v)*dx()
+    #  
+    
+    # Viscous Drag                                                   # Surface Tension
+    L1 = + (12/(inputs.CellThickness**2))*(mu/rho)*inner(u,v)*dx() + inputs.sigma*dot(dot(n,grad(v)),n)*diracDelta(c0)*dx()
+    
+    # Natural Boundary Conditions
     for key, value in inputs.pressureBCs.items():
         Pi = Constant(value)
                # Pressure Force: Natural Boundary Conditions
         L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
-    L1 = - L1
+    L1 = - L1 
+    # Wettability ar Walls
+#    L1 = L1 - inputs.sigma*inner(nWet,v*n)*diracDelta(c0)*(ds(Subdomains['TopWall'])+ds(Subdomains['BottomWall']))
     
     # Add Mass ConservationVi = project(value,U)
     a2 = (q*div(u))*dx() 
