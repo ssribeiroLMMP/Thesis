@@ -114,7 +114,7 @@ def steadyStateFlow(rho,mu,inputs,meshObj,boundaries,Subdomains):
     return w
 
 #%% Transient Coupled scheeme for Flow 
-def transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):    
+def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):    
     #####  Functions and Constants
         ## Trial and Test function(s)
     dw = TrialFunction(W)
@@ -161,7 +161,7 @@ def transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     J = derivative(F,w,dw)
     
     # Apply Flow Boundary Conditions
-    bcU = flowBC(U,inputs,meshObj,boundaries,Subdomains)
+    bcU = flowBC(t,U,inputs,meshObj,boundaries,Subdomains)
         
     ##########   Numerical Solver Properties
     # Problem and Solver definitions

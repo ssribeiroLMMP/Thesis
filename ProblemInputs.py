@@ -14,7 +14,7 @@ def dynamicTimestep(t,dtMax,dtMin,t0):
     Inclination = 3
     return (dtMax-dtMin)/(1+math.exp(Inclination*(-t+t0)))+dtMin
 
-def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
+def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
     # Check if 
     if no_iterations < limitIterations:
         dt = min(increment*dt,inputs.dtMax)
@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWith2Species_FiltrationTest' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWith2Species_FiltrationTest_VOutlet' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -63,18 +63,18 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 1000 # s
+        self.tEnd = 20 # s
         
         # Variable time step
         self.dtMin = 0.1    # s
         self.dtMax = 10  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 0.1
+        self.dt = 0.05
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
         
         #%%############ Logging Options   ###############################
         # Result Saving time step
-        self.savedt = 20 # s
+        self.savedt = 2 # s
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
@@ -101,7 +101,7 @@ class Inputs():
         ## Pressure Inputs
         self.pressureBCs = {}
         self.pressureBCs.update({'Inlet' : 0.001}) # Pa
-        self.pressureBCs.update({'Outlet' : 0}) # Pa
+        # self.pressureBCs.update({'Outlet' : 0}) # Pa
         
         ## Advected Scalar Field Inputs
         self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
@@ -110,8 +110,10 @@ class Inputs():
         self.scalarFieldBCs.update({'Outlet': Constant(self.Fluid1)}) # C1
         
         ## Velocity Inputs
-        self.velocityBCs = []
-        #velocityBCs.update({'Inlet' : Constant(5.0)}) # m/s
+        t=0
+        self.VxOutlet = '2*exp(1-(t/10))/100'
+        self.velocityBCs = {}
+        self.velocityBCs.update({'Outlet' : Expression((self.VxOutlet,'0.0'),t=t,degree=1)}) # m/s
         
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    

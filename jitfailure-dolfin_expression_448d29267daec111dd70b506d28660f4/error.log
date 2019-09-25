@@ -1,0 +1,4 @@
+/tmp/tmp4_w47jr_/dolfin_expression_448d29267daec111dd70b506d28660f4.cpp: In member function ‘virtual void dolfin::dolfin_expression_448d29267daec111dd70b506d28660f4::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmp4_w47jr_/dolfin_expression_448d29267daec111dd70b506d28660f4.cpp:62:23: error: expected primary-expression before ‘=’ token
+           values[0] = =2*exp(1-t/10)/100;
+                       ^

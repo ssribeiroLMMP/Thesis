@@ -1,4 +1,4 @@
-Simulation Execution: 2019-09-13 10:22:42.040408
+Simulation Execution: 2019-09-24 14:37:39.621346
 Case: TransWith2Species_FiltrationTest
 Source: FCS_v1.0
 caseId=TransWith2Species_FiltrationTest
@@ -39,6 +39,8 @@ alphaC=1
 
 
 Flow - Time:0.000s
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
   Solving nonlinear variational problem.
     Newton iteration 0: r (abs) = 2.885e-08 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
     Newton iteration 1: r (abs) = 5.302e-18 (tol = 1.000e-12) r (rel) = 1.838e-10 (tol = 1.000e-10)
@@ -837,6 +839,6 @@ Flow - Time:1000.000s
     Newton solver finished in 1 iterations and 1 linear solver iterations.
 Concentration
   Solving linear variational problem.
-Total running time: 0h:2min:10s 
-
 Finished
+Total running time: 0h:3min:32s 
+

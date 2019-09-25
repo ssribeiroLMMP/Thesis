@@ -78,7 +78,7 @@ def main(inputs):
         
     	   # Solve Equations
         begin('Flow - Time:{:.3f}s'.format(t))
-        (w,no_iterations,converged) = transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
+        (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
         end()
         
         if converged:
