@@ -37,8 +37,9 @@ def flowBC(t,U,inputs,meshId,boundariesId,subdomainsDict):
     
     
     # Velocity Conditions  #ERROR ON VERSION 1.0.4
-    for key,value in inputs.velocityBCs.items():
-        bc.append(DirichletBC(U,value,boundariesId,subdomainsDict[key]))
+    for DomainKey,valueExp in inputs.velocityBCs.items():
+        valueExp.t = t
+        bc.append(DirichletBC(U,valueExp,boundariesId,subdomainsDict[DomainKey]))   
     
     return bc
 
@@ -49,6 +50,6 @@ def fieldTransportBC(C,inputs,meshId,boundariesId,subdomainsDict):
     # Initialize Boundary Condition
     bc = []
     # Scalar Field Conditions
-    for key,value in inputs.scalarFieldBCs.items():
-        bc.append(DirichletBC(C,value,boundariesId,subdomainsDict[key]))
+    for DomainKey,valueExp in inputs.scalarFieldBCs.items():
+        bc.append(DirichletBC(C,valueExp,boundariesId,subdomainsDict[DomainKey]))
     return bc

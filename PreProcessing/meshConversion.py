@@ -15,6 +15,7 @@ from dolfin import *
 def msh2xml(inPath,inFile,outPath,outFile):
     
     cmd = 'dolfin-convert '+inPath+inFile+'.msh '+outPath+outFile+'.xml'
+    print(cmd)
     os.system(cmd)
     
 ### Function Definition - Converts .msh to .xml
@@ -71,6 +72,8 @@ def applyMesh(Type,geopath, meshpath,meshFile):
         
     return meshObj, boundaries, markers, Subdomains            
    
-    
-
+# inPath = './Geometry/'
+# File =  'WellSimulator'
+# outPath = './Mesh/'  
+# msh2xml(inPath,File,outPath,File)
     

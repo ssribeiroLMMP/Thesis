@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWith2Species_FiltrationTest_VOutlet' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWith2Species_FiltrationTest_vOutlet_t_WellSim_g' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -45,7 +45,7 @@ class Inputs():
         self.Fluid1 = 1 - self.Fluid0 # Water
                 
         # Density (kg/m³)
-        self.rho_values = [1191, 867.6]
+        self.rho_values = [1000, 1000]
         
         # Initial Interface position
         self.InterfaceX0 = 0.05
@@ -56,29 +56,27 @@ class Inputs():
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
-        self.mu_values = [0.01 , 0.1]
+        self.mu_values = [0.01 , 0.01]
         
         #%%############ Time Parameters #################################
         # Start Time
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 20 # s
+        self.tEnd = 300 # s
         
         # Variable time step
-        self.dtMin = 0.1    # s
-        self.dtMax = 10  # s
+        self.dtMin = 0.005    # s
+        self.dtMax = 2  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
         self.dt = 0.05
-#        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
-        
-        #%%############ Logging Options   ###############################
+#        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
         # Result Saving time step
-        self.savedt = 2 # s
+        self.savedt = 1 # s
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
-        self.meshFile = 'MacroParallelPlates'
+        self.meshFile = 'WellSimulator'#'MacroParallelPlates'
         ## Mesh Elements
         # Velocity
         self.velocityElementfamily = 'Lagrange'
@@ -94,13 +92,17 @@ class Inputs():
         
         ## No slip Boundaries
         self.noSlipBCs = []
-        self.noSlipBCs.append('TopWall')
+        # self.noSlipBCs.append('TopWall')
+        self.noSlipBCs.append('InnerPipe')
+        self.noSlipBCs.append('OuterWall')
         self.noSlipBCs.append('BottomWall')
         #noSlipBoundaries.append('InnerWalls')
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        self.pressureBCs.update({'Inlet' : 0.001}) # Pa
+        self.pInlet = self.rho_values[0]*2*self.g
+        self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
+        # self.pOutlet = 0.2*(self.pInlet + self.rho_values[0]*self.g*1)
         # self.pressureBCs.update({'Outlet' : 0}) # Pa
         
         ## Advected Scalar Field Inputs
@@ -111,9 +113,9 @@ class Inputs():
         
         ## Velocity Inputs
         t=0
-        self.VxOutlet = '2*exp(1-(t/10))/100'
         self.velocityBCs = {}
-        self.velocityBCs.update({'Outlet' : Expression((self.VxOutlet,'0.0'),t=t,degree=1)}) # m/s
+        self.VrOutlet = '2*exp(1-(t/100))/500'#'0.0000043+0*t'#
+        self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet),t=t,degree=1)}) # m/s
         
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    

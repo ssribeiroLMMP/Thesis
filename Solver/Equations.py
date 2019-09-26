@@ -13,9 +13,9 @@ sys.path.append(os.path.abspath('..'))
 from Solver.BoundaryConditions import *
 
 # Body Forces Term: Gravity
-def fb():
+def fb(inputs):
     # Body Forces: Gravity
-    return Constant((g, 0.0))
+    return Constant((inputs.g, 0.0))
 
 def assignFluidProperties(inputs,c0):
     mu = inputs.mu_values[1]*c0 + inputs.mu_values[0]*(1-c0)
@@ -142,13 +142,13 @@ def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho)*dx() #+ \
 #                             (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p/rho)*dx()    # Relaxation
                       
-    # Body Forces Term: Gravity         
     L1 = 0
     for key, value in inputs.pressureBCs.items():
         Pi = Constant(value)
                # Pressure Force: Natural Boundary Conditions
         L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
-    L1 = - L1
+    # Body Forces Term: Gravity 
+    L1 = - L1 + inner(fb(inputs),v)*dx()
     
     # Add Mass Conservation
     a2 = (q*div(u))*dx() 
