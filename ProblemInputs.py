@@ -14,7 +14,7 @@ def dynamicTimestep(t,dtMax,dtMin,t0):
     Inclination = 3
     return (dtMax-dtMin)/(1+math.exp(Inclination*(-t+t0)))+dtMin
 
-def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=1.5):
+def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=1.1):
     # Check if 
     if no_iterations < limitIterations:
         dt = min(increment*dt,inputs.dtMax)
@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=1.5):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'vargesPR_HeleShawCell_SurfTensTest'
+        self.caseId = 'vargesPR_HeleShawCell_SurfTensTest_sigma0_01_miStar_5e-0'
 #        self.caseId = 'vargesPR_HeleShawCell_etaStar5_3_RectTriangMesh' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
@@ -48,19 +48,19 @@ class Inputs():
         self.rho_values = [1191, 867.6]
         
         # Initial Interface position
-        self.InterfaceX0 = 0.01
+        self.InterfaceX0 = 0.02
         # self.InterfaceY0 = 0.01
         
         # Diffusity of Between species (m²/s)
-        self.D = 1e-7
+        self.D = 1e-8
         
         # Interfacial Tension (N/m)
-        self.sigma = 0.007
+        self.sigma = 0.01
                 
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
-        self.mu_values = [0.0251,0.134]
+        self.mu_values = [0.134,0.0251]
         self.mu_star = self.mu_values[0]/self.mu_values[1]
         
         #%%############ Time Parameters #################################
@@ -71,9 +71,9 @@ class Inputs():
         
         # Variable time step
         self.dtMin = 0.05   # s
-        self.dtMax = 1  # s
+        self.dtMax = 2  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 0.1
+        self.dt = 0.5
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
         
         #%%############ Logging Options   ###############################
@@ -106,19 +106,21 @@ class Inputs():
         #noSlipBoundaries.append('InnerWalls')
         
         ## Pressure Inputs
-        self.POutlet = 0
         self.pressureBCs = {}
-#        self.pressureBCs.update({'Inlet' : 0.05}) # Pa
+#        self.PInlet = 1
+        self.POutlet = 0
+#        self.pressureBCs.update({'Inlet' : self.PInlet}) # Pa
         self.pressureBCs.update({'Outlet' : self.POutlet}) # Pa
         
         ## Advected Scalar Field Inputs
+        self.CInlet = self.FluidTags[0]
         self.scalarFieldBCs = {}
-        self.scalarFieldBCs.update({'Inlet' : Constant(self.FluidTags[0])}) # % Only fluid 0 enters
+        self.scalarFieldBCs.update({'Inlet' : Constant(self.CInlet)}) # % Only fluid 0 enters
         #self.scalarFieldBCs.update({'TopWall': self.TTopWall}) # T
         
         ## Velocity Inputs
-        self.VxInlet = 1e-2
         self.velocityBCs = {}
+        self.VxInlet = 1e-2
         self.velocityBCs.update({'Inlet' : Constant((self.VxInlet,0.0))}) # m/s
         
         #%%############ Solver parameters ###############################

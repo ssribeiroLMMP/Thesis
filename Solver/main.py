@@ -91,17 +91,17 @@ def main(inputs):
         rho,mu = assignFluidProperties(inputs,c0)
         
     	   # Solve Equations
-        try:
-            begin('Flow - Time:{:.3f}s, dt:{:.6f}'.format(t,dt))
-            (w,no_iterations,converged) = transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
-            end()
-        except:
-            no_iterations = inputs.maxIter
-            converged = False
-            begin('Did not converge!')
-            end()
-            end()
-            break            
+        # try:
+        begin('Flow - Time:{:.3f}s, dt:{:.6f}'.format(t,dt))
+        (w,no_iterations,converged) = transientFlow(W,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
+        end()
+        # except:
+        #     no_iterations = inputs.maxIter
+        #     converged = False
+        #     begin('Did not converge!')
+        #     end()
+        #     end()
+        #     break            
         
         if converged:
             (u1, p1) = w.leaf_node().split()
@@ -110,6 +110,7 @@ def main(inputs):
             c1 = transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains)
             end()
             
+            # c0.assign(c1)
             begin('Interface Reinitialization')
             c0.assign(simpleReinit(C, c1, inputs))
             end()
@@ -120,16 +121,16 @@ def main(inputs):
                 # Append and save Results
                 results.append(u1)
                 results.append(p1)
-                results.append(c1)
+                results.append(c0)
                 saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
                 saveDt = t + inputs.savedt
                 end()
                 # Store Initial Solution in Time t=t
                 # solutions.append({'t':t, 'variables':results})
-            
-            
-        	   # Update current time #ERROR ON VERSION 1.0.4
+
+            # Update current time #ERROR ON VERSION 1.0.4
             w0.assign(w)
+            # Uodate time                    	               
             t += dt
         
         if t > inputs.tEnd and not(lastStep):

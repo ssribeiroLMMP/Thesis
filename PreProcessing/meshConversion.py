@@ -47,15 +47,24 @@ def read_xml(File):
     
     return meshObj, markers, boundaries
 
+# Write Mesh into .h5 and .xdmf pair of Files
+def write_hdf5(File):
+    meshObj, markers, boundaries = read_xml(File)
+    hdfw = HDF5File(self.mesh.mpi_comm(), File+'.h5', "w")
+    hdfw.write(meshObj, "/mesh")
+    hdfw.write(markers, "/markers")
+    hdfw.write(boundaries, '/boundaries')
+    hdfw.close()
+
 # Read Mesh from .h5 and .xdmf pair of Files
 def read_hdf5(File):
-    meshObj = Mesh()
-    hdf = HDF5File(mesh.mpi_comm(), File, 'r')
+    hdfr = HDF5File(mesh.mpi_comm(), File, 'r')
+    
     hdf.read(meshObj, '/mesh', False)
     markers = MeshFunction('size_t', meshObj, meshObj.topology().dim)
-    boundaries = MeshFunction('size_t', meshObj, meshObj.topology().dim -1)
+    boundaries = MeshFunction('size_t', meshObj, meshObj.topology().dim -1) 
 
-    hdf.read(markers, '/subdomains')
+    hdf.read(markers, '/markers')
     hdf.read(boundaries, '/boundaries')
     return meshObj, markers, boundaries
 

@@ -12,13 +12,30 @@ import os
 sys.path.append(os.path.abspath('..'))
 from Solver.BoundaryConditions import *
 
+def IP(c,l,n,meshObj):
+    one = Constant(1.0)
+    h = CellDiameter(meshObj)
+    h_avg = (h('+') + h('-'))/2.0  
+    r = one('+')*h_avg*h_avg*inner(jump(grad(c),n), jump(grad(l),n))*dS
+    return (r)
+
 # Dirac's Delta to find Interface
-def delta(c,N):
+def interface(c,meshObj):
+    N = VectorFunctionSpace(meshObj, "CG", 2, dim=2) 
+    DD = FunctionSpace(meshObj,"CG",1)
     grad_c = project(grad(c),N)
-    return grad_c/sqrt(dot(grad_c,grad_c))
+    nGamma = grad_c/sqrt(dot(grad_c,grad_c))
+    #nGammaMag = project(nGamma,DD)
+    #nGammaNorm = nGamma/nGammaMag
+    k = div(nGamma)
+    gradientMag = sqrt(dot(grad_c,grad_c))
+    gradProj = project(gradientMag,DD)
+    deltaDirac = gradientMag/gradProj.vector().max()
+    #deltaDirac = interpolate(Expression("c > 0.32 & c < 0.68  ? 1 : 0", c=c, degree=1),V0)
+    return k,nGamma,deltaDirac
 
 # Body Forces Term: Gravity
-def fb():
+def fb(g):
     # Body Forces: Gravity
     return Constant((g, 0.0))
 
@@ -66,8 +83,6 @@ def steadyStateFlow(rho,mu,inputs,meshObj,boundaries,Subdomains):
     
     # Load Important Measures: Omega, deltaOmega, Normal Vector
     dx, ds, n = meshMeasures(meshObj,boundaries)
-    # Space to calculate normal Vector
-    N = VectorFunctionSpace(meshObj, "CG", 1, dim=2) 
     
     # Time step Constant
     Dt = Constant(inputs.dt)
@@ -120,7 +135,7 @@ def steadyStateFlow(rho,mu,inputs,meshObj,boundaries,Subdomains):
     return w
 
 #%% Transient Coupled scheeme for Flow 
-def transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):    
+def transientFlow(W,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):    
     #####  Functions and Constants
         ## Trial and Test function(s)
     dw = TrialFunction(W)
@@ -136,6 +151,14 @@ def transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     
     # Calculate Important Measures: Omega, deltaOmega, Normal Vector
     dx, ds, n = meshMeasures(meshObj,boundaries)
+    Rot = Expression((('0','1'),('-1','0')),degree=1)
+    
+    # Interface Properties
+    k,nGamma,dDirac = interface(c0,meshObj)
+    # Tangent of the Interface
+    tGamma = Rot* nGamma
+
+    #tGamma = I - outer(nGamma,nGamma)
     
     # Time step Constant
     Dt = Constant(dt)
@@ -149,17 +172,20 @@ def transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
                                (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p/rho)*dx()    # Relaxation
                       
     # Body Forces Term: Gravity         
-    #  
-    
-    # Viscous Drag                                                   # Surface Tension
-    L1 = + (12/(inputs.CellThickness**2))*(mu/rho)*inner(u,v)*dx() + inputs.sigma*dot(dot(n,grad(v)),n)*diracDelta(c0)*dx()
+    # Fb = fb(inputs.g)
+
+    #  Surface Tension
+    ts = (inputs.sigma/rho)*inner(tGamma,grad(v)*tGamma)*dDirac
+
+    # Viscous Drag                                               # Surface Tension 
+    L1 = - (12/(inputs.CellThickness**2))*(mu/rho)*inner(u,v)*dx() - ts*dx()
     
     # Natural Boundary Conditions
     for key, value in inputs.pressureBCs.items():
         Pi = Constant(value)
                # Pressure Force: Natural Boundary Conditions
-        L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
-    L1 = - L1 
+        L1 = L1 - (Pi/rho)*dot(v,n)*ds(Subdomains[key])
+    
     # Wettability ar Walls
 #    L1 = L1 - inputs.sigma*inner(nWet,v*n)*diracDelta(c0)*(ds(Subdomains['TopWall'])+ds(Subdomains['BottomWall']))
     
@@ -175,7 +201,11 @@ def transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     
     # Apply Flow Boundary Conditions
     bcU = flowBC(U,inputs,meshObj,boundaries,Subdomains)
-        
+
+    # General parameters
+    parameters['dof_ordering_library'] = 'Boost'
+    parameters['form_compiler']['quadrature_degree'] = 2
+
     ##########   Numerical Solver Properties
     # Problem and Solver definitions
     problemU = NonlinearVariationalProblem(F,w,bcU,J)
@@ -189,7 +219,9 @@ def transientFlow(W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     prmU['newton_solver']['maximum_iterations'] = inputs.maxIter
     prmU['newton_solver']['linear_solver'] = inputs.linearSolver
     
+    
     # Solve Problem
+
     (no_iterations,converged) = solverU.solve()
     
     # Append Flow Problem
@@ -218,9 +250,14 @@ def initialConditionField(C,inputs):
 
 ## Fluid Interface 
 def initialInterface(C,inputs):
-    CIn = inputs.FluidTags[0]
-    COut = inputs.FluidTags[1]
-    smoothstep = Expression('(CMax-CMin)/(1+exp(IntIncl*(-x[0]+x0)))+CMin',IntIncl = 20000,x0=inputs.InterfaceX0,CMin=CIn,CMax=COut,degree=2)
+    CIn = inputs.FluidTags[0] + 1e-10
+    COut = inputs.FluidTags[1] - 1e-10
+    IntIncl = 200
+    inflection = inputs.InterfaceX0
+
+    smoothstep = Expression('(CMax-CMin)/(1+exp(IntIncl*(-x[0]+x0)))+CMin',CMin=CIn,CMax=COut, IntIncl=IntIncl,x0=inflection,degree=1)
+    # smoothstep = Expression('(CMin*exp(IntIncl*x0)+CMax*exp(IntIncl*x[0]))/(exp(IntIncl*x0)+exp(IntIncl*x[0]))',IntIncl = 300,x0=inputs.InterfaceX0,CMin=CIn,CMax=COut,degree=2)
+    # smoothstep = Expression('x[0] < x0 ? 0 : 1',x0=inputs.VxInlet,degree=1)
     c0 = Function(C)
     c0.assign(project(smoothstep,C))
     return c0
@@ -240,10 +277,10 @@ def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdoma
     Dt = Constant(dt)
     alphaC = Constant(inputs.alphaC)
     
-    # Concentration Equation
-          # Transient Term   #                 Advection Term                         # Diffusion Term                            
-    F = rho*inner((c - c0)/Dt,l)*dx() + alphaC*(rho*inner(u1,(grad(c ))*l) + D*dot(grad(c ), grad(l)))*dx() #\
-                                 # + (1-alphaC)*(rho*inner(u1,(grad(c0))*l) + D*dot(grad(c0), grad(l)))*dx() # Relaxation
+    # Concentration Equation                                                                                    
+          # Transient Term   #                 Advection Term                         # Diffusion Term        # Penalty function: + IP(c,l,n,meshObj) \ #
+    F = rho*inner((c - c0)/Dt,l)*dx() + alphaC*(rho*inner(u1,(grad(c ))*l) + D*dot(grad(c ), grad(l)))*dx() \
+        + (1-alphaC)*(rho*inner(u1,(grad(c0))*l) + D*dot(grad(c0), grad(l)))*dx() # Relaxation
     a, L = lhs(F), rhs(F)
 
     # Boundary Conditions    
@@ -254,10 +291,13 @@ def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdoma
     
     return c1
 
-def simpleReinit(C, c1, inputs, IntIncl = 500000, inflection = 0.5):
-    CIn = inputs.FluidTags[0]
-    COut = inputs.FluidTags[1]
-    sharpener = Expression('(CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin',CMin=CIn,CMax=COut, IntIncl=IntIncl,cAdv=c1,x0=inflection,degree=2)
-    
-    return interpolate(sharpener,C)
+def simpleReinit(C, c1, inputs, IntIncl = 200, inflection = 0.5):
+    CIn = inputs.FluidTags[0] + 1e-10
+    COut = inputs.FluidTags[1] - 1e-10
+
+    # sharpener = Expression('c < 0.5 ? 0 : 1',c=c1,degree=1)
+    # sharpener = Expression('(CMin*exp(IntIncl*x0)+CMax*exp(IntIncl*x[0]))/(exp(IntIncl*x0)+exp(IntIncl*c))',IntIncl = IntIncl,c=c1, x0=inflection,CMin=CIn,CMax=COut,degree=2)
+    sharpener = Expression('(CMax-CMin)/(1+exp(IntIncl*(-cAdv+x0)))+CMin',CMin=CIn,CMax=COut, IntIncl=IntIncl,cAdv=c1,x0=inflection,degree=1)
+    c0 = project(sharpener,C)
+    return c0
     
