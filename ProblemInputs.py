@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWith2Species_FiltrationTest_vOutlet_t_WellSim_g' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWith2Species_1VelFiltration_WellSim_FinalTest' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -52,7 +52,7 @@ class Inputs():
         # self.InterfaceY0 = 0.01
         
         # Diffusity of Between species (m²/s)
-        self.D = 1e-2
+        self.D = 1e-1
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
@@ -63,7 +63,7 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 300 # s
+        self.tEnd = 4000 # s
         
         # Variable time step
         self.dtMin = 0.005    # s
@@ -72,7 +72,7 @@ class Inputs():
         self.dt = 0.05
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
         # Result Saving time step
-        self.savedt = 1 # s
+        self.savedt = 5*self.dt # s
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
@@ -114,7 +114,7 @@ class Inputs():
         ## Velocity Inputs
         t=0
         self.velocityBCs = {}
-        self.VrOutlet = '2*exp(1-(t/100))/500'#'0.0000043+0*t'#
+        self.VrOutlet = '2*exp(1-(t/200))/300'#'0.0000043+0*t'#
         self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet),t=t,degree=1)}) # m/s
         
         #%%############ Solver parameters ###############################
@@ -125,14 +125,14 @@ class Inputs():
         self.relTol = 1e-10
         
         # Maximum Iterations
-        self.maxIter = 200
+        self.maxIter = 15
         
         # Linear Solver
         self.linearSolver = 'mumps'
             
         # Relaxation Factors
-        self.alpha = 1
-        self.alphaC = 1
+        self.alpha = 0.9
+        self.alphaC = 0.9
             
         #%% Possible Solvers
         # Solver method  |  Description    
