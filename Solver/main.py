@@ -74,10 +74,11 @@ def main(inputs):
         results = []
         
         # Assign Fluids Properties
-        rho,mu = assignFluidProperties(inputs,c0)
+        
+        rho,mu = assignFluidProperties(inputs,c0,C,u0,t)
         
     	   # Solve Equations
-        begin('Flow - Time:{:.3f}s'.format(t))
+        begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
         (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
         end()
         

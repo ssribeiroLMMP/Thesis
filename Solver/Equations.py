@@ -17,7 +17,7 @@ def fb(inputs):
     # Body Forces: Gravity
     return Constant((inputs.g, 0.0))
 
-def assignFluidProperties(inputs,c0):
+def assignFluidProperties(inputs,c0,C=0,u=0,t=0):
     mu = inputs.mu_values[1]*c0 + inputs.mu_values[0]*(1-c0)
     rho = inputs.rho_values[1]*c0 + inputs.rho_values[0]*(1-c0)
 #    rho = Constant(inputs.rho_values[0])
