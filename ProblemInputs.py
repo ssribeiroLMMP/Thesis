@@ -56,8 +56,16 @@ class Inputs():
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
-        self.mu_values = [0.01 , 0.01]
-        
+        self.mu_values = [0.01 , 0.01]  #
+        # Modified SMD Model Variables
+        self.tau0 = 19.19           # Dinamic Yield Stress               
+        self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: High shear rates)
+        self.eta0 = 1e3             # Newtonian Plato: Low shear rates
+        self.K = 1.43               # Consistency Index
+        self.n = 0.572              # Power-law Index
+        self.ts = 60000             # Caracteristic curing time
+
+
         #%%############ Time Parameters #################################
         # Start Time
         self.t0 = 0 # s
@@ -100,7 +108,7 @@ class Inputs():
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        self.pInlet = 0.03164557 #self.rho_values[0]*2*self.g
+        self.pInlet = 0.3164557 #self.rho_values[0]*2*self.g
         self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
         # self.pOutlet = 0.2*(self.pInlet + self.rho_values[0]*self.g*1)
         self.pressureBCs.update({'Outlet' : 0}) # Pa

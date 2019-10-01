@@ -15,4 +15,4 @@ os.system(infoCommand())
 
 # Append Execut                   vi  on.txt with Simulation Residues
 os.system(solveCommand())
-# main(inputs)
+#main(inputs)

@@ -17,8 +17,34 @@ def fb(inputs):
     # Body Forces: Gravity
     return Constant((inputs.g, 0.0))
 
+# Rheological Model Function
+def smdM(C,inputs,u,t):
+
+    # Determine gammaDot from deformation tensor D
+    D = sym(grad(u))
+    gammaDot = project(sqrt(2*tr(dot(D,D))),C)
+
+    # Time dependent Yield Stress - Curing Process: tauY(t) 
+    tauY_t = inputs.tau0*exp(t/inputs.ts)
+
+    eps = 1e-10
+
+    # Modified smd Model (Souza Mendes e Dutra (2004)) + Cure(tauY(t))  
+    smdEquation = Expression('(1 - exp(-eta0*(gammaDot)/tauY_t))* \
+                             (tauY_t/(gammaDot+eps)+ K*(pow((abs(gammaDot)+eps),nPow)/(gammaDot+eps))) + etaInf',\
+                            etaInf=inputs.etaInf,eta0=inputs.eta0,K = inputs.K,nPow = inputs.n,ts = inputs.ts, \
+                            gammaDot = gammaDot, t=t, tauY_t = tauY_t,eps = eps, degree=2)
+    return project(smdEquation,C)
+
+# Calculates Fluid properties by Mesh Cell
 def assignFluidProperties(inputs,c0,C=0,u=0,t=0):
-    mu = inputs.mu_values[1]*c0 + inputs.mu_values[0]*(1-c0)
+    # Constant Viscosity of Each Specie
+    if C == 0:
+        mu = inputs.mu_values[1]*c0 + inputs.mu_values[0]*(1-c0)
+    # Cement is modeled by Modified SMD Non-Newtonian Model + Cure(tauY(t))
+    else: 
+        mu = smdM(C,inputs,u,t)*c0 + inputs.mu_values[0]*(1-c0)
+
     rho = inputs.rho_values[1]*c0 + inputs.rho_values[0]*(1-c0)
 #    rho = Constant(inputs.rho_values[0])
     return rho, mu
