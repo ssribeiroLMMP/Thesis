@@ -9,6 +9,7 @@ Created on Tue Aug 13 08:47:41 2019
 from dolfin import *
 import sys
 import os
+import numpy as np
 sys.path.append(os.path.abspath('..'))
 from Solver.BoundaryConditions import *
 
@@ -19,6 +20,12 @@ def IP(c,l,n,meshObj):
     r = one('+')*h_avg*h_avg*inner(jump(grad(c),n), jump(grad(l),n))*dS
     return (r)
 
+# Normalization of Mollified Color Function(c = rho - Brackbird 1992)
+def normalization(cFLimits):
+    diffC = cFLimits[1]-cFLimits[0]
+    medC = np.average(cFLimits)
+    return diffC, medC
+
 # Dirac's Delta to find Interface
 def interface(c,meshObj):
     N = VectorFunctionSpace(meshObj, "CG", 2, dim=2) 
@@ -27,7 +34,7 @@ def interface(c,meshObj):
     nGamma = grad_c/sqrt(dot(grad_c,grad_c))
     #nGammaMag = project(nGamma,DD)
     #nGammaNorm = nGamma/nGammaMag
-    k = div(nGamma)
+    k = -div(nGamma)
     gradientMag = sqrt(dot(grad_c,grad_c))
     gradProj = project(gradientMag,DD)
     deltaDirac = gradientMag/gradProj.vector().max()
@@ -37,7 +44,8 @@ def interface(c,meshObj):
 # Body Forces Term: Gravity
 def fb(g):
     # Body Forces: Gravity
-    return Constant((g, 0.0))
+    return Constant((0.0, -g))
+
 
 def assignFluidProperties(inputs,c0):
     mu = inputs.mu_values[1]*c0 + inputs.mu_values[0]*(1-c0)
@@ -149,14 +157,14 @@ def transientFlow(W,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     # Initial Conditions or previous timestep
     (u0, p0) = split(w0)
     
-    # Calculate Important Measures: Omega, deltaOmega, Normal Vector
+    # Calculate Important Measures: Omega(dx), deltaOmega(ds), Normal Vector(n)
     dx, ds, n = meshMeasures(meshObj,boundaries)
-    Rot = Expression((('0','1'),('-1','0')),degree=1)
+    # Rot = Expression((('0','1'),('-1','0')),degree=1)
     
-    # Interface Properties
-    k,nGamma,dDirac = interface(c0,meshObj)
-    # Tangent of the Interface
-    tGamma = Rot* nGamma
+    # # Interface Properties
+    # k,nGamma,dDirac = interface(c0,meshObj)
+    # # Tangent of the Interface
+    # tGamma = Rot* nGamma
 
     #tGamma = I - outer(nGamma,nGamma)
     
@@ -168,29 +176,41 @@ def transientFlow(W,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     # Linear Momentum Conservation
           
            # Transient Term            # Inertia Term             # Surface Forces Term           # Pressure Force              
-    a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho )*dx() + \
+    a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho)*dx() + \
                                (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p/rho)*dx()    # Relaxation
                       
-    # Body Forces Term: Gravity         
-    # Fb = fb(inputs.g)
+    ## Body Forces Term - Example: Weight(Gravity)
+    Fb = + dot(fb(inputs.g),v)
 
-    #  Surface Tension
-    ts = (inputs.sigma/rho)*inner(tGamma,grad(v)*tGamma)*dDirac
-
-    # Viscous Drag                                               # Surface Tension 
-    L1 = - (12/(inputs.CellThickness**2))*(mu/rho)*inner(u,v)*dx() - ts*dx()
+    ## Surface Tension Term
+    # CSF - Brackbill 1992
+    # Normalization Factors diffC = [c] = c2-c1 ; medC = <c> = (c1+c2)/2
+    diffrho,medrho = normalization(inputs.rho_values)
     
-    # Natural Boundary Conditions
+    # Interface Properties
+    k,nGamma,dDirac = interface(rho,meshObj)
+    
+    # Surface Tension force (but written as a Body Force)
+    FsV = (inputs.sigma)*(k/(diffrho*medrho))*dot(grad(rho),v)
+
+    ## Viscous Drag
+    # Dvwalls = - (12/(inputs.CellThickness**2))*(mu/rho)*inner(u,v)*dx()
+    
+    # Right Hand Side of Mommentum Conservation Equation
+      # Body Forces    # Surface Tension   # Viscous Drad(2D proxy due to top and bottom walls)   
+    L1 = 0# Fb*dx() +              FsV*dx() #+             Dvwalls          
+
+    ## Natural Boundary Conditions
     for key, value in inputs.pressureBCs.items():
         Pi = Constant(value)
                # Pressure Force: Natural Boundary Conditions
         L1 = L1 - (Pi/rho)*dot(v,n)*ds(Subdomains[key])
     
-    # Wettability ar Walls
-#    L1 = L1 - inputs.sigma*inner(nWet,v*n)*diracDelta(c0)*(ds(Subdomains['TopWall'])+ds(Subdomains['BottomWall']))
-    
-    # Add Mass ConservationVi = project(value,U)
+  
+    # Add Mass Conservation
+    # Left Hand Side of Mass Conservation Equation
     a2 = (q*div(u))*dx() 
+    # Right Hand Side of Mass Conservation Equation 
     L2 = 0
     
     # Weak Complete Form
@@ -278,8 +298,8 @@ def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdoma
     alphaC = Constant(inputs.alphaC)
     
     # Concentration Equation                                                                                    
-          # Transient Term   #                 Advection Term                         # Diffusion Term        # Penalty function: + IP(c,l,n,meshObj) \ #
-    F = rho*inner((c - c0)/Dt,l)*dx() + alphaC*(rho*inner(u1,(grad(c ))*l) + D*dot(grad(c ), grad(l)))*dx() \
+          # Transient Term   #                 Advection Term                         # Diffusion Term        # Penalty function: #\#+ IP(c,l,n,meshObj) \
+    F = rho*inner((c - c0)/Dt,l)*dx() + alphaC*(rho*inner(u1,(grad(c ))*l) + D*dot(grad(c ), grad(l)))*dx()  \
         + (1-alphaC)*(rho*inner(u1,(grad(c0))*l) + D*dot(grad(c0), grad(l)))*dx() # Relaxation
     a, L = lhs(F), rhs(F)
 
