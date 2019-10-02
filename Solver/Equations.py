@@ -278,8 +278,8 @@ def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdoma
     alphaC = Constant(inputs.alphaC)
     
     # Concentration Equation                                                                                    
-          # Transient Term   #                 Advection Term                         # Diffusion Term        # Penalty function: + IP(c,l,n,meshObj) \ #
-    F = rho*inner((c - c0)/Dt,l)*dx() + alphaC*(rho*inner(u1,(grad(c ))*l) + D*dot(grad(c ), grad(l)))*dx() \
+          # Transient Term   #                 Advection Term                         # Diffusion Term        # Penalty function: #\
+    F = rho*inner((c - c0)/Dt,l)*dx() + alphaC*(rho*inner(u1,(grad(c ))*l) + D*dot(grad(c ), grad(l)))*dx() + IP(c,l,n,meshObj) \
         + (1-alphaC)*(rho*inner(u1,(grad(c0))*l) + D*dot(grad(c0), grad(l)))*dx() # Relaxation
     a, L = lhs(F), rhs(F)
 

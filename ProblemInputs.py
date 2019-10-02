@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=1.1):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'vargesPR_HeleShawCell_SurfTensTest_sigma0_01_miStar_5e-0'
+        self.caseId = 'vargesPR_HeleShawCell_SurfTensTest_sigma0_01_miStar_5e0_IP'
 #        self.caseId = 'vargesPR_HeleShawCell_etaStar5_3_RectTriangMesh' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
@@ -60,7 +60,7 @@ class Inputs():
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
-        self.mu_values = [0.134,0.0251]
+        self.mu_values = [0.0251,0.134]
         self.mu_star = self.mu_values[0]/self.mu_values[1]
         
         #%%############ Time Parameters #################################
