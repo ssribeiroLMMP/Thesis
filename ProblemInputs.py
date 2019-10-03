@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransPoiseulle_nonNewtonian_ShortTest' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_nonNewtonian_4000s' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -71,7 +71,7 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 200 # s
+        self.tEnd = 2000 # s
         
         # Variable time step
         self.dtMin = 0.005    # s
@@ -80,11 +80,11 @@ class Inputs():
         self.dt = 0.1
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
         # Result Saving time step
-        self.savedt = 5*self.dt # s
+        self.savedt = 5 # s
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
-        self.meshFile = 'MacroParallelPlates'#'WellSimulator'#
+        self.meshFile = 'WellSimulator'#'MacroParallelPlates'#'WellSimulator'#
         ## Mesh Elements
         # Velocity
         self.velocityElementfamily = 'Lagrange'
@@ -100,33 +100,33 @@ class Inputs():
         
         ## No slip Boundaries
         self.noSlipBCs = []
-        self.noSlipBCs.append('TopWall') # Both
-        # self.noSlipBCs.append('InnerPipe') # WelSimulator only
-        # self.noSlipBCs.append('OuterWall') # WelSimulator only
+        # self.noSlipBCs.append('TopWall') # Both
+        self.noSlipBCs.append('InnerPipe') # WelSimulator only
+        self.noSlipBCs.append('OuterWall') # WelSimulator only
         self.noSlipBCs.append('BottomWall')  # Both
         #noSlipBoundaries.append('InnerWalls')
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        self.pInlet = 0.3164557 #self.rho_values[0]*2*self.g
+        self.pInlet = self.rho_values[0]*2*self.g #0.3164557 #self.rho_values[0]*2*self.g
         self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
-        # self.pOutlet = 0.2*(self.pInlet + self.rho_values[0]*self.g*1)
-        self.pressureBCs.update({'Outlet' : 0}) # Pa
+        self.pOutlet = 0.2*(self.pInlet + self.rho_values[0]*self.g*1)
+        self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
         
         ## Advected Scalar Field Inputs
         self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
         self.scalarFieldBCs = {}
         self.scalarFieldBCs.update({'Inlet' : Constant(self.CInitialMixture)}) # CMix
-        self.scalarFieldBCs.update({'Outlet' : Constant(self.CInitialMixture)}) # CMix: REGULAR FLOW
-        # self.scalarFieldBCs.update({'Outlet': Constant(self.Fluid1)}) # C1: FILTRATION
+        # self.scalarFieldBCs.update({'Outlet' : Constant(self.CInitialMixture)}) # CMix: REGULAR FLOW
+        self.scalarFieldBCs.update({'Outlet': Constant(self.Fluid1)}) # C1: FILTRATION
         
         ## Velocity Inputs
         t=0
         self.velocityBCs = {}
         # self.VxInlet = '0.0025+0*t'
-        # self.VrOutlet = '0.0000043+0*t'#'2*exp(1-(t/200))/300'#
+        # self.VrOutlet = '0.0000043+0*t'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
-        # self.velocityBCs.update({'Outlet' : Expression((self.VrOutlet,'0.0'),t=t,degree=1)}) # m/s
+        self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet),t=t,degree=1)}) # m/s
         
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
