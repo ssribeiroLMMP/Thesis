@@ -67,6 +67,7 @@ def main(inputs):
         
     # Timestep
     dt = inputs.dt
+    savedt = inputs.savedt
     lastStep = False
 
     while t <= inputs.tEnd:
@@ -75,7 +76,7 @@ def main(inputs):
         
         # Assign Fluids Properties
         (u0, p0) = w0.leaf_node().split()
-        rho,mu = assignFluidProperties(inputs,c0,C,u0,t)
+        rho,mu = assignFluidProperties(inputs,c0,0)#C,u0,t)
         
     	   # Solve Equations
         begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
@@ -97,7 +98,7 @@ def main(inputs):
                 results.append(p1)
                 results.append(c1)
                 saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
-                saveDt = t + inputs.savedt
+                saveDt = t + savedt
                 end()
                 # Store Initial Solution in Time t=t
                 # solutions.append({'t':t, 'variables':results})
@@ -116,6 +117,7 @@ def main(inputs):
         # dt = dynamicTimestep(t,inputs.dtMax,inputs.dtMin,inputs.tChange)
         # Auto-adjustable timestep
         dt = autoTimestep(no_iterations,dt,inputs)
+        savedt = dynamicSaveDt(dt)
           
     #####################  Post Processing
     print('Finished')

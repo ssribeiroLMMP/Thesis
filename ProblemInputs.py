@@ -23,10 +23,13 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
     
     return dt
 
+def dynamicSaveDt(dt):
+    return 5*dt
+
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransPoiseulle_nonNewtonian_ShortTest' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransPoiseulle_Newtonian_ShortTest' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -58,12 +61,12 @@ class Inputs():
         # Newtonian Viscosity (Pa.s)
         self.mu_values = [0.01 , 0.01]  #
         # Modified SMD Model Variables
-        self.tau0 = 19.19           # Dinamic Yield Stress               
+        self.tau0 = 1.43           # Dinamic Yield Stress               
         self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: High shear rates)
-        self.eta0 = 1e3             # Newtonian Plato: Low shear rates
-        self.K = 1.43               # Consistency Index
-        self.n = 0.572              # Power-law Index
-        self.ts = 60000             # Caracteristic curing time
+        self.eta0 = 1e2             # Newtonian Plato: Low shear rates
+        self.K = 0.92 # 5             # Consistency Index
+        self.n = 0.33              # Power-law Index
+        self.ts = 6000             # Caracteristic curing time
 
 
         #%%############ Time Parameters #################################
@@ -71,16 +74,16 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 200 # s
+        self.tEnd = 1500 # s
         
         # Variable time step
-        self.dtMin = 0.005    # s
-        self.dtMax = 10  # s
+        self.dtMin = 0.05    # s
+        self.dtMax = 20  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 0.1
+        self.dt = 1
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
         # Result Saving time step
-        self.savedt = 5*self.dt # s
+        self.savedt = dynamicSaveDt(self.dt) # s
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
@@ -108,7 +111,7 @@ class Inputs():
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        self.pInlet = 0.3164557 #self.rho_values[0]*2*self.g
+        self.pInlet = 0.03164557 #self.rho_values[0]*2*self.g
         self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
         # self.pOutlet = 0.2*(self.pInlet + self.rho_values[0]*self.g*1)
         self.pressureBCs.update({'Outlet' : 0}) # Pa
@@ -121,7 +124,7 @@ class Inputs():
         # self.scalarFieldBCs.update({'Outlet': Constant(self.Fluid1)}) # C1: FILTRATION
         
         ## Velocity Inputs
-        t=0
+        #t=0
         self.velocityBCs = {}
         # self.VxInlet = '0.0025+0*t'
         # self.VrOutlet = '0.0000043+0*t'#'2*exp(1-(t/200))/300'#
@@ -142,8 +145,8 @@ class Inputs():
         self.linearSolver = 'mumps'
             
         # Relaxation Factors
-        self.alpha = 0.9
-        self.alphaC = 0.9
+        self.alpha = 1
+        self.alphaC = 1
             
         #%% Possible Solvers
         # Solver method  |  Description    
