@@ -13,5 +13,6 @@ createDirectories(inputs)
 # Overwrite the previous Execution.txt with new Header
 os.system(infoCommand())
 
-# Append Execution.txt with Simulation Residues
+# Append Execut                   vi  on.txt with Simulation Residues
 os.system(solveCommand())
+#main(inputs)

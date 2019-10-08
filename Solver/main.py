@@ -29,7 +29,7 @@ from PreProcessing.meshConversion import *
 from Solver.Equations import *
 from PostProcessing.Saving import *
     
-def main(inputs, geopath, meshpath):
+def main(inputs):
     
     # Prepare for saving
     meshpath, paraFullPath, imFullPath,parapath, imagespath,geopath,  \
@@ -44,54 +44,81 @@ def main(inputs, geopath, meshpath):
     
     # Get Mesh Dimension: 1, 2 or 3
     Dim = meshObj.geometric_dimension()
-    
-    # Get Element Shape: Triangle, etc...
-    elementShape = meshObj.ufl_cell()
-    
-    # Set Mesh Elements
-    ### Calculate Measurements
-    Uel = VectorElement(inputs.velocityElementfamily, elementShape, inputs.velocityElementOrder) # Velocity vector field
-    Pel = FiniteElement(inputs.pressureElementfamily, elementShape, inputs.pressureElementOrder) # Pressure field
-    UPel = MixedElement([Uel,Pel])
-    
-    ####################    Function Spaces 
-    # Mixed Function Space: Pressure and Velocity
-    W = FunctionSpace(meshObj,UPel)
+        
     
     #%%#################    Time Loop - If Transient
     t = inputs.t0
     saveDt = inputs.savedt
     #solutions = []
     
-    # Fluid Properties
-    rho = Constant(inputs.rho0)
-    mu = Constant(inputs.mu0)
+    # Mixture Properties
+    D = Constant(inputs.D)
     
     # Start timer
     start = timeit.default_timer()
     
-    # Initialize results Vector
-    results = []
+    # Space Functions: Flow and Scalar Field
+    W = flowSpaceCreation(inputs,meshObj)
+    C = fieldSpaceCreation(inputs,meshObj)
+    w0 = Function(W)
     
-    begin('Flow - Time:{:.3f}s'.format(t))
-    # Solve Equations
-    w = flow(W,rho,mu,inputs,meshObj,boundaries,Subdomains)
-    end()
-    
-    (u1, p1) = w.leaf_node().split()
-    
-    # Save Paraview Files
-    if t==0 or t >= saveDt:
-        begin('---------------- Saving ----------------')
-        # Append and save Results
-        results.append(u1)
-        results.append(p1)
-        saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
-        saveDt = t + inputs.savedt
+    # Initial Conditions
+    c0 = initialMixture(C,inputs)
+        
+    # Timestep
+    dt = inputs.dt
+    savedt = inputs.savedt
+    lastStep = False
+
+    while t <= inputs.tEnd:
+        # Initialize results Vector
+        results = []
+        
+        # Assign Fluids Properties
+        (u0, p0) = w0.leaf_node().split()
+        rho,mu = assignFluidProperties(inputs,c0,0)#C,u0,t)
+        
+    	   # Solve Equations
+        begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
+        (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
         end()
-        # Store Initial Solution in Time t=t
-    #        solutions.append({'t':t, 'variables':results})
-                  
+        
+        if converged:
+            (u1, p1) = w.leaf_node().split()
+            
+            begin('Concentration')
+            c1 = transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains)
+            end()
+            
+            # Save Paraview Files
+            if t==0 or t >= saveDt:
+                begin('---------------- Saving ----------------')
+                # Append and save Results
+                results.append(u1)
+                results.append(p1)
+                results.append(c1)
+                saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
+                saveDt = t + savedt
+                end()
+                # Store Initial Solution in Time t=t
+                # solutions.append({'t':t, 'variables':results})
+                    
+        	   # Update current time #ERROR ON VERSION 1.0.4
+            w0.assign(w)
+            c0.assign(c1)
+            t += dt
+        
+        if t > inputs.tEnd and not(lastStep):
+            t = inputs.tEnd
+            lastStep = True    
+
+        ### Set next timestep
+        #Dynamic Timestep
+        # dt = dynamicTimestep(t,inputs.dtMax,inputs.dtMin,inputs.tChange)
+        # Auto-adjustable timestep
+        dt = autoTimestep(no_iterations,dt,inputs)
+        savedt = dynamicSaveDt(dt)
+          
     #####################  Post Processing
     print('Finished')
     # End Time
@@ -105,28 +132,13 @@ def main(inputs, geopath, meshpath):
     begin("Total running time: %dh:%dmin:%ds \n" % (hours, mins, secs))
     end()
     
-    #%%################     Save Simulation Properties and Results  : TO DO
-    #file = open(fileDir+'/Results_'+tag+'.txt','w') 
-    #file.write('----'+tag +'\n') # Title
-    #
-    #file.write('-- Properties of '+'\n') # Properties
-    #file.write("Total running time: %dh:%dmin:%ds" % (hours, mins, secs)+'\n') 
-    #file.write('rhoH20:{:.0f}'.format(rho0)+' | rhoCement:{:.0f}'.format(rho1)+'\n') 
-    #file.write('muH20:{:.0f}'.format(mu0)+' | muCement:{:.0f}'.format(mu1)+'\n')
-    #file.write('Newtonian Fluids'+'\n')
-    #file.write('Density not a function of time'+'\n') 
-    #
-    #file.write('-- Results of '+ '\n') # Results
-    #file.write('Mass Out:') 
-    #
-    #file.close() 
      
 if __name__ == '__main__':
     inputs = Inputs()
     mainPaths = Paths()
     
     # Check directories for saving
-#    meshFile = savingCheckings(inputs.meshFile,inputs.caseId,mainPaths)
+    savingCheckings(inputs,mainPaths)
 
     # Prepare for saving
-    main(inputs,mainPaths.geopath,mainPaths.meshpath)
+    main(inputs)

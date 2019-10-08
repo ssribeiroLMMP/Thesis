@@ -62,8 +62,12 @@ def createDirectories(inputs):
         os.mkdir(imFullPath)
    
 
-def savingCheckings(meshFile,caseId,mainPaths):    
-    meshpath, paraFullPath = assemblePaths(inputs)
+def savingCheckings(inputs,mainPaths):    
+    meshFile = inputs.meshFile;
+    caseId = inputs.caseId;
+    
+    meshpath, paraFullPath, imFullPath,parapath, imagespath,geopath,  \
+    postpath = assemblePaths(inputs)
     
     # Check Result Folders exist, and create them
     if not os.path.exists(meshpath):
@@ -79,13 +83,12 @@ def savingCheckings(meshFile,caseId,mainPaths):
         if count < 1:
             raise ValueError('No mesh files in '+meshpath+' directory')
         elif count == 3:
-            meshFile = meshFile[0:len(meshFile)-4]
+            return
         else:
             raise ValueError(meshpath+ \
             ' directory must contain exactly three files with .XML extension.')
     
-    return meshFile
-
+    
 def savingPreparation(paraFullPath,ParaViewFilenames):
     from dolfin import File
     

@@ -22,7 +22,7 @@ def noSlip(Dim):
     return Constant(noSlipU)
 
 # Flow Boundary Conditions
-def flowBC(U,inputs,meshId,boundariesId,subdomainsDict):
+def flowBC(t,U,inputs,meshId,boundariesId,subdomainsDict):
     Dim = meshId.geometric_dimension()
     
     noSlipU = noSlip(Dim)
@@ -35,21 +35,21 @@ def flowBC(U,inputs,meshId,boundariesId,subdomainsDict):
     for i in range(0,len(inputs.noSlipBCs)):
         bc.append(DirichletBC(U,noSlipU,boundariesId,subdomainsDict[inputs.noSlipBCs[i]]))
     
-    return bc
-    # Velocity Condition
-    for key,value in inputs.velocityBCs.items:
-        Vi = interpolate(U,value)
-        bc.append(DirichletBC(U,Vi,boundariesId,subdomainsDict[key]))
+    
+    # Velocity Conditions  #ERROR ON VERSION 1.0.4
+    for DomainKey,valueExp in inputs.velocityBCs.items():
+        valueExp.t = t
+        bc.append(DirichletBC(U,valueExp,boundariesId,subdomainsDict[DomainKey]))   
     
     return bc
-# Concentration Boundary Conditions
-#def concentrationBC(C,meshId,boundariesId,Subdomains):
-#    Dim = meshId.geometric_dimension()
-#    
-#    # Initialize Boundary Condition
-#    bc = []
-#    # Dirichlet Conditions
-#    bc.append(DirichletBC(C,InletConcentration,boundariesId,Subdomains['Inlet']))
-#    bc.append(DirichletBC(C,OutletConcentration,boundariesId,Subdomains['Outlet']))
-#    
-#    return bc
+
+# Advected Field Boundary Conditions
+def fieldTransportBC(C,inputs,meshId,boundariesId,subdomainsDict):
+    Dim = meshId.geometric_dimension()
+    
+    # Initialize Boundary Condition
+    bc = []
+    # Scalar Field Conditions
+    for DomainKey,valueExp in inputs.scalarFieldBCs.items():
+        bc.append(DirichletBC(C,valueExp,boundariesId,subdomainsDict[DomainKey]))
+    return bc
