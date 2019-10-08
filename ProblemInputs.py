@@ -37,7 +37,7 @@ class Inputs():
         
         #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²) on axis X
-        self.g = 0
+        self.g = 9.81
         
         #%%############ Fluids' Properties ##############################
         # Tags
@@ -77,7 +77,7 @@ class Inputs():
         self.dtMin = 0.005    # s
         self.dtMax = 10  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 0.1
+        self.dt = 0.01
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
         # Result Saving time step
         self.savedt = 5 # s
@@ -110,7 +110,7 @@ class Inputs():
         self.pressureBCs = {}
         self.pInlet = self.rho_values[0]*2*self.g #0.3164557 #self.rho_values[0]*2*self.g
         self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
-        self.pOutlet = 0.2*(self.pInlet + self.rho_values[0]*self.g*1)
+        self.pOutlet = 0.6*(self.pInlet + self.rho_values[0]*self.g*1)
         self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
         
         ## Advected Scalar Field Inputs
@@ -124,16 +124,16 @@ class Inputs():
         t=0
         self.velocityBCs = {}
         # self.VxInlet = '0.0025+0*t'
-        # self.VrOutlet = '0.0000043+0*t'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
+        # self.VrOutlet = '0.0043*1/t'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
-        self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet),t=t,degree=1)}) # m/s
+        # self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet),t=t,degree=1)}) # m/s
         
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
         self.absTol = 1e-12
         
         # Relative Tolerance
-        self.relTol = 1e-10
+        self.relTol = 1e-20
         
         # Maximum Iterations
         self.maxIter = 15

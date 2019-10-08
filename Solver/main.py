@@ -68,6 +68,7 @@ def main(inputs):
     # Timestep
     dt = inputs.dt
     lastStep = False
+    lastTry = False
 
     while t <= inputs.tEnd:
         # Initialize results Vector
@@ -78,9 +79,16 @@ def main(inputs):
         rho,mu = assignFluidProperties(inputs,c0,C,u0,t)
         
     	   # Solve Equations
-        begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
-        (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
-        end()
+        try:
+            begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
+            (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
+            end()
+        except: 
+            no_iterations = inputs.maxIter
+            converged = False
+            begin('Reducing timestep')
+            end()
+            end()
         
         if converged:
             (u1, p1) = w.leaf_node().split()
@@ -116,6 +124,12 @@ def main(inputs):
         # dt = dynamicTimestep(t,inputs.dtMax,inputs.dtMin,inputs.tChange)
         # Auto-adjustable timestep
         dt = autoTimestep(no_iterations,dt,inputs)
+        if dt <= inputs.dtMin and lastTry:
+            begin('Did not converge: Minimum timestep achieved')
+            end()
+            break
+        elif dt <= inputs.dtMin:
+            lastTry = True
           
     #####################  Post Processing
     print('Finished')
