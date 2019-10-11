@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_nonNewtonian_4000s' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_Newtonian_4000s' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -45,10 +45,10 @@ class Inputs():
         self.Fluid1 = 1 - self.Fluid0 # Water
                 
         # Density (kg/m³)
-        self.rho_values = [1000, 1000]
+        self.rho_values = [1700, 1700]
         
         # Initial Interface position
-        self.InterfaceX0 = 0.05
+        # self.InterfaceX0 = 0.05
         # self.InterfaceY0 = 0.01
         
         # Diffusity of Between species (m²/s)
@@ -108,10 +108,10 @@ class Inputs():
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        self.pInlet = self.rho_values[0]*2*self.g #0.3164557 #self.rho_values[0]*2*self.g
+        self.pInlet = self.rho_values[0]*6*self.g #0.3164557 #self.rho_values[0]*2*self.g
         self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
-        self.pOutlet = 0.6*(self.pInlet + self.rho_values[0]*self.g*1)
-        self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
+        # self.pOutlet = 0.6*(self.pInlet + self.rho_values[0]*self.g*1)
+        # self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
         
         ## Advected Scalar Field Inputs
         self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
@@ -124,9 +124,9 @@ class Inputs():
         t=0
         self.velocityBCs = {}
         # self.VxInlet = '0.0025+0*t'
-        # self.VrOutlet = '0.0043*1/t'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
+        self.VrOutlet = '0.000043'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
-        # self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet),t=t,degree=1)}) # m/s
+        self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet),t=t,degree=1)}) # m/s
         
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
