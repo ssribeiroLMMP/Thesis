@@ -9,8 +9,78 @@ Created on Tue Aug 13 08:47:41 2019
 from dolfin import *
 import sys
 import os
+import numpy as np
 sys.path.append(os.path.abspath('..'))
 from Solver.BoundaryConditions import *
+
+#
+def coordinatesAt(boundaries,SubdomainVal):
+    SubdomainVertices = SubsetIterator(boundaries,SubdomainVal)
+    x = []
+    y = []
+    for f in SubdomainVertices:
+        for v in vertices(f):
+            x.append(v.point().x())
+            y.append(v.point().y())
+
+    x.sort()
+    y.sort()
+
+    return x,y
+
+def calculateNewInletPressure(pInlet,massFlowrate,dt,boundaries,Subdomains,inputs):
+    # Concentration at the inlet
+    # TODO: Add temporal variant cInlet
+    cInlet = inputs.CInitialMixture
+
+    #Mixture density at the inlet
+    rhoMix = (1-cInlet)*inputs.rho_values[0] + cInlet*inputs.rho_values[1]
+    
+    # Mass Variation in the last timestep
+    deltaM = massFlowrate*dt
+
+    # Volume variation due to the decay of TopOfCement
+    deltaV = deltaM/rhoMix
+
+    # Vertices Inlet Coordinates
+    xIn,yIn = coordinatesAt(boundaries,Subdomains['Inlet'])
+
+    # Inlet cross-section area
+    inletArea = np.pi*(max(yIn)**2 - min(yIn)**2)
+
+    # Variation of TopOfCement
+    deltaTOC = deltaV/inletArea
+
+    # New Inlet Pressure
+    pInlet = pInlet - rhoMix*inputs.g*deltaTOC
+    
+    return pInlet
+
+
+def calculateOutletFlowrate(u1,inputs,boundaries,Subdomains):
+    # Outlet Vertices Coordinates
+    xOut,yOut = coordinatesAt(boundaries,Subdomains['Outlet'])
+    
+    # Outlet cross-section Area
+    outletArea = 2*np.pi*(max(xOut)-min(xOut))*max(yOut)
+    
+    # Initialize flowrate
+    cumsum = 0
+    n = 0
+    # Loop over vertices and sum the normal velocity
+    for i in range(0,len(yOut)):
+        # TODO: add variable velocity with outlet area normal vector
+        cumsum = cumsum + u1(xOut[i],yOut[i])[1]
+        n += 1
+    
+    # Q = v.A
+    flowRate = outletArea*cumsum/n
+
+    # mDot = Q*rho
+    #TODO: Insert variable outlet rho
+    massFlowrate = inputs.rho_values[inputs.Fluid1]*flowRate
+
+    return massFlowrate
 
 # Body Forces Term: Gravity
 def fb(inputs):
@@ -140,97 +210,102 @@ def steadyStateFlow(rho,mu,inputs,meshObj,boundaries,Subdomains):
     return w
 
 #%% Transient Coupled scheeme for Flow 
-def transientImplicitFlow(t,W,C,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):    
-    #####  Functions and Constants
-        ## Trial and Test function(s)
-    dw = TrialFunction(W)
-    (v, q) = TestFunctions(W)
-    w = Function(W)
-    c = TrialFunction(C)
-    l = TestFunction(C)
+# def transientImplicitFlow(t,W,C,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):    
+#     #####  Functions and Constants
+#         ## Trial and Test function(s)
+#     dw = TrialFunction(W)
+#     (v, q) = TestFunctions(W)
+#     w = Function(W)
+#     c = TrialFunction(C)
+#     l = TestFunction(C)
     
     
-    # Split into Velocity and Pressure
-    (u, p) = (as_vector((w[0], w[1])), w[2])
-    (U, P) = W.split()
-    c1 = Function(C)
+#     # Split into Velocity and Pressure
+#     (u, p) = (as_vector((w[0], w[1])), w[2])
+#     (U, P) = W.split()
+#     c1 = Function(C)
     
-    # Initial Conditions or previous timestep
-    (u0, p0) = (as_vector((w0[0], w0[1])), w0[2])
+#     # Initial Conditions or previous timestep
+#     (u0, p0) = (as_vector((w0[0], w0[1])), w0[2])
     
-    # Calculate Important Measures: Omega, deltaOmega, Normal Vector
-    dx, ds, n = meshMeasures(meshObj,boundaries)
+#     # Calculate Important Measures: Omega, deltaOmega, Normal Vector
+#     dx, ds, n = meshMeasures(meshObj,boundaries)
     
-    # Time step Constant
-    Dt = Constant(dt)
+#     # Time step Constant
+#     Dt = Constant(dt)
    
-    alpha = Constant(inputs.alpha)
-    alphaC = Constant(inputs.alphaC)
+#     alpha = Constant(inputs.alpha)
+#     alphaC = Constant(inputs.alphaC)
     
-    # Concentration Equation
-          # Transient Term   #                 Advection Term                         # Diffusion Term                            
-    F0 = inner((c - c0)/Dt,l)*dx() + alphaC*(inner(u,(grad(c ))*l) + (D/rho)*dot(grad(c ), grad(l)))*dx() +\
-                                    (1-alphaC)*(inner(u,(grad(c0))*l) + (D/rho)*dot(grad(c0), grad(l)))*dx() # Relaxation
-    a0, L0 = lhs(F0), rhs(F0)
+#     # Concentration Equation
+#           # Transient Term   #                 Advection Term                         # Diffusion Term                            
+#     F0 = inner((c - c0)/Dt,l)*dx() + alphaC*(inner(u,(grad(c ))*l) + (D/rho)*dot(grad(c ), grad(l)))*dx() +\
+#                                     (1-alphaC)*(inner(u,(grad(c0))*l) + (D/rho)*dot(grad(c0), grad(l)))*dx() # Relaxation
+#     a0, L0 = lhs(F0), rhs(F0)
 
-    # Boundary Conditions    
-    bcC = fieldTransportBC(C,inputs,meshObj,boundaries,Subdomains)
+#     # Boundary Conditions    
+#     bcC = fieldTransportBC(C,inputs,meshObj,boundaries,Subdomains)
 
-    ##########   Equations
-    # Linear Momentum Conservation
+#     ##########   Equations
+#     # Linear Momentum Conservation
 
-           # Transient Term            # Inertia Term             # Surface Forces Term           # Pressure Force
-    a1 = inner((u-u0)/Dt,v)*dx() \
-        + alpha*(inner(grad(u)*u , v) \
-        + (inputs.mu_values[1]*c  + inputs.mu_values[0]*(1-c))/(inputs.rho_values[1]*c  + inputs.rho_values[0]*(1-c)))*inner(grad(u), grad(v)) \
-        - div(v)*p /rho)*dx() \
-        # Relaxation
-        + (1-alpha)*(inner(grad(u0)*u0,v) \
-        + (inputs.mu_values[1]*c0  + inputs.mu_values[0]*(1-c0))/(inputs.rho_values[1]*c0  + inputs.rho_values[0]*(1-c)))*inner(grad(u0),grad(v)) \
-        - div(v)*p/rho)*dx()    
+#            # Transient Term            # Inertia Term             # Surface Forces Term           # Pressure Force
+#     a1 = inner((u-u0)/Dt,v)*dx() \
+#         + alpha*\
+#             (inner(grad(u)*u , v) \
+#             + ((inputs.mu_values[1]*c  + inputs.mu_values[0]*(1-c))/ \
+#                (inputs.rho_values[1]*c  + inputs.rho_values[0]*(1-c)))*inner(grad(u), grad(v)) \
+#             - div(v)*p / \
+#                 (inputs.rho_values[1]*c  + inputs.rho_values[0]*(1-c)))*dx() \
+#         + (1-alpha)* \
+#             (inner(grad(u0)*u0 , v) \
+#             + ((inputs.mu_values[1]*c0  + inputs.mu_values[0]*(1-c0))/ \
+#                (inputs.rho_values[1]*c0  + inputs.rho_values[0]*(1-c0)))*inner(grad(u0), grad(v)) \
+#             - div(v)*p / \
+#                 (inputs.rho_values[1]*c0  + inputs.rho_values[0]*(1-c0)))*dx() \    
                       
-    L1 = 0
-    for key, value in inputs.pressureBCs.items():
-        Pi = Constant(value)
-               # Pressure Force: Natural Boundary Conditions
-        L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
-    # Body Forces Term: Gravity 
-    L1 = - L1 + inner(fb(inputs),v)*dx()
+#     L1 = 0
+#     for key, value in inputs.pressureBCs.items():
+#         Pi = Constant(value)
+#                # Pressure Force: Natural Boundary Conditions
+#         L1 = L1 + (Pi/(inputs.rho_values[1]*c0  + inputs.rho_values[0]*(1-c0)))*dot(v,n)*ds(Subdomains[key])
+#     # Body Forces Term: Gravity 
+#     L1 = - L1 + inner(fb(inputs),v)*dx()
     
-    # Add Mass Conservation
-    a2 = (q*div(u))*dx() 
-    L2 = 0
+#     # Add Mass Conservation
+#     a2 = (q*div(u))*dx() 
+#     L2 = 0
     
-    # Weak Complete Form
-    F = a0 + a1 + a2 - (L0 + L1 + L2)
+#     # Weak Complete Form
+#     F = a0 + a1 + a2 - (L0 + L1 + L2)
         
-    # Jacobian Matrix
-    J = derivative(F,w,dw)
+#     # Jacobian Matrix
+#     J = derivative(F,w,dw)
     
-    # Apply Flow Boundary Conditions
-    bcU = flowBC(t,U,inputs,meshObj,boundaries,Subdomains)
+#     # Apply Flow Boundary Conditions
+#     bcU = flowBC(t,U,inputs,meshObj,boundaries,Subdomains)
         
-    ##########   Numerical Solver Properties
-    # Problem and Solver definitions
-    problemU = NonlinearVariationalProblem(F,w,bcU,J)
-    solverU = NonlinearVariationalSolver(problemU)
-    # Solver Parameters
-    prmU = solverU.parameters
-    #info(prmU,True)  #get full info on the parameters
-    prmU['nonlinear_solver'] = 'newton'
-    prmU['newton_solver']['absolute_tolerance'] = inputs.absTol
-    prmU['newton_solver']['relative_tolerance'] = inputs.relTol
-    prmU['newton_solver']['maximum_iterations'] = inputs.maxIter
-    prmU['newton_solver']['linear_solver'] = inputs.linearSolver
+#     ##########   Numerical Solver Properties
+#     # Problem and Solver definitions
+#     problemU = NonlinearVariationalProblem(F,w,bcU,J)
+#     solverU = NonlinearVariationalSolver(problemU)
+#     # Solver Parameters
+#     prmU = solverU.parameters
+#     #info(prmU,True)  #get full info on the parameters
+#     prmU['nonlinear_solver'] = 'newton'
+#     prmU['newton_solver']['absolute_tolerance'] = inputs.absTol
+#     prmU['newton_solver']['relative_tolerance'] = inputs.relTol
+#     prmU['newton_solver']['maximum_iterations'] = inputs.maxIter
+#     prmU['newton_solver']['linear_solver'] = inputs.linearSolver
     
-    # Solve Problem
-    (no_iterations,converged) = solverU.solve()
+#     # Solve Problem
+#     (no_iterations,converged) = solverU.solve()
     
-    # Append Flow Problem
-    return w,no_iterations,converged
+#     # Append Flow Problem
+#     return w,no_iterations,converged
 
 #%% Transient Coupled scheeme for Flow 
-def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):    
+def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):    
     #####  Functions and Constants
         ## Trial and Test function(s)
     dw = TrialFunction(W)
@@ -242,7 +317,7 @@ def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     (U, P) = W.split()
     
     # Initial Conditions or previous timestep
-    (u0, p0) = (as_vector((w0[0], w0[1])), w0[2])
+    (u0, p0) = w0.leaf_node().split()
     
     # Calculate Important Measures: Omega, deltaOmega, Normal Vector
     dx, ds, n = meshMeasures(meshObj,boundaries)
@@ -260,9 +335,14 @@ def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
                       
     L1 = 0
     for key, value in inputs.pressureBCs.items():
-        Pi = Constant(value)
-               # Pressure Force: Natural Boundary Conditions
+        if Pin>0 and key == 'Inlet':
+            Pi = Constant(Pin)
+        else:
+            Pi = Constant(value)   
+        # Pressure Force: Natural Boundary Conditions
         L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
+    
+
     # Body Forces Term: Gravity 
     L1 = - L1 + inner(fb(inputs),v)*dx()
     

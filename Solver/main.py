@@ -67,8 +67,12 @@ def main(inputs):
         
     # Timestep
     dt = inputs.dt
+    
+    # Initialize loop variable values
     lastStep = False
     lastTry = False
+    outputMassFlowrate = 0
+    pInlet = inputs.pInlet
 
     while t <= inputs.tEnd:
         # Initialize results Vector
@@ -79,19 +83,22 @@ def main(inputs):
         rho,mu = assignFluidProperties(inputs,c0)#,C,u0,t)
         
     	   # Solve Equations
-        try:
-            begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
-            (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
-            end()
-        except: 
-            no_iterations = inputs.maxIter
-            converged = False
-            begin('Reducing timestep')
-            end()
-            end()
+        # try:
+        begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
+        if t>0:
+            pInlet = calculateNewInletPressure(pInlet,outputMassFlowrate,dt,boundaries,Subdomains,inputs)
+        (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,pInlet)
+        end()
+        # except: 
+        #     no_iterations = inputs.maxIter
+        #     converged = False
+        #     begin('Reducing timestep')
+        #     end()
+        #     end()
         
         if converged:
             (u1, p1) = w.leaf_node().split()
+            outputMassFlowrate = calculateOutletFlowrate(u1,inputs,boundaries,Subdomains)
             
             begin('Concentration')
             c1 = transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains)

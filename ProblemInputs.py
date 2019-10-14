@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_Newtonian_4000s' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_Newtonian_VarTOC_4000s' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -124,7 +124,7 @@ class Inputs():
         t=0
         self.velocityBCs = {}
         # self.VxInlet = '0.0025+0*t'
-        self.VrOutlet = '0.000043'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
+        self.VrOutlet = '0.00043'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
         self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet),t=t,degree=1)}) # m/s
         

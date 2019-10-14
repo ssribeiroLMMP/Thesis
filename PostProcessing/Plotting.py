@@ -9,6 +9,17 @@ Description: Set of functions to plot pressure, velocity, concentration and
 """
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+import csv
+
+def plotResult(output,outputFile,outType = 0):
+    fig, ax = plt.subplots()
+    plt.clf
+    im = ax.imshow(output,cmap = 'gray')
+    plt.savefig('./'+outputFile+'.png',dpi=200)
+    if outType ==0 :
+        plt.clf
+    else: 
+        return fig, ax, im
 
 def prettyplot(fig,mesh,t,ui,pi,li,dicTitle, pnlevels=10,resultspath='',tag='',cbarU=0,cbarP=0,cbarDirection = 0):
     # Mesh Vertices' Coordinates

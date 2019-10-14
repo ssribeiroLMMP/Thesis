@@ -60,7 +60,16 @@ def createDirectories(inputs):
         
     if not(os.path.exists(imFullPath)):
         os.mkdir(imFullPath)
-   
+
+def createCSVOutput(outputCSV,fieldnames, delimiter = ','):
+    with open(outputCSV, 'w') as writeFile:
+        writer = csv.DictWriter(writeFile, fieldnames=fieldnames, delimiter=delimiter)
+        writer.writeheader()
+
+def writeCSVLine(outputCSV,line):
+    with open(outputCSV, 'a') as writeFile:
+        writer = csv.writer(writeFile)
+        writer.writerow(line) 
 
 def savingCheckings(inputs,mainPaths):    
     meshFile = inputs.meshFile;
