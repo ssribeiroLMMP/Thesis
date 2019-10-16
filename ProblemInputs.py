@@ -18,15 +18,17 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
     # Check if 
     if no_iterations < limitIterations:
         dt = min(increment*dt,inputs.dtMax)
-    else:
+    elif no_iterations > limitIterations + 2:
         dt = max((1/increment)*dt,inputs.dtMin)
+    else:
+        dt = dt
     
     return dt
 
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_Newtonian_VarTOC_4000s' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_Newtonian_VarTOC_PowFR_4000s_2' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -116,17 +118,20 @@ class Inputs():
         ## Advected Scalar Field Inputs
         self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
         self.scalarFieldBCs = {}
+        self.COutlet = self.Fluid1
         self.scalarFieldBCs.update({'Inlet' : Constant(self.CInitialMixture)}) # CMix
         # self.scalarFieldBCs.update({'Outlet' : Constant(self.CInitialMixture)}) # CMix: REGULAR FLOW
-        self.scalarFieldBCs.update({'Outlet': Constant(self.Fluid1)}) # C1: FILTRATION
+        self.scalarFieldBCs.update({'Outlet': Constant(self.COutlet)}) # C1: FILTRATION
         
         ## Velocity Inputs
-        t=0
+        t=self.dtMin
+        AOut = 1
+        rhoOut = self.rho_values[self.Fluid0]
         self.velocityBCs = {}
-        # self.VxInlet = '0.0025+0*t'
-        self.VrOutlet = '0.00043'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
+        # self.VrOutlet = '0.00043 + 0*t*A*rho'
+        self.VrOutlet = '0.0055/(rho*A*(pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
-        self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet),t=t,degree=1)}) # m/s
+        self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet), A=AOut,rho=rhoOut,t=t,degree=2)}) # m/s
         
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    

@@ -9,24 +9,9 @@ Created on Tue Aug 13 08:47:41 2019
 from dolfin import *
 import sys
 import os
-import numpy as np
 sys.path.append(os.path.abspath('..'))
 from Solver.BoundaryConditions import *
 
-#
-def coordinatesAt(boundaries,SubdomainVal):
-    SubdomainVertices = SubsetIterator(boundaries,SubdomainVal)
-    x = []
-    y = []
-    for f in SubdomainVertices:
-        for v in vertices(f):
-            x.append(v.point().x())
-            y.append(v.point().y())
-
-    x.sort()
-    y.sort()
-
-    return x,y
 
 def calculateNewInletPressure(pInlet,massFlowrate,dt,boundaries,Subdomains,inputs):
     # Concentration at the inlet
