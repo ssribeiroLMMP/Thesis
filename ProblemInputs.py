@@ -36,6 +36,7 @@ class Inputs():
         self.ParaViewFilenames.append("velocity"); self.ParaViewTitles.append('Velocity (m/s)')
         self.ParaViewFilenames.append("pressure"); self.ParaViewTitles.append('Pressure (Pa)')
         self.ParaViewFilenames.append("concentration"); self.ParaViewTitles.append('Mass Fraction (Fluid Tags)')
+        self.outputCSV = './PostProcessing/Cases/'+self.caseId+'/simOutput.csv'
         
         #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²) on axis X
@@ -74,6 +75,10 @@ class Inputs():
         
         # Simulation Time
         self.tEnd = 2000 # s
+
+        # Plot Time List
+        self.plotTimeList = [21,461,1351]
+        self.fieldnames = ['Time(s)','outletFlowRate(Kg/s)']
         
         # Variable time step
         self.dtMin = 0.005    # s
@@ -129,7 +134,7 @@ class Inputs():
         rhoOut = self.rho_values[self.Fluid0]
         self.velocityBCs = {}
         # self.VrOutlet = '0.00043 + 0*t*A*rho'
-        self.VrOutlet = '0.0055/(rho*A*(pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
+        self.VrOutlet = '0.055/(rho*A*(pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
         self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet), A=AOut,rho=rhoOut,t=t,degree=2)}) # m/s
         

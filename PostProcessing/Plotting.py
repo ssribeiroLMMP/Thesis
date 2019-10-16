@@ -9,7 +9,9 @@ Description: Set of functions to plot pressure, velocity, concentration and
 """
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-import csv
+import numpy as np
+from dolfin import *
+
 
 def plotResult(output,outputFile,outType = 0):
     fig, ax = plt.subplots()
@@ -21,7 +23,7 @@ def plotResult(output,outputFile,outType = 0):
     else: 
         return fig, ax, im
 
-def prettyplot(fig,mesh,t,ui,pi,li,dicTitle, pnlevels=10,resultspath='',tag='',cbarU=0,cbarP=0,cbarDirection = 0):
+def prettyplot(fig,mesh,t,ui,pi,li,dicTitle, pnlevels=10,resultspath='',tag='',cbarU=0,cbarP=0,cbarDirection = 1):
     # Mesh Vertices' Coordinates
     x = mesh.coordinates()[:,0]
     y = mesh.coordinates()[:,1]
@@ -61,7 +63,7 @@ def prettyplot(fig,mesh,t,ui,pi,li,dicTitle, pnlevels=10,resultspath='',tag='',c
         
         # Save Figure as .PNG file
         if resultspath != '':
-            plt.savefig(resultspath+tag+'_Pressure_t='+'{:.2f}'.format(t) +'.png')
+            plt.savefig(resultspath+tag+'Pressure_t='+'{:.2f}'.format(t) +'.png')
         
         dpdx = ((pValues[len(pValues)-1]-pValues[1])/x.max())
         
@@ -69,31 +71,39 @@ def prettyplot(fig,mesh,t,ui,pi,li,dicTitle, pnlevels=10,resultspath='',tag='',c
     # Plot Level or concentration
     if li != 0:
         # Get L Values
-        pValues = li.compute_vertex_values(mesh)
+        cValues = li.compute_vertex_values(mesh)
         # Plot Level
-        plt.figure(num=fig+1, figsize=(10, 10), dpi=100, facecolor='w', edgecolor='k')
+        plt.figure(num=fig+1, figsize=(10, 20), dpi=180, facecolor='w', edgecolor='k')
         plt.clf()
         lax = plot(li,title=dicTitle[2], cmap = mycmap)
     
         # Save Figure as .PNG file
         if resultspath != '':
-            plt.savefig(resultspath+tag+'_Level_t='+'{:.2f}'.format(t) +'.png')
+            plt.savefig(resultspath+tag+'Concentration_t='+'{:.2f}'.format(t) +'.png')
         
     # Plot Velocities
     if ui != 0:
         # Get Cell Values
         uValues = ui.compute_vertex_values(mesh)
         # Plot Velocities
-        plt.figure(num=fig+2, figsize=(10, 10), dpi=100, facecolor='w', edgecolor='k')
+        plt.figure(num=fig+2, figsize=(10, 20), dpi=180, facecolor='w', edgecolor='k')
         plt.clf()
         uax = plot(ui,title=dicTitle[3], cmap = mycmap)
     
+        # Get Velocity Values    
+        uXYValues = np.zeros(shape)    
+        
+        # Colect velocity data in Arrays
+        for j in range(0,nVertices):
+            uXYValues[j,0] = uValues[j]
+            uXYValues[j,1] = uValues[j+nVertices]
+        
         # Calculate Arrow Sizes
         C = np.hypot(uXYValues[:,0], uXYValues[:,1])
         # plt.axis('equal')
-        minVel = '{:.0f} m/s'.format(C.min()) 
-        meanVel = '{:.3f} m/s'.format(C.mean())
-        maxVel = '{:.3f} m/s'.format(C.max())
+        minVel = '{:.5f} m/s'.format(C.min()) 
+        meanVel = '{:.5f} m/s'.format(C.mean())
+        maxVel = '{:.5f} m/s'.format(C.max())
         
         if cbarDirection == 1:
             cbarU = plt.colorbar(uax,orientation='vertical', cmap = mycmap) #,
@@ -104,18 +114,10 @@ def prettyplot(fig,mesh,t,ui,pi,li,dicTitle, pnlevels=10,resultspath='',tag='',c
             cbarU.set_ticks([C.min(), C.mean(), C.max()])    
             cbarU.ax.set_xticklabels([minVel, meanVel, maxVel])
         
-        # Get Velocity Values    
-        uXYValues = np.zeros(shape)    
-        
-        # Colect velocity data in Arrays
-        for j in range(0,nVertices):
-            uXYValues[j,0] = uValues[j]
-            uXYValues[j,1] = uValues[j+nVertices]
-        
         # Save Figure as .PNG file
         if resultspath != '':
-            plt.savefig(resultspath+tag+'_Velocities_t='+'{:.2f}'.format(t) +'.png')
+            plt.savefig(resultspath+tag+'Velocities_t='+'{:.2f}'.format(t) +'.png')
     
     
         
-    return cbarU, cbarP, uXYValues, lValues, pValues, nVertices;
+    return cbarU, cbarP, uXYValues, lValues, pValues, nVertices

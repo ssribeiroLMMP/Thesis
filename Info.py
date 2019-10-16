@@ -10,6 +10,7 @@ from ProblemInputs import *
 from Solver.main import *
 from PostProcessing.Saving import *
 
+
 def infoCommand():    
     return 'python3 ./Info.py>./PostProcessing/Cases/'+inputs.caseId+'/Execution.txt' 
 

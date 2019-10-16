@@ -63,7 +63,7 @@ def calculateOutletFlowrate(u1,inputs,boundaries,Subdomains):
 
     # mDot = Q*rho
     #TODO: Insert variable outlet rho
-    massFlowrate = inputs.rho_values[inputs.Fluid1]*flowRate
+    massFlowrate = flowRate*inputs.rho_values[inputs.Fluid1]
 
     return massFlowrate
 

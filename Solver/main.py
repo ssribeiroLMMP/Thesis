@@ -73,6 +73,12 @@ def main(inputs):
     lastTry = False
     outputMassFlowrate = 0
     pInlet = inputs.pInlet
+    listId = 0
+    cbarU = 0
+    cbarP = 0
+
+    # Create CSV File
+    createCSVOutput(inputs.outputCSV,inputs.fieldnames)
 
     while t <= inputs.tEnd:
         # Initialize results Vector
@@ -112,12 +118,15 @@ def main(inputs):
                 results.append(p1)
                 results.append(c1)
                 saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
+                results.append(calculateOutletFlowrate(u1,inputs,boundaries,Subdomains))
+                cbarU, cbarP, listId = logResults(t,results,listId,inputs,meshObj,cbarU=cbarU,cbarP=cbarP)
                 saveDt = t + inputs.savedt
                 end()
                 # Store Initial Solution in Time t=t
                 # solutions.append({'t':t, 'variables':results})
                     
         	   # Update current time #ERROR ON VERSION 1.0.4
+               # Log into CSVFiles
             w0.assign(w)
             c0.assign(c1)
             t += dt
