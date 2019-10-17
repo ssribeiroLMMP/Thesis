@@ -32,6 +32,9 @@ def prettyplot(fig,mesh,t,ui,pi,li,dicTitle, pnlevels=10,resultspath='',tag='',c
     # Mesh Vertices' Coordinates
     x = mesh.coordinates()[:,0]
     y = mesh.coordinates()[:,1]
+
+    X, Y = np.meshgrid(x, y)
+    
     nVertices = len(x)
     
     mycmap1 = cm.get_cmap('jet')
@@ -45,7 +48,7 @@ def prettyplot(fig,mesh,t,ui,pi,li,dicTitle, pnlevels=10,resultspath='',tag='',c
         # Get P Values
         pValues = pi.compute_vertex_values(mesh)
         # Plot Pressure
-        fig1 = plt.figure(num=fig, figsize=(30, 10), dpi=180, facecolor='w', edgecolor='k')
+        fig1 = plt.figure(num=fig, figsize=(20, 10), dpi=180, facecolor='w', edgecolor='k')
         plt.clf()
         plt.rc('font', size=fontSize)
         axp = fig1.add_subplot(211)
@@ -86,7 +89,7 @@ def prettyplot(fig,mesh,t,ui,pi,li,dicTitle, pnlevels=10,resultspath='',tag='',c
         # Get L Values
         cValues = li.compute_vertex_values(mesh)
         # Plot Level
-        fig2 = plt.figure(num=fig+1, figsize=(30, 10), dpi=180, facecolor='w', edgecolor='k')
+        fig2 = plt.figure(num=fig+1, figsize=(20, 10), dpi=180, facecolor='w', edgecolor='k')
         plt.clf()
         plt.rc('font', size=fontSize)
         axc = fig2.add_subplot(211)
@@ -104,24 +107,22 @@ def prettyplot(fig,mesh,t,ui,pi,li,dicTitle, pnlevels=10,resultspath='',tag='',c
     if ui != 0:
         # Get Cell Values
         uValues = ui.compute_vertex_values(mesh)
-        # Plot Velocities
-        fig3 = plt.figure(num=fig+2, figsize=(30, 10), dpi=180, facecolor='w', edgecolor='k')
+            # Plot Velocities
+        fig3 = plt.figure(num=fig+2, figsize=(20, 10), dpi=180, facecolor='w', edgecolor='k')
         plt.clf()
         plt.rc('font', size=fontSize)
         axu = fig3.add_subplot(211)
-        uax = plot(ui, cmap = mycmap1) #title=dicTitle[3]
+        # Calculate Arrow Sizes
+                # Get Velocity Values    
+        uXYValues = u(X.Y)
+        
+        # uax = plot(ui, cmap = mycmap1) #title=dicTitle[3]
         axu.set_xticks([6,7,8])
         axu.set_xticklabels(['6','7','8'],rotation=90)
         axu.set_yticks([y.min(),y.max()])
         axu.set_yticklabels(['$R_{In}$','$R_{Out}$'],rotation=90)
 
-        # Get Velocity Values    
-        uXYValues = np.zeros(shape)    
-        
-        # Colect velocity data in Arrays
-        for j in range(0,nVertices):
-            uXYValues[j,0] = uValues[j]
-            uXYValues[j,1] = uValues[j+nVertices]
+
         
         # Calculate Arrow Sizes
         C = np.hypot(uXYValues[:,0], uXYValues[:,1])
