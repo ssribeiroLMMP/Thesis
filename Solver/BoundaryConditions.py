@@ -65,6 +65,8 @@ def flowBC(t,U,inputs,meshId,boundariesId,subdomainsDict):
     for DomainKey,valueExp in inputs.velocityBCs.items():
         if t < 4:
             valueExp.t = 4
+        else:
+            valueExp.t = t
         valueExp.A = outletArea
         valueExp.rho = rhoOut
         bc.append(DirichletBC(U,valueExp,boundariesId,subdomainsDict[DomainKey]))   

@@ -48,7 +48,7 @@ class Inputs():
         self.Fluid1 = 1 - self.Fluid0 # Water
                 
         # Density (kg/m³)
-        self.rho_values = [1700, 1700]
+        self.rho_values = [2000, 2000]
         
         # Initial Interface position
         # self.InterfaceX0 = 0.05
@@ -59,7 +59,7 @@ class Inputs():
         
         # Rheology
         # Newtonian Viscosity (Pa.s)
-        self.mu_values = [0.01 , 0.01]  #
+        self.mu_values = [0.1 , 1]  #
         # Modified SMD Model Variables
         self.tau0 = 19.19           # Dinamic Yield Stress               
         self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: High shear rates)
@@ -74,10 +74,10 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 2000 # s
+        self.tEnd = 4000 # s
 
         # Plot Time List
-        self.plotTimeList = [21,461,1351]
+        self.plotTimeList = [21,461,1351,3000]
         self.fieldnames = ['Time(s)','outletFlowRate(Kg/s)']
         
         # Variable time step

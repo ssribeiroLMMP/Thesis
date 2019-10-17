@@ -1,4 +1,4 @@
-Simulation Execution: 2019-10-16 15:50:29.209085
+Simulation Execution: 2019-10-17 11:03:08.359318
 Case: TransWellSimulator_Newtonian_VarTOC_PowFR_4000s_2
 Source: FCS_v1.0
 caseId=TransWellSimulator_Newtonian_VarTOC_PowFR_4000s_2
@@ -8,9 +8,9 @@ outputCSV=./PostProcessing/Cases/TransWellSimulator_Newtonian_VarTOC_PowFR_4000s
 g=9.81
 Fluid0=0
 Fluid1=1
-rho_values=[1700, 1700]
+rho_values=[2000, 2000]
 D=0.1
-mu_values=[0.01, 0.01]
+mu_values=[0.1, 1]
 tau0=19.19
 etaInf=0.295
 eta0=1000.0
@@ -18,8 +18,8 @@ K=1.43
 n=0.572
 ts=60000
 t0=0
-tEnd=2000
-plotTimeList=[21, 461, 1351]
+tEnd=4000
+plotTimeList=[21, 461, 1351, 3000]
 fieldnames=['Time(s)', 'outletFlowRate(Kg/s)']
 dtMin=0.005
 dtMax=10
@@ -34,8 +34,8 @@ pressureElementOrder=1
 scalarFieldElementfamily=Lagrange
 scalarFieldElementOrder=1
 noSlipBCs=['InnerPipe', 'OuterWall', 'BottomWall']
-pressureBCs={'Inlet': 100062.0}
-pInlet=100062.0
+pressureBCs={'Inlet': 117720.0}
+pInlet=117720.0
 CInitialMixture=0.5
 scalarFieldBCs={'Inlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 0), 'Outlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 1)}
 COutlet=1
