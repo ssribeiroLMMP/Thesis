@@ -36,7 +36,8 @@ class Inputs():
         self.ParaViewFilenames.append("velocity"); self.ParaViewTitles.append('Velocity (m/s)')
         self.ParaViewFilenames.append("pressure"); self.ParaViewTitles.append('Pressure (Pa)')
         self.ParaViewFilenames.append("concentration"); self.ParaViewTitles.append('Mass Fraction (Fluid Tags)')
-        self.outputCSV = './PostProcessing/Cases/'+self.caseId+'/simOutput.csv'
+        self.outputFlowrate = './PostProcessing/Cases/'+self.caseId+'/flowrateInput.csv'
+        self.outputPressure = './PostProcessing/Cases/'+self.caseId+'/pressureOutput.csv'
         
         #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²) on axis X
@@ -74,12 +75,13 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 4000 # s
+        self.tEnd = 5000 # s
 
         # Plot Time List
-        self.plotTimeList = [21,461,1351,3000]
-        self.fieldnames = ['Time(s)','outletFlowRate(Kg/s)']
-        
+        self.plotTimeList = [7, 21, 461, 860, 1351, 2740, 3000, 5000]
+        self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
+        self.fieldnamesPre = ['Time(s)','P6(Pa)','P6.5(Pa)','P7(Pa)','P7.5(Pa)','P8(Pa)']
+
         # Variable time step
         self.dtMin = 0.005    # s
         self.dtMax = 10  # s

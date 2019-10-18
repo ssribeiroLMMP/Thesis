@@ -78,7 +78,8 @@ def main(inputs):
     cbarP = 0
 
     # Create CSV File
-    createCSVOutput(inputs.outputCSV,inputs.fieldnames)
+    createCSVOutput(inputs.outputFlowrate,inputs.fieldnamesFlow)
+    createCSVOutput(inputs.outputPressure,inputs.fieldnamesPre)
 
     while t <= inputs.tEnd:
         # Initialize results Vector
