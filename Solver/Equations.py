@@ -415,7 +415,7 @@ def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdoma
     # Concentration Equation
           # Transient Term   #                 Advection Term                         # Diffusion Term                            
     F = inner((c - c0)/Dt,l)*dx() + alphaC*(inner(u1,(grad(c ))*l) + (D/rho)*dot(grad(c ), grad(l)))*dx() +\
-                                    (1-alphaC)*(inner(u1,(grad(c0))*l) + (D/rho)*dot(grad(c0), grad(l)))*dx() # Relaxation
+                                  (1-alphaC)*(inner(u1,(grad(c0))*l) + (D/rho)*dot(grad(c0), grad(l)))*dx() # Relaxation
     a, L = lhs(F), rhs(F)
 
     # Boundary Conditions    

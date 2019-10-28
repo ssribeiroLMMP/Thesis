@@ -28,7 +28,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_Newtonian_VarTOC_PowFR_4000s_2' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_Newtonian_VarTOC_PowFR_4000s_3' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -49,7 +49,7 @@ class Inputs():
         self.Fluid1 = 1 - self.Fluid0 # Water
                 
         # Density (kg/m³)
-        self.rho_values = [2000, 2000]
+        self.rho_values = [2050, 2050]
         
         # Initial Interface position
         # self.InterfaceX0 = 0.05
