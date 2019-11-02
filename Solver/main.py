@@ -93,7 +93,8 @@ def main(inputs):
         # try:
         begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
         if t>0:
-            pInlet = calculateNewInletPressure(pInlet,outputMassFlowrate,dt,boundaries,Subdomains,inputs)
+            CInlet = calculateAverageCInlet()
+            pInlet = calculateNewInletPressure(pInlet,CInlet,outputMassFlowrate,dt,boundaries,Subdomains,inputs)
         (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,pInlet)
         end()
         # except: 
