@@ -25,6 +25,9 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
     
     return dt
 
+def dynamicSaveDt(dt):
+    return 5*dt
+
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
@@ -54,8 +57,8 @@ class Inputs():
         # Experimental Values
         self.rho_water = 1000           # kg/m³
         self.rho_bulk0 = 1752.039       # kg/m³
-        self.rho_bulkInf = 557,469      # kg/m³
-        self rho_cem0 = (self.rho_bulk0 - (1-self.CInitialMixture)*self.rho_water)/(self.CInitialMixture - self.g)
+        self.rho_bulkInf = 557.469      # kg/m³    
+        self.rho_cem0 = (self.rho_bulk0 - (1-self.CInitialMixture)*self.rho_water)/(self.CInitialMixture - self.g)
         
         # Density
         self.rho_values = [self.rho_cem0 , self.rho_water] # kg/m³
@@ -100,13 +103,13 @@ class Inputs():
         self.fieldnamesPre = ['Time(s)','P6(Pa)','P6.5(Pa)','P7(Pa)','P7.5(Pa)','P8(Pa)']
 
         # Variable time step
-        self.dtMin = 0.005    # s
-        self.dtMax = 10  # s
+        self.dtMin = 0.05    # s
+        self.dtMax = 20  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 0.01
+        self.dt = 1
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
         # Result Saving time step
-        self.savedt = 5 # s
+        self.savedt = dynamicSaveDt(self.dt) # s
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
@@ -169,8 +172,8 @@ class Inputs():
         self.linearSolver = 'mumps'
             
         # Relaxation Factors
-        self.alpha = 0.9
-        self.alphaC = 0.9
+        self.alpha = 1
+        self.alphaC = 1
             
         #%% Possible Solvers
         # Solver method  |  Description    

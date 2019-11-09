@@ -13,9 +13,10 @@ sys.path.append(os.path.abspath('..'))
 from Solver.BoundaryConditions import *
 
 
-def calculateAverageCInlet(boundaries,Subdomains,inputs):
+def calculateAverageCInlet(V,boundaries,Subdomains,inputs):
     u = interpolate(Expression(""), V)
     a = assemble(u*ds(1))
+    return a
 
 def calculateNewInletPressure(pInlet,CInlet,massFlowrate,dt,boundaries,Subdomains,inputs):
     # Concentration at the inlet
