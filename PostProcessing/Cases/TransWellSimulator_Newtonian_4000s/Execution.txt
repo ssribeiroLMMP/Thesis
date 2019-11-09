@@ -1,0 +1,47 @@
+Simulation Execution: 2019-10-13 08:40:48.385873
+Case: TransWellSimulator_Newtonian_4000s
+Source: Thesis
+caseId=TransWellSimulator_Newtonian_4000s
+ParaViewFilenames=['velocity', 'pressure', 'concentration']
+ParaViewTitles=['Velocity (m/s)', 'Pressure (Pa)', 'Mass Fraction (Fluid Tags)']
+g=9.81
+Fluid0=0
+Fluid1=1
+rho_values=[1700, 1700]
+D=0.1
+mu_values=[0.01, 0.01]
+tau0=19.19
+etaInf=0.295
+eta0=1000.0
+K=1.43
+n=0.572
+ts=60000
+t0=0
+tEnd=2000
+dtMin=0.005
+dtMax=10
+tChange=0
+dt=0.01
+savedt=5
+meshFile=WellSimulator
+velocityElementfamily=Lagrange
+velocityElementOrder=2
+pressureElementfamily=Lagrange
+pressureElementOrder=1
+scalarFieldElementfamily=Lagrange
+scalarFieldElementOrder=1
+noSlipBCs=['InnerPipe', 'OuterWall', 'BottomWall']
+pressureBCs={'Inlet': 100062.0}
+pInlet=100062.0
+CInitialMixture=0.5
+scalarFieldBCs={'Inlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 0), 'Outlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 1)}
+velocityBCs={'Outlet': Coefficient(FunctionSpace(None, VectorElement(FiniteElement('Lagrange', None, 1), dim=2)), 2)}
+VrOutlet=0.000043
+absTol=1e-12
+relTol=1e-20
+maxIter=15
+linearSolver=mumps
+alpha=0.9
+alphaC=0.9
+
+

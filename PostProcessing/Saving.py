@@ -7,6 +7,10 @@ Created on Mon Jul 29 08:21:14 2019
 Description: Module to store simulation Saving Parameters
 """
 import os
+import csv
+import sys
+sys.path.append(os.path.abspath('.'))
+from PostProcessing.Plotting import *
 
 class Paths():
     def __init__(self):
@@ -60,7 +64,16 @@ def createDirectories(inputs):
         
     if not(os.path.exists(imFullPath)):
         os.mkdir(imFullPath)
-   
+
+def createCSVOutput(outputCSV,fieldnames, delimiter = ','):
+    with open(outputCSV, 'w') as writeFile:
+        writer = csv.DictWriter(writeFile, fieldnames=fieldnames, delimiter=delimiter)
+        writer.writeheader()
+
+def writeCSVLine(outputCSV,line):
+    with open(outputCSV, 'a') as writeFile:
+        writer = csv.writer(writeFile)
+        writer.writerow(line) 
 
 def savingCheckings(inputs,mainPaths):    
     meshFile = inputs.meshFile;
@@ -107,4 +120,24 @@ def saveResults(results,paraFiles,ParaViewFilenames,ParaViewTitles):
         # Rename output Titles
         results[i].rename(ParaViewFilenames[i],ParaViewTitles[i])
         paraFiles[i] << results[i]
+
+def logResults(t,results,listId,inputs,meshObj,cbarU=0,cbarP=0):
+    # Save Data into CSV to later plot
+    outletFlowRate = results[3]
+    line = [t,outletFlowRate]
+    
+    writeCSVLine(inputs.outputFlowrate,line)
+    if listId < len(inputs.plotTimeList) and t >= inputs.plotTimeList[listId]:
+        ui = results[0]
+        pi = results[1]
+        ci = results[2]
+        dicTitle = {1:'Pressure',2:'Concentration',3:'Velocity'}
+        cbarU, cbarP, uXYValues, lValues, pValues, nVertices = prettyplot(1,meshObj,t,ui,pi,ci,dicTitle, resultspath='./PostProcessing/Cases/'+inputs.caseId,tag='/Images/',cbarU=cbarU,cbarP=cbarP,cbarDirection = 0)
         
+
+        linePre = [t ,pi(6,0.22), pi(6.5,0.22), pi(7,0.22), pi(7.5,0.22),  pi(8,0.22)]
+        writeCSVLine(inputs.outputPressure,linePre)
+        listId += 1
+
+
+    return cbarU, cbarP, listId

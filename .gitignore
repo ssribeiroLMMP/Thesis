@@ -1,6 +1,7 @@
 # Don't track content of these folders
 .spyproject/
 
+
 # VTU and VTK #
 ###############
 *.vtk

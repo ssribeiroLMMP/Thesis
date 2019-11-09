@@ -67,8 +67,19 @@ def main(inputs):
         
     # Timestep
     dt = inputs.dt
-    savedt = inputs.savedt
+    
+    # Initialize loop variable values
     lastStep = False
+    lastTry = False
+    outputMassFlowrate = 0
+    pInlet = inputs.pInlet
+    listId = 0
+    cbarU = 0
+    cbarP = 0
+
+    # Create CSV File
+    createCSVOutput(inputs.outputFlowrate,inputs.fieldnamesFlow)
+    createCSVOutput(inputs.outputPressure,inputs.fieldnamesPre)
 
     while t <= inputs.tEnd:
         # Initialize results Vector
@@ -79,12 +90,23 @@ def main(inputs):
         rho,mu = assignFluidProperties(inputs,c0,0)#C,u0,t)
         
     	   # Solve Equations
+        # try:
         begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
-        (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains)
+        if t>0:
+            CInlet = calculateAverageCInlet()
+            pInlet = calculateNewInletPressure(pInlet,CInlet,outputMassFlowrate,dt,boundaries,Subdomains,inputs)
+        (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,pInlet)
         end()
+        # except: 
+        #     no_iterations = inputs.maxIter
+        #     converged = False
+        #     begin('Reducing timestep')
+        #     end()
+        #     end()
         
         if converged:
             (u1, p1) = w.leaf_node().split()
+            outputMassFlowrate = calculateOutletFlowrate(u1,inputs,boundaries,Subdomains)
             
             begin('Concentration')
             c1 = transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains)
@@ -98,12 +120,15 @@ def main(inputs):
                 results.append(p1)
                 results.append(c1)
                 saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
-                saveDt = t + savedt
+                results.append(calculateOutletFlowrate(u1,inputs,boundaries,Subdomains))
+                cbarU, cbarP, listId = logResults(t,results,listId,inputs,meshObj,cbarU=cbarU,cbarP=cbarP)
+                saveDt = t + inputs.savedt
                 end()
                 # Store Initial Solution in Time t=t
                 # solutions.append({'t':t, 'variables':results})
                     
         	   # Update current time #ERROR ON VERSION 1.0.4
+               # Log into CSVFiles
             w0.assign(w)
             c0.assign(c1)
             t += dt
@@ -117,7 +142,12 @@ def main(inputs):
         # dt = dynamicTimestep(t,inputs.dtMax,inputs.dtMin,inputs.tChange)
         # Auto-adjustable timestep
         dt = autoTimestep(no_iterations,dt,inputs)
-        savedt = dynamicSaveDt(dt)
+        if dt <= inputs.dtMin and lastTry:
+            begin('Did not converge: Minimum timestep achieved')
+            end()
+            break
+        elif dt <= inputs.dtMin:
+            lastTry = True
           
     #####################  Post Processing
     print('Finished')
