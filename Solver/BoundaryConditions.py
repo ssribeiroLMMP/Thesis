@@ -24,6 +24,17 @@ def coordinatesAt(boundaries,SubdomainVal):
 
     return x,y
 
+def calculateCyllinderOuterArea(xOut,yOut):
+    # Outlet cross-section Area
+    outletArea = 2*np.pi*(max(xOut)-min(xOut))*max(yOut)
+    return outletArea
+
+
+def calculateAnnulusCrossArea(xIn,yIn):
+    # Inlet cross-section area
+    inletArea = np.pi*(max(yIn)**2 - min(yIn)**2)
+    return inletArea
+    
 #%%############     Initial Conditions
 # Flow
 # None Given
@@ -50,7 +61,7 @@ def flowBC(t,U,inputs,meshId,boundariesId,subdomainsDict):
     outletArea = 2*np.pi*(max(xOut)-min(xOut))*max(yOut)
 
     # OPnly Fluid 0 leaves through outlet
-    rhoOut = inputs.rho_values[inputs.Fluid0]
+    rhoOut = inputs.rho_values[inputs.Fluid1]
 
     # Initialize Boundary Condition
     bc = []
@@ -79,7 +90,14 @@ def fieldTransportBC(C,inputs,meshId,boundariesId,subdomainsDict):
     
     # Initialize Boundary Condition
     bc = []
+
     # Scalar Field Conditions
+    # Outlet Vertices Coordinates
+    xOut,yOut = coordinatesAt(boundariesId,subdomainsDict['Outlet'])
+    outletArea = calculateCyllinderOuterArea(xOut,yOut)
+
     for DomainKey,valueExp in inputs.scalarFieldBCs.items():
+        valueExp.rho = inputs.rho_values[1]
+        valueExp.Area = outletArea
         bc.append(DirichletBC(C,valueExp,boundariesId,subdomainsDict[DomainKey]))
     return bc

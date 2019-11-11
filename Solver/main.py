@@ -76,6 +76,7 @@ def main(inputs):
     listId = 0
     cbarU = 0
     cbarP = 0
+    TOC = 0
 
     # Create CSV File
     createCSVOutput(inputs.outputFlowrate,inputs.fieldnamesFlow)
@@ -87,14 +88,15 @@ def main(inputs):
         
         # Assign Fluids Properties
         (u0, p0) = w0.leaf_node().split()
-        rho,mu = assignFluidProperties(inputs,c0,0)#C,u0,t)
+        rho,mu = assignFluidProperties(inputs,c0,C,u0,t)
         
     	   # Solve Equations
         # try:
         begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
         if t>0:
-            CInlet = calculateAverageCInlet()
-            pInlet = calculateNewInletPressure(pInlet,CInlet,outputMassFlowrate,dt,boundaries,Subdomains,inputs)
+            pInlet, deltaTOC = calculateNewInletPressure(pInlet,outputMassFlowrate,dt,boundaries,Subdomains,inputs)
+            TOC += deltaTOC
+
         (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,pInlet)
         end()
         # except: 
@@ -120,7 +122,8 @@ def main(inputs):
                 results.append(p1)
                 results.append(c1)
                 saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
-                results.append(calculateOutletFlowrate(u1,inputs,boundaries,Subdomains))
+                results.append(outputMassFlowrate)
+                results.append(TOC)
                 cbarU, cbarP, listId = logResults(t,results,listId,inputs,meshObj,cbarU=cbarU,cbarP=cbarP)
                 saveDt = t + inputs.savedt
                 end()

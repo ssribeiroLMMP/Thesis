@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_Newtonian_VarTOC_PowFR_5000s_6' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_Newtonian_VarTOC_PowFR_5000s_4' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -41,7 +41,30 @@ class Inputs():
         self.ParaViewFilenames.append("concentration"); self.ParaViewTitles.append('Mass Fraction (Fluid Tags)')
         self.outputFlowrate = './PostProcessing/Cases/'+self.caseId+'/flowrateInput.csv'
         self.outputPressure = './PostProcessing/Cases/'+self.caseId+'/pressureOutput.csv'
+        self.outputTOC = './PostProcessing/Cases/'+self.caseId+'/TOC.csv'
         
+    
+        #%%############ Time Parameters #################################
+        # Start Time
+        self.t0 = 0 # s
+        
+        # Simulation Time
+        self.tEnd = 5000 # s
+
+        # Plot Time List
+        self.plotTimeList = [7, 21, 461, 860, 1351, 2740, 3000, 5000]
+        self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
+        self.fieldnamesPre = ['Time(s)','P6(Pa)','P6.5(Pa)','P7(Pa)','P7.5(Pa)','P8(Pa)']
+
+        # Variable time step
+        self.dtMin = 0.005    # s
+        self.dtMax = 10  # s
+        self.tChange = 0   # point in time of sigmoid inflection occurs (s)
+        self.dt = 0.01
+#        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
+        # Result Saving time step
+        self.savedt = 5 # s
+
         #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²) on axis X
         self.g = 9.81
@@ -67,7 +90,11 @@ class Inputs():
         self.shrinkage_inclination = 0.008  # kg/m³ / s
         self.shrinkage_rhoMin = 700         # kg/m³
         self.shrinkage_t0 = 1000            # s  
-        
+        # Shrinkage Equation rhoMax - ((rhoMax-rhoMin)/(1+math.exp(Inclination*(-t+t0)))+rhoMin) 
+        shrinkageEquation = 'rhoMax-((rhoMax-rhoMin)/(1 + exp(Inclination*(-t+t0)))+rhoMin)+rhoMin'
+        self.shrinkageModel = Expression(shrinkageEquation,\
+                                rhoMax=self.rho_values[self.Fluid0],rhoMin=self.shrinkage_rhoMin,Inclination = self.shrinkage_inclination, \
+                                t=self.t0, t0 = self.shrinkage_t0, degree=2)
         # self.rho_values = [2000, 1000]
 
         # Initial Interface position: Two-Phase Flow
@@ -92,26 +119,6 @@ class Inputs():
         self.ts = 60000             # Caracteristic curing time
 
 
-        #%%############ Time Parameters #################################
-        # Start Time
-        self.t0 = 0 # s
-        
-        # Simulation Time
-        self.tEnd = 5000 # s
-
-        # Plot Time List
-        self.plotTimeList = [7, 21, 461, 860, 1351, 2740, 3000, 5000]
-        self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
-        self.fieldnamesPre = ['Time(s)','P6(Pa)','P6.5(Pa)','P7(Pa)','P7.5(Pa)','P8(Pa)']
-
-        # Variable time step
-        self.dtMin = 0.005    # s
-        self.dtMax = 10  # s
-        self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 0.01
-#        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
-        # Result Saving time step
-        self.savedt = 5 # s
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File

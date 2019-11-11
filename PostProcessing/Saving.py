@@ -125,8 +125,10 @@ def logResults(t,results,listId,inputs,meshObj,cbarU=0,cbarP=0):
     # Save Data into CSV to later plot
     outletFlowRate = results[3]
     line = [t,outletFlowRate]
-    
     writeCSVLine(inputs.outputFlowrate,line)
+    TOC = results[4]
+    line = [t,TOC]
+    writeCSVLine(inputs.outputTOC,line)
     if listId < len(inputs.plotTimeList) and t >= inputs.plotTimeList[listId]:
         ui = results[0]
         pi = results[1]

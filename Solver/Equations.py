@@ -13,17 +13,11 @@ sys.path.append(os.path.abspath('..'))
 from Solver.BoundaryConditions import *
 
 
-def calculateAverageCInlet(V,boundaries,Subdomains,inputs):
-    u = interpolate(Expression(""), V)
-    a = assemble(u*ds(1))
-    return a
-
-def calculateNewInletPressure(pInlet,CInlet,massFlowrate,dt,boundaries,Subdomains,inputs):
+def calculateNewInletPressure(pInlet,massFlowrate,dt,boundaries,Subdomains,inputs):
     # Concentration at the inlet
     # TODO: Add temporal variant cInlet
     cInlet = inputs.CInitialMixture
 
-    # TODO: Add temporal variant rhoInlet
     #Mixture density at the inlet
     rhoMix = cInlet*inputs.rho_values[inputs.Fluid0] + (1-cInlet)*inputs.rho_values[inputs.Fluid1]
     
@@ -31,32 +25,26 @@ def calculateNewInletPressure(pInlet,CInlet,massFlowrate,dt,boundaries,Subdomain
     deltaM = massFlowrate*dt
 
     # Volume variation due to the decay of TopOfCement
-    deltaV = deltaM/rhoInlet
+    deltaV = deltaM/rhoMix
 
     # Vertices Inlet Coordinates
     xIn,yIn = coordinatesAt(boundaries,Subdomains['Inlet'])
 
-    # Inlet cross-section area
-    inletArea = np.pi*(max(yIn)**2 - min(yIn)**2)
-
-    # Variation of TopOfCement
-    deltaTOC = deltaV/inletArea
+    inletArea = calculateAnnulusCrossArea(xIn,yIn)
 
     # Variation of TopOfCement
     deltaTOC = deltaV/inletArea
 
     # New Inlet Pressure
-    pInlet = pInlet - rhoInlet*inputs.g*deltaTOC
+    pInlet = pInlet - rhoMix*inputs.g*deltaTOC
     
-    return pInlet
-
+    return pInlet, deltaTOC
 
 def calculateOutletFlowrate(u1,inputs,boundaries,Subdomains):
     # Outlet Vertices Coordinates
     xOut,yOut = coordinatesAt(boundaries,Subdomains['Outlet'])
     
-    # Outlet cross-section Area
-    outletArea = 2*np.pi*(max(xOut)-min(xOut))*max(yOut)
+    outletArea = calculateCyllinderOuterArea(xOut,yOut)
     
     # Initialize flowrate
     cumsum = 0
@@ -67,12 +55,12 @@ def calculateOutletFlowrate(u1,inputs,boundaries,Subdomains):
         cumsum = cumsum + u1(xOut[i],yOut[i])[1]
         n += 1
     
-    # Q = v.A
-    flowRate = outletArea*cumsum/n
+    # vAvg
+    avgVelocity = cumsum/n
 
-    # mDot = Q*rho
+    # mDot = Q*rho : Q = vAvg.A => mDot = vAvg*A*rho
     #TODO: Insert variable outlet rho
-    massFlowrate = flowRate*inputs.rho_values[inputs.Fluid1]
+    massFlowrate = avgVelocity*outletArea*inputs.rho_values[inputs.Fluid1]
 
     return massFlowrate
 
@@ -81,7 +69,14 @@ def fb(inputs):
     # Body Forces: Gravity
     return Constant((inputs.g, 0.0))
 
+# Shrinkage
+def shrinkage(inputs,C,t):
+    inputs.shrinkageModel.t=t
+    return project(inputs.shrinkageModel,C)    
+
 # Rheological Model Function
+# TODO: Move SMD Definition into Problem Inputs
+# def rheologicicalModel(modelExpression,C)
 def smdM(C,inputs,u,t):
 
     # Determine gammaDot from deformation tensor D
@@ -93,22 +88,25 @@ def smdM(C,inputs,u,t):
 
     eps = 1e-10
 
-    # Modified SMD Model (Souza Mendes e Dutra (2004)) + Cure(tauY(t))  
+    # Modified smd Model (Souza Mendes e Dutra (2004)) + Cure(tauY(t))  
     smdEquation = Expression('(1 - exp(-eta0*(gammaDot)/tauY_t))* \
                              (tauY_t/(gammaDot+eps)+ K*(pow((abs(gammaDot)+eps),nPow)/(gammaDot+eps))) + etaInf',\
                             etaInf=inputs.etaInf,eta0=inputs.eta0,K = inputs.K,nPow = inputs.n,ts = inputs.ts, \
                             gammaDot = gammaDot, t=t, tauY_t = tauY_t,eps = eps, degree=2)
     return project(smdEquation,C)
 
-# Shrinkage
-def shrinkage(inputs,C,t):
+# # Calculates Fluid properties by Mesh Cell
+# def assignFluidProperties(inputs,c0,C=0,u=0,t=0):
+#     # Constant Viscosity of Each Specie
+#     if C == 0:
+#         mu = inputs.mu_values[inputs.Fluid0]*c0 + inputs.mu_values[inputs.Fluid1]*(1-c0)
+#     # Cement is modeled by Modified SMD Non-Newtonian Model + Cure(tauY(t))
+#     else: 
+#         mu = smdM(C,inputs,u,t)*c0 + inputs.mu_values[inputs.Fluid1]*(1-c0)
 
-    # Shrinkage Equation rhoMax - ((rhoMax-rhoMin)/(1+math.exp(Inclination*(-t+t0)))+rhoMin) 
-    shrinkageEquation = Expression('rhoMax-((rhoMax-rhoMin)/(1 + exp(Inclination*(-t+t0)))+rhoMin)+rhoMin',\
-                            rhoMax=inputs.rho_values[inputs.Fluid0],rhoMin=inputs.shrinkage_rhoMin,Inclination = inputs.shrinkage_inclination, \
-                            t=t, t0 = inputs.shrinkage_t0, degree=2)
-
-    return project(shrinkageEquation,C)    
+#     rho = inputs.rho_values[inputs.Fluid0]*c0 + inputs.rho_values[inputs.Fluid1]*(1-c0)
+# #    rho = Constant(inputs.rho_values[0])
+#     return rho, mu
 
 # Calculates Fluid properties by Mesh Cell
 def assignFluidProperties(inputs,c,C=0,u=0,t=0):
@@ -130,7 +128,6 @@ def assignFluidProperties(inputs,c,C=0,u=0,t=0):
         rho = shrinkage(inputs,C,t)*c + inputs.rho_values[inputs.Fluid1]*(1-c)
     
     return rho, mu
-
 
 def meshMeasures(meshObj,boundaries):
     # Define any measure associated with domain and subdomains
@@ -345,9 +342,9 @@ def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdoma
     alphaC = Constant(inputs.alphaC)
     
     # Concentration Equation
-          # Transient Term   #              Advection Term                 # Diffusion Term                            
+          # Transient Term   #                 Advection Term                         # Diffusion Term                            
     F = inner((c - c0)/Dt,l)*dx() + alphaC*(inner(u1,(grad(c ))*l) + (D/rho)*dot(grad(c ), grad(l)))*dx() +\
-                                  (1-alphaC)*(inner(u1,(grad(c0))*l) + (D/rho)*dot(grad(c0), grad(l)))*dx() # Relaxation
+                                    (1-alphaC)*(inner(u1,(grad(c0))*l) + (D/rho)*dot(grad(c0), grad(l)))*dx() # Relaxation
     a, L = lhs(F), rhs(F)
 
     # Boundary Conditions    
