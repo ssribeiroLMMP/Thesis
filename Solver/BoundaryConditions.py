@@ -9,6 +9,14 @@ Description: Module that processes all Boundary and Initial Conditions
 from dolfin import *
 import numpy as np
 
+#%%############	   Get new Velocity Boundary Conditions for Velocity
+def calculareNewOutletFlowrate(initialP, velocityBCs,inputs):
+    dPdL = (inputs. POutlet - initialP)/inputs.PorousRadius
+    VrOutlet = '-(FormationK*dPdL/mu)'
+    velocityBCs.update({'Outlet' : Expression(('0.0',VrOutlet), mu = inputs.mu_values[inputs.COutlet],dPdL=dPdL,\
+                                                                FormationK = inputs.FormationK, degree=2)}) # m/s
+    return velocityBCs
+
 #%%############	   Coordinates at certain Subdomain
 def coordinatesAt(boundaries,SubdomainVal):
     SubdomainVertices = SubsetIterator(boundaries,SubdomainVal)
@@ -71,7 +79,9 @@ def flowBC(t,U,inputs,meshId,boundariesId,subdomainsDict):
     for i in range(0,len(inputs.noSlipBCs)):
         bc.append(DirichletBC(U,noSlipU,boundariesId,subdomainsDict[inputs.noSlipBCs[i]]))
     
-    
+    # Update Velocity Boundary Conditions
+    inputs.velocityBCs = calculareNewOutletFlowrate(initialP, inputs.velocityBCs,inputs)
+
     # Velocity Conditions  #ERROR ON VERSION 1.0.4
     for DomainKey,valueExp in inputs.velocityBCs.items():
         if t < 4:

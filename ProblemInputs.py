@@ -103,6 +103,11 @@ class Inputs():
         
         # Diffusity of Between species (m²/s)
         self.D = 1e-1
+
+        # Fluid Loss
+        self.FluidLossAverageRelativeDepth = 1
+        self.PorousRadius = 0.05
+        self.FormationK = 9.56752643141941e-07
         
         # Rheology
         # Newtonian Viscosity
@@ -148,7 +153,7 @@ class Inputs():
         self.pressureBCs = {}
         self.pInlet = self.rho_values[0]*6*self.g #0.3164557 #self.rho_values[0]*2*self.g
         self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
-        # self.pOutlet = 0.6*(self.pInlet + self.rho_values[0]*self.g*1)
+        self.pOutlet = 0.6*(self.pInlet + self.rho_values[0]*self.g*1)
         # self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
         
         ## Advected Scalar Field Inputs
@@ -166,9 +171,20 @@ class Inputs():
         self.velocityBCs = {}
         # self.VrOutlet = '0.00043 + 0*t*A*rho'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.061/((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
-        self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.0115 /((pow(t,0.54)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
-        # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
-        self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet), A=AOut,rho=rhoOut,t=t,degree=2)}) # m/s
+
+        ## OutletPressure into 
+        if isinstance(self.pOutlet,float):
+            # rho*g*h + p0
+            self.initialP = self.pInlet + (self.rho_values[0]*self.CInitialMixture + self.rho_values[1]*(1-self.CInitialMixture))*self.g*self.FluidLossAverageRelativeDepth
+            # Darcy's Law Q = (-kA/mu)(dP/dL) => 
+            self.dPdL = (self.POutlet - self.initialP)/self.PorousRadius
+            self.VrOutlet = '-(FormationK*dPdL/mu)'
+            self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet), mu=self.mu_values[self.COutlet],dPdL=self.dPdL,\
+                                                                                  FormationK = self.FormationK, degree=2)}) # m/s
+        else:
+            self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.0115 /((pow(t,0.54)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
+            # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
+            self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet), A=AOut,rho=rhoOut,t=t,degree=2)}) # m/s
         
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
