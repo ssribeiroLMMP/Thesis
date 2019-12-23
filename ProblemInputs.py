@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_Newtonian_VarTOC_PowFR_5000s_4' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_LowAvgFLVel_10000s_1' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -49,10 +49,10 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 5000 # s
+        self.tEnd = 10000 # s
 
         # Plot Time List
-        self.plotTimeList = [7, 21, 461, 860, 1351, 2740, 3000, 5000]
+        self.plotTimeList = [7, 21, 461, 860, 1351, 2740, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
         self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
         self.fieldnamesPre = ['Time(s)','P6(Pa)','P6.5(Pa)','P7(Pa)','P7.5(Pa)','P8(Pa)']
 
@@ -112,7 +112,7 @@ class Inputs():
         
         # Modified SMD Model Variables
         self.tau0 = 19.19           # Dinamic Yield Stress               
-        self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: High shear rates)
+        self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
         self.eta0 = 1e3             # Newtonian Plato: Low shear rates
         self.K = 1.43               # Consistency Index
         self.n = 0.572              # Power-law Index
@@ -166,7 +166,7 @@ class Inputs():
         self.velocityBCs = {}
         # self.VrOutlet = '0.00043 + 0*t*A*rho'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.061/((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
-        self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.0115 /((pow(t,0.54)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
+        self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
         self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet), A=AOut,rho=rhoOut,t=t,degree=2)}) # m/s
         
