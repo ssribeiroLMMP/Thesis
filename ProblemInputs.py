@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_LowAvgFLVel_10000s_1' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_BaseCase_10000s_3' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -111,12 +111,12 @@ class Inputs():
         self.mu_values = [self.mu_cem , self.mu_water]  
         
         # Modified SMD Model Variables
-        self.tau0 = 19.19           # Dinamic Yield Stress               
+        self.tau0 = 19.019           # Dinamic Yield Stress               
         self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
         self.eta0 = 1e3             # Newtonian Plato: Low shear rates
         self.K = 1.43               # Consistency Index
         self.n = 0.572              # Power-law Index
-        self.ts = 60000             # Caracteristic curing time
+        self.ts = 6000             # Caracteristic curing time
 
 
         
@@ -166,7 +166,8 @@ class Inputs():
         self.velocityBCs = {}
         # self.VrOutlet = '0.00043 + 0*t*A*rho'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.061/((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
-        self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
+        self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.055 /((pow(t,0.78)))'
+        # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
         self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet), A=AOut,rho=rhoOut,t=t,degree=2)}) # m/s
         
