@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_BaseCase_10000s_3' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_HiInitYieldStress_10000s_2' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -111,7 +111,7 @@ class Inputs():
         self.mu_values = [self.mu_cem , self.mu_water]  
         
         # Modified SMD Model Variables
-        self.tau0 = 19.019           # Dinamic Yield Stress               
+        self.tau0 = 190.19           # Dinamic Yield Stress               
         self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
         self.eta0 = 1e3             # Newtonian Plato: Low shear rates
         self.K = 1.43               # Consistency Index
