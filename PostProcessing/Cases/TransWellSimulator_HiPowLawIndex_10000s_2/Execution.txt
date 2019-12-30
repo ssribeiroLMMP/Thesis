@@ -1,0 +1,2280 @@
+Simulation Execution: 2019-12-30 13:59:22.128630
+Case: TransWellSimulator_HiPowLawIndex_10000s_2
+Source: Thesis
+caseId=TransWellSimulator_HiPowLawIndex_10000s_2
+ParaViewFilenames=['velocity', 'pressure', 'concentration']
+ParaViewTitles=['Velocity (m/s)', 'Pressure (Pa)', 'Mass Fraction (Fluid Tags)']
+outputFlowrate=./PostProcessing/Cases/TransWellSimulator_HiPowLawIndex_10000s_2/flowrateInput.csv
+outputPressure=./PostProcessing/Cases/TransWellSimulator_HiPowLawIndex_10000s_2/pressureOutput.csv
+outputTOC=./PostProcessing/Cases/TransWellSimulator_HiPowLawIndex_10000s_2/TOC.csv
+t0=0
+tEnd=10000
+plotTimeList=[7, 21, 461, 860, 1351, 2740, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
+fieldnamesFlow=['Time(s)', 'outletFlowRate(Kg/s)']
+fieldnamesPre=['Time(s)', 'P6(Pa)', 'P6.5(Pa)', 'P7(Pa)', 'P7.5(Pa)', 'P8(Pa)']
+dtMin=0.005
+dtMax=10
+tChange=0
+dt=0.01
+savedt=5
+g=9.81
+Fluid0=0
+Fluid1=1
+CInitialMixture=0.5
+rho_water=1000
+rho_bulk0=1752.039
+rho_bulkInf=557.469
+rho_cem0=2504.078
+rho_values=[2504.078, 1000]
+shrinkage_inclination=0.008
+shrinkage_rhoMin=700
+shrinkage_t0=1000
+shrinkageModel=f_0
+D=0.1
+mu_water=0.01
+mu_cem=1
+mu_values=[1, 0.01]
+tau0=40
+etaInf=0.295
+eta0=1000.0
+K=1.43
+n=0.8
+ts=6000
+meshFile=WellSimulator
+velocityElementfamily=Lagrange
+velocityElementOrder=2
+pressureElementfamily=Lagrange
+pressureElementOrder=1
+scalarFieldElementfamily=Lagrange
+scalarFieldElementOrder=1
+noSlipBCs=['InnerPipe', 'OuterWall', 'BottomWall']
+pressureBCs={'Inlet': 147390.03108000002}
+pInlet=147390.03108000002
+scalarFieldBCs={'Inlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 1), 'Outlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 2)}
+COutlet=1
+velocityBCs={'Outlet': Coefficient(FunctionSpace(None, VectorElement(FiniteElement('Lagrange', None, 2), dim=2)), 3)}
+VrOutlet=t <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.055 /((pow(t,0.78)))
+absTol=1e-12
+relTol=1e-20
+maxIter=15
+linearSolver=mumps
+alpha=0.9
+alphaC=0.9
+
+
+Flow - Time:0.000s and dt:0.01000s
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2.155e+00 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-20)
+    Newton iteration 1: r (abs) = 7.630e-13 (tol = 1.000e-12) r (rel) = 3.541e-13 (tol = 1.000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:0.010s and dt:0.02000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2.155e+00 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-20)
+    Newton iteration 1: r (abs) = 4.937e-13 (tol = 1.000e-12) r (rel) = 2.291e-13 (tol = 1.000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+Flow - Time:0.030s and dt:0.04000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2.155e+00 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-20)
+    Newton iteration 1: r (abs) = 4.716e-13 (tol = 1.000e-12) r (rel) = 2.189e-13 (tol = 1.000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+Flow - Time:0.070s and dt:0.08000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2.155e+00 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-20)
+    Newton iteration 1: r (abs) = 4.745e-13 (tol = 1.000e-12) r (rel) = 2.202e-13 (tol = 1.000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+Flow - Time:0.150s and dt:0.16000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2.155e+00 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-20)
+    Newton iteration 1: r (abs) = 4.756e-13 (tol = 1.000e-12) r (rel) = 2.207e-13 (tol = 1.000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+Flow - Time:0.310s and dt:0.32000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2.155e+00 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-20)
+    Newton iteration 1: r (abs) = 4.768e-13 (tol = 1.000e-12) r (rel) = 2.213e-13 (tol = 1.000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+Flow - Time:0.630s and dt:0.64000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2.155e+00 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-20)
+    Newton iteration 1: r (abs) = 4.783e-13 (tol = 1.000e-12) r (rel) = 2.220e-13 (tol = 1.000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+Flow - Time:1.270s and dt:1.28000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2.155e+00 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-20)
+    Newton iteration 1: r (abs) = 4.803e-13 (tol = 1.000e-12) r (rel) = 2.229e-13 (tol = 1.000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+Flow - Time:2.550s and dt:2.56000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2.155e+00 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-20)
+    Newton iteration 1: r (abs) = 4.823e-13 (tol = 1.000e-12) r (rel) = 2.238e-13 (tol = 1.000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+Flow - Time:5.110s and dt:5.12000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2.155e+00 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-20)
+    Newton iteration 1: r (abs) = 4.872e-13 (tol = 1.000e-12) r (rel) = 2.261e-13 (tol = 1.000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:10.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2.155e+00 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-20)
+    Newton iteration 1: r (abs) = 4.901e-13 (tol = 1.000e-12) r (rel) = 2.275e-13 (tol = 1.000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:20.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,968e-13 (tol = 1,000e-12) r (rel) = 2,305e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:30.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,017e-13 (tol = 1,000e-12) r (rel) = 2,328e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:40.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,056e-13 (tol = 1,000e-12) r (rel) = 2,346e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:50.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,085e-13 (tol = 1,000e-12) r (rel) = 2,360e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:60.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,102e-13 (tol = 1,000e-12) r (rel) = 2,368e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:70.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,121e-13 (tol = 1,000e-12) r (rel) = 2,377e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:80.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,135e-13 (tol = 1,000e-12) r (rel) = 2,383e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:90.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,149e-13 (tol = 1,000e-12) r (rel) = 2,389e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:100.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,485e-13 (tol = 1,000e-12) r (rel) = 2,081e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:110.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,927e-13 (tol = 1,000e-12) r (rel) = 1,822e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:120.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,482e-13 (tol = 1,000e-12) r (rel) = 1,616e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:130.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,126e-13 (tol = 1,000e-12) r (rel) = 1,450e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:140.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 2,829e-13 (tol = 1,000e-12) r (rel) = 1,313e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:150.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 2,583e-13 (tol = 1,000e-12) r (rel) = 1,198e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:160.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,155e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 2,375e-13 (tol = 1,000e-12) r (rel) = 1,102e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:170.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,156e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 2,200e-13 (tol = 1,000e-12) r (rel) = 1,021e-13 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:180.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,156e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 2,043e-13 (tol = 1,000e-12) r (rel) = 9,479e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:190.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,156e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,914e-13 (tol = 1,000e-12) r (rel) = 8,879e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:200.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,156e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,793e-13 (tol = 1,000e-12) r (rel) = 8,319e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:210.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,156e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,694e-13 (tol = 1,000e-12) r (rel) = 7,858e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:220.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,156e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,598e-13 (tol = 1,000e-12) r (rel) = 7,412e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:230.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,156e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,515e-13 (tol = 1,000e-12) r (rel) = 7,026e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:240.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,157e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,441e-13 (tol = 1,000e-12) r (rel) = 6,684e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:250.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,157e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,371e-13 (tol = 1,000e-12) r (rel) = 6,357e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:260.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,157e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,310e-13 (tol = 1,000e-12) r (rel) = 6,072e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:270.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,157e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,254e-13 (tol = 1,000e-12) r (rel) = 5,814e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:280.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,158e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,203e-13 (tol = 1,000e-12) r (rel) = 5,575e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:290.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,158e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,158e-13 (tol = 1,000e-12) r (rel) = 5,367e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:300.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,158e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,114e-13 (tol = 1,000e-12) r (rel) = 5,162e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:310.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,158e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,072e-13 (tol = 1,000e-12) r (rel) = 4,965e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:320.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,159e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,034e-13 (tol = 1,000e-12) r (rel) = 4,789e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:330.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,159e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 1,002e-13 (tol = 1,000e-12) r (rel) = 4,639e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:340.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,160e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 9,673e-14 (tol = 1,000e-12) r (rel) = 4,479e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:350.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,160e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 9,382e-14 (tol = 1,000e-12) r (rel) = 4,343e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:360.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,161e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 9,115e-14 (tol = 1,000e-12) r (rel) = 4,219e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:370.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,161e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 8,817e-14 (tol = 1,000e-12) r (rel) = 4,080e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:380.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,162e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 8,571e-14 (tol = 1,000e-12) r (rel) = 3,965e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:390.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,162e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 8,354e-14 (tol = 1,000e-12) r (rel) = 3,863e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:400.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,163e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 8,126e-14 (tol = 1,000e-12) r (rel) = 3,757e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:410.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,164e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 7,926e-14 (tol = 1,000e-12) r (rel) = 3,663e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:420.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,165e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 7,704e-14 (tol = 1,000e-12) r (rel) = 3,559e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:430.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,165e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 7,525e-14 (tol = 1,000e-12) r (rel) = 3,475e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:440.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,166e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 7,368e-14 (tol = 1,000e-12) r (rel) = 3,401e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:450.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,167e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 7,185e-14 (tol = 1,000e-12) r (rel) = 3,315e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:460.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,169e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 7,037e-14 (tol = 1,000e-12) r (rel) = 3,245e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:470.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,170e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 6,855e-14 (tol = 1,000e-12) r (rel) = 3,159e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:480.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,171e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 6,738e-14 (tol = 1,000e-12) r (rel) = 3,103e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:490.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,172e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 6,594e-14 (tol = 1,000e-12) r (rel) = 3,035e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:500.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,174e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 6,427e-14 (tol = 1,000e-12) r (rel) = 2,956e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:510.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,176e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 6,309e-14 (tol = 1,000e-12) r (rel) = 2,900e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:520.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,177e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 6,207e-14 (tol = 1,000e-12) r (rel) = 2,850e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:530.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,179e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 6,071e-14 (tol = 1,000e-12) r (rel) = 2,786e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:540.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,182e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,951e-14 (tol = 1,000e-12) r (rel) = 2,728e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:550.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,184e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,872e-14 (tol = 1,000e-12) r (rel) = 2,689e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:560.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,186e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,752e-14 (tol = 1,000e-12) r (rel) = 2,631e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:570.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,189e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,672e-14 (tol = 1,000e-12) r (rel) = 2,591e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:580.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,192e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,538e-14 (tol = 1,000e-12) r (rel) = 2,527e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:590.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,195e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,445e-14 (tol = 1,000e-12) r (rel) = 2,481e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:600.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,198e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,358e-14 (tol = 1,000e-12) r (rel) = 2,437e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:610.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,202e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,272e-14 (tol = 1,000e-12) r (rel) = 2,395e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:620.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,206e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,191e-14 (tol = 1,000e-12) r (rel) = 2,353e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:630.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,210e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,087e-14 (tol = 1,000e-12) r (rel) = 2,302e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:640.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,214e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 5,049e-14 (tol = 1,000e-12) r (rel) = 2,280e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:650.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,219e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,932e-14 (tol = 1,000e-12) r (rel) = 2,222e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:660.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,225e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,862e-14 (tol = 1,000e-12) r (rel) = 2,186e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:670.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,230e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,771e-14 (tol = 1,000e-12) r (rel) = 2,139e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:680.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,237e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,706e-14 (tol = 1,000e-12) r (rel) = 2,104e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:690.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,243e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,621e-14 (tol = 1,000e-12) r (rel) = 2,060e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:700.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,250e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,553e-14 (tol = 1,000e-12) r (rel) = 2,023e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:710.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,258e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,484e-14 (tol = 1,000e-12) r (rel) = 1,986e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:720.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,266e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,434e-14 (tol = 1,000e-12) r (rel) = 1,957e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:730.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,275e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,388e-14 (tol = 1,000e-12) r (rel) = 1,929e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:740.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,285e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,279e-14 (tol = 1,000e-12) r (rel) = 1,873e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:750.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,295e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,226e-14 (tol = 1,000e-12) r (rel) = 1,842e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:760.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,306e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,166e-14 (tol = 1,000e-12) r (rel) = 1,807e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:770.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,317e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,151e-14 (tol = 1,000e-12) r (rel) = 1,791e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:780.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,330e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,073e-14 (tol = 1,000e-12) r (rel) = 1,748e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:790.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,344e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,984e-14 (tol = 1,000e-12) r (rel) = 1,700e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:800.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,358e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,952e-14 (tol = 1,000e-12) r (rel) = 1,676e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:810.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,373e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,878e-14 (tol = 1,000e-12) r (rel) = 1,634e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:820.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,390e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,827e-14 (tol = 1,000e-12) r (rel) = 1,602e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:830.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,407e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,775e-14 (tol = 1,000e-12) r (rel) = 1,568e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:840.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,426e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,720e-14 (tol = 1,000e-12) r (rel) = 1,534e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:850.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,446e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,654e-14 (tol = 1,000e-12) r (rel) = 1,494e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:860.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,466e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,623e-14 (tol = 1,000e-12) r (rel) = 1,469e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:870.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,489e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,591e-14 (tol = 1,000e-12) r (rel) = 1,443e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:880.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,512e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,549e-14 (tol = 1,000e-12) r (rel) = 1,413e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:890.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,537e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,505e-14 (tol = 1,000e-12) r (rel) = 1,381e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:900.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,563e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,453e-14 (tol = 1,000e-12) r (rel) = 1,347e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:910.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,591e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,433e-14 (tol = 1,000e-12) r (rel) = 1,325e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:920.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,620e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,403e-14 (tol = 1,000e-12) r (rel) = 1,299e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:930.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,650e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,378e-14 (tol = 1,000e-12) r (rel) = 1,275e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:940.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,682e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,332e-14 (tol = 1,000e-12) r (rel) = 1,243e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:950.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,715e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,317e-14 (tol = 1,000e-12) r (rel) = 1,222e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:960.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,750e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,307e-14 (tol = 1,000e-12) r (rel) = 1,203e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:970.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,786e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,337e-14 (tol = 1,000e-12) r (rel) = 1,198e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:980.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,823e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,307e-14 (tol = 1,000e-12) r (rel) = 1,172e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:990.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,861e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,292e-14 (tol = 1,000e-12) r (rel) = 1,151e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1000.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,901e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,297e-14 (tol = 1,000e-12) r (rel) = 1,137e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1010.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,942e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,299e-14 (tol = 1,000e-12) r (rel) = 1,121e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1020.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2,984e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,299e-14 (tol = 1,000e-12) r (rel) = 1,106e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1030.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,026e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,306e-14 (tol = 1,000e-12) r (rel) = 1,092e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1040.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,070e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,305e-14 (tol = 1,000e-12) r (rel) = 1,077e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1050.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,114e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,350e-14 (tol = 1,000e-12) r (rel) = 1,076e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1060.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,159e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,369e-14 (tol = 1,000e-12) r (rel) = 1,067e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1070.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,204e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,375e-14 (tol = 1,000e-12) r (rel) = 1,053e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1080.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,250e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,406e-14 (tol = 1,000e-12) r (rel) = 1,048e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1090.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,295e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,429e-14 (tol = 1,000e-12) r (rel) = 1,041e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1100.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,341e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,462e-14 (tol = 1,000e-12) r (rel) = 1,036e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1110.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,386e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,525e-14 (tol = 1,000e-12) r (rel) = 1,041e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1120.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,432e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,558e-14 (tol = 1,000e-12) r (rel) = 1,037e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1130.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,476e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,545e-14 (tol = 1,000e-12) r (rel) = 1,020e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1140.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,521e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,587e-14 (tol = 1,000e-12) r (rel) = 1,019e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1150.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,564e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,601e-14 (tol = 1,000e-12) r (rel) = 1,010e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1160.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,607e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,647e-14 (tol = 1,000e-12) r (rel) = 1,011e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1170.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,649e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,714e-14 (tol = 1,000e-12) r (rel) = 1,018e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1180.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,690e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,735e-14 (tol = 1,000e-12) r (rel) = 1,012e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1190.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,729e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,766e-14 (tol = 1,000e-12) r (rel) = 1,010e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1200.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,768e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,822e-14 (tol = 1,000e-12) r (rel) = 1,014e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1210.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,805e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,836e-14 (tol = 1,000e-12) r (rel) = 1,008e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1220.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,841e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,868e-14 (tol = 1,000e-12) r (rel) = 1,007e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1230.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,876e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,924e-14 (tol = 1,000e-12) r (rel) = 1,012e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1240.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,909e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,931e-14 (tol = 1,000e-12) r (rel) = 1,006e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1250.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,941e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,957e-14 (tol = 1,000e-12) r (rel) = 1,004e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1260.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3,971e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,990e-14 (tol = 1,000e-12) r (rel) = 1,005e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1270.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,000e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 3,964e-14 (tol = 1,000e-12) r (rel) = 9,909e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1280.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,028e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,059e-14 (tol = 1,000e-12) r (rel) = 1,008e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1290.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,054e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,070e-14 (tol = 1,000e-12) r (rel) = 1,004e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1300.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,079e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,094e-14 (tol = 1,000e-12) r (rel) = 1,004e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1310.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,103e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,093e-14 (tol = 1,000e-12) r (rel) = 9,978e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1320.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,125e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,138e-14 (tol = 1,000e-12) r (rel) = 1,003e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1330.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,146e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,177e-14 (tol = 1,000e-12) r (rel) = 1,008e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1340.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,166e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,132e-14 (tol = 1,000e-12) r (rel) = 9,920e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1350.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,184e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,180e-14 (tol = 1,000e-12) r (rel) = 9,990e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1360.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,202e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,209e-14 (tol = 1,000e-12) r (rel) = 1,002e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1370.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,218e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,157e-14 (tol = 1,000e-12) r (rel) = 9,854e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1380.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,234e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,212e-14 (tol = 1,000e-12) r (rel) = 9,949e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1390.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,248e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,241e-14 (tol = 1,000e-12) r (rel) = 9,984e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1400.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,262e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,265e-14 (tol = 1,000e-12) r (rel) = 1,001e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1410.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,274e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,222e-14 (tol = 1,000e-12) r (rel) = 9,877e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1420.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,286e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,281e-14 (tol = 1,000e-12) r (rel) = 9,988e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1430.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,297e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,287e-14 (tol = 1,000e-12) r (rel) = 9,977e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1440.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,307e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,293e-14 (tol = 1,000e-12) r (rel) = 9,967e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1450.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,317e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,295e-14 (tol = 1,000e-12) r (rel) = 9,950e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1460.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,326e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,308e-14 (tol = 1,000e-12) r (rel) = 9,959e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1470.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,334e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,346e-14 (tol = 1,000e-12) r (rel) = 1,003e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1480.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,342e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,303e-14 (tol = 1,000e-12) r (rel) = 9,912e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1490.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,349e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,346e-14 (tol = 1,000e-12) r (rel) = 9,994e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1500.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,355e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,346e-14 (tol = 1,000e-12) r (rel) = 9,977e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1510.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,362e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,350e-14 (tol = 1,000e-12) r (rel) = 9,974e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1520.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,367e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,342e-14 (tol = 1,000e-12) r (rel) = 9,941e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1530.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,373e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,329e-14 (tol = 1,000e-12) r (rel) = 9,900e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1540.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,377e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,323e-14 (tol = 1,000e-12) r (rel) = 9,876e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1550.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,382e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,347e-14 (tol = 1,000e-12) r (rel) = 9,920e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1560.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,386e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,392e-14 (tol = 1,000e-12) r (rel) = 1,001e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1570.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,390e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,360e-14 (tol = 1,000e-12) r (rel) = 9,931e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1580.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,394e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,414e-14 (tol = 1,000e-12) r (rel) = 1,005e-14 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1590.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,397e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,317e-14 (tol = 1,000e-12) r (rel) = 9,817e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1600.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,400e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,364e-14 (tol = 1,000e-12) r (rel) = 9,917e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1610.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,403e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,358e-14 (tol = 1,000e-12) r (rel) = 9,897e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1620.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,406e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,353e-14 (tol = 1,000e-12) r (rel) = 9,880e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1630.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,408e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,364e-14 (tol = 1,000e-12) r (rel) = 9,899e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1640.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,411e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,364e-14 (tol = 1,000e-12) r (rel) = 9,895e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1650.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,413e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,331e-14 (tol = 1,000e-12) r (rel) = 9,815e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1660.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,415e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,347e-14 (tol = 1,000e-12) r (rel) = 9,846e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1670.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,416e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,323e-14 (tol = 1,000e-12) r (rel) = 9,788e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1680.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,418e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,335e-14 (tol = 1,000e-12) r (rel) = 9,813e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1690.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,420e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,393e-14 (tol = 1,000e-12) r (rel) = 9,940e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1700.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,421e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,379e-14 (tol = 1,000e-12) r (rel) = 9,905e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1710.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,422e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,351e-14 (tol = 1,000e-12) r (rel) = 9,838e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1720.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,424e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,332e-14 (tol = 1,000e-12) r (rel) = 9,793e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1730.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,425e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,338e-14 (tol = 1,000e-12) r (rel) = 9,804e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1740.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,426e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,339e-14 (tol = 1,000e-12) r (rel) = 9,803e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1750.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,427e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)
+    Newton iteration 1: r (abs) = 4,381e-14 (tol = 1,000e-12) r (rel) = 9,896e-15 (tol = 1,000e-20)
+    Newton solver finished in 1 iterations and 1 linear solver iterations.
+Iterating over subset, found 100 entities out of 14122.
+Concentration
+  Iterating over subset, found 100 entities out of 14122.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1760.230s and dt:10.00000s
+  Iterating over subset, found 12 entities out of 14122.
+  Iterating over subset, found 100 entities out of 14122.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4,428e+00 (tol = 1,000e-12) r (rel) = 1,000e+00 (tol = 1,000e-20)

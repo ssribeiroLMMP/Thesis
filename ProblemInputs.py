@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_HiAvgFLVel_10000s_2' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_HiPowLawIndex_10000s_2' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -115,7 +115,8 @@ class Inputs():
         self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
         self.eta0 = 1e3             # Newtonian Plato: Low shear rates
         self.K = 1.43               # Consistency Index
-        self.n = 0.572              # Power-law Index
+        # self.n = 0.572              # Power-law Index
+        self.n = 0.8               # Higher Power-law Index
         self.ts = 6000             # Caracteristic curing time
 
 
@@ -165,9 +166,9 @@ class Inputs():
         rhoOut = self.rho_values[self.Fluid0]
         self.velocityBCs = {}
         # self.VrOutlet = '0.00043 + 0*t*A*rho'
-        # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.061/((pow(t,0.78)))' BaseCase 0
-        # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.055 /((pow(t,0.78)))'  BaseCase 1 and 2
-        self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.55 /((pow(t,0.78)))'
+        # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.061/((pow(t,0.78)))' # BaseCase 0
+        self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.055 /((pow(t,0.78)))' # BaseCase 1 and 2
+        # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.55 /((pow(t,0.78)))'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
         self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet), A=AOut,rho=rhoOut,t=t,degree=2)}) # m/s
