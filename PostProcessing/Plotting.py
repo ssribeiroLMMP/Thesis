@@ -13,8 +13,49 @@ from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 import numpy as np
 import matplotlib.ticker as ticker
 from dolfin import *
+import pandas as pd
 
 
+def plotPressureProfile(inputFile,outputFile):
+    fig, ax = plt.subplots()
+    
+    dataframe = pd.read_csv(inputFile) #Time(s),P6(Pa),P6.5(Pa),P7(Pa),P7.5(Pa),P8(Pa)
+    
+    time = dataframe['Time(s)']
+
+    # Z Depth series
+    x = pd.Series([6, 6.5, 7, 7.5, 8])
+
+    # Colormap
+    colors = ['#A60A0F',\
+              '#FF0000',\
+              '#FF6F00',\
+              '#FF6666',\
+              '#CC6600',\
+              '#FF8000',\
+              '#FF9933',\
+              '#FFB266',\
+              '#F0D941',\
+              '#9DD52D',\
+              '#4AD77E',\
+              '#4EDEDE',\
+              '#2880C3',\
+              '#0080FF']
+
+    # Loop on time series
+    for i in range(0,len(time)):
+        y = dataframe.iloc[i,1:6]
+        timeLabel = str(time[i])+'s'
+        plt.plot(x,y,c=colors[i],label=timeLabel)
+        print(i)
+
+    plt.xlim((5.5,8.5))
+    plt.ylim((80000,240000))
+    plt.xlabel('Column Height (m)')
+    plt.ylabel('Pressure (Pa)')
+    plt.savefig('./'+outputFile+'.png',dpi=300)
+
+    return fig, ax, im
 
 def plotResult(output,outputFile,outType = 0):
     fig, ax = plt.subplots()
@@ -24,7 +65,7 @@ def plotResult(output,outputFile,outType = 0):
     if outType ==0 :
         plt.clf
     else: 
-        return fig, ax, im
+        return fig, ax
 
 def fmt(x, pos):
     a, b = '{:.2e}'.format(x).split('e')
