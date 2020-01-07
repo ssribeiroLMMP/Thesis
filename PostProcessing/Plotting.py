@@ -42,20 +42,28 @@ def plotPressureProfile(inputFile,outputFile):
               '#2880C3',\
               '#0080FF']
 
+    font = {'family': 'serif',
+            'weight': 'normal',
+            'size': 10,
+            }
+
     # Loop on time series
     for i in range(0,len(time)):
         y = dataframe.iloc[i,1:6]
-        timeLabel = str(time[i])+'s'
-        plt.plot(x,y,c=colors[i],label=timeLabel)
+        timeLabel = '{:.0f}s'.format(round(time[i],0))
+        plt.plot(x,y,c=colors[i],label = timeLabel)
         print(i)
 
     plt.xlim((5.5,8.5))
     plt.ylim((80000,240000))
-    plt.xlabel('Column Height (m)')
-    plt.ylabel('Pressure (Pa)')
+    plt.xlabel('Column Height (m)', fontdict = font)
+    plt.ylabel('Pressure (Pa)', fontdict = font)
+    plt.xticks(fontsize = 8)
+    plt.yticks(fontsize = 8)
+    plt.legend(loc = 'lower center',bbox_to_anchor=(0.5, 1.01),ncol=7,fontsize = 8)
     plt.savefig('./'+outputFile+'.png',dpi=300)
 
-    return fig, ax, im
+    return fig, ax
 
 def plotResult(output,outputFile,outType = 0):
     fig, ax = plt.subplots()
