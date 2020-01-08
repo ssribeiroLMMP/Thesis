@@ -13,13 +13,32 @@ sys.path.append(os.path.abspath('..'))
 from Solver.BoundaryConditions import *
 
 
-def calculateNewInletPressure(pInlet,massFlowrate,dt,boundaries,Subdomains,inputs):
+def calculateNewInletPressure(TOC,massFlowrate,C,c,t,dt,boundaries,Subdomains,inputs):
+    # Vertices Inlet Coordinates
+    xIn,yIn = coordinatesAt(boundaries,Subdomains['Inlet'])
+
     # Concentration at the inlet
     # TODO: Add temporal variant cInlet
     cInlet = inputs.CInitialMixture
 
     #Mixture density at the inlet
-    rhoMix = cInlet*inputs.rho_values[inputs.Fluid0] + (1-cInlet)*inputs.rho_values[inputs.Fluid1]
+
+    # Loop over vertices and sum the rho_cem_inlet
+    cumsum = 0
+    n = 0
+    for i in range(0,len(yIn)):
+        # Local Cement Density by Shrinkage Model
+        rho_Cem_i = shrinkage(inputs,C,t)(xIn[i],yIn[i])
+        cumsum = cumsum + rho_Cem_i
+        n += 1
+    
+    # avg Inlet Cement Density
+    rho_cem_inlet = cumsum/n  
+
+             # Cement                      # Water
+    rhoMix = rho_cem_inlet*cInlet + inputs.rho_values[inputs.Fluid1]*(1-cInlet)
+    
+    # rhoMix = cInlet*inputs.rho_values[inputs.Fluid0] + (1-cInlet)*inputs.rho_values[inputs.Fluid1]
     
     # Mass Variation in the last timestep
     deltaM = massFlowrate*dt
@@ -27,18 +46,17 @@ def calculateNewInletPressure(pInlet,massFlowrate,dt,boundaries,Subdomains,input
     # Volume variation due to the decay of TopOfCement
     deltaV = deltaM/rhoMix
 
-    # Vertices Inlet Coordinates
-    xIn,yIn = coordinatesAt(boundaries,Subdomains['Inlet'])
-
+    # Calculate Inlet Area    
     inletArea = calculateAnnulusCrossArea(xIn,yIn)
 
     # Variation of TopOfCement
     deltaTOC = deltaV/inletArea
 
     # New Inlet Pressure
-    pInlet = pInlet - rhoMix*inputs.g*deltaTOC
+    TOC = TOC-deltaTOC
+    pInlet = rhoMix*inputs.g*(TOC)
     
-    return pInlet, deltaTOC
+    return pInlet, TOC, rhoMix
 
 def calculateOutletFlowrate(u1,inputs,boundaries,Subdomains):
     # Outlet Vertices Coordinates

@@ -48,7 +48,7 @@ def main(inputs):
     
     #%%#################    Time Loop - If Transient
     t = inputs.t0
-    saveDt = inputs.savedt
+    saveDt = min([inputs.savedt, min(inputs.plotTimeList)])
     #solutions = []
     
     # Mixture Properties
@@ -82,6 +82,10 @@ def main(inputs):
     createCSVOutput(inputs.outputFlowrate,inputs.fieldnamesFlow)
     createCSVOutput(inputs.outputPressure,inputs.fieldnamesPre)
 
+    TOC = inputs.Zmin
+    rhoMix = inputs.CInitialMixture*inputs.rho_values[0] + \
+             (1-inputs.CInitialMixture)*inputs.rho_values[1]
+             
     while t <= inputs.tEnd:
         # Initialize results Vector
         results = []
@@ -94,9 +98,8 @@ def main(inputs):
         # try:
         begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
         if t>0:
-            pInlet, deltaTOC = calculateNewInletPressure(pInlet,outputMassFlowrate,dt,boundaries,Subdomains,inputs)
-            TOC += deltaTOC
-
+            pInlet, TOC, rhoMix = calculateNewInletPressure(TOC,outputMassFlowrate,C,c0,t,dt,boundaries,Subdomains,inputs)
+            
         (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,pInlet)
         end()
         # except: 
@@ -124,8 +127,10 @@ def main(inputs):
                 saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
                 results.append(outputMassFlowrate)
                 results.append(TOC)
+                results.append(rhoMix)
                 cbarU, cbarP, listId = logResults(t,results,listId,inputs,meshObj,cbarU=cbarU,cbarP=cbarP)
-                saveDt = t + inputs.savedt
+                if listId < len(inputs.plotTimeList):
+                    saveDt = min([t + inputs.savedt, inputs.plotTimeList[listId]])
                 end()
                 # Store Initial Solution in Time t=t
                 # solutions.append({'t':t, 'variables':results})

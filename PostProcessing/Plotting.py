@@ -24,12 +24,16 @@ def plotPressureProfile(inputFile,outputFile):
     time = dataframe['Time(s)']
 
     # Z Depth series
-    x = pd.Series([6, 6.5, 7, 7.5, 8])
+    # 'P6(Pa)','P6.125(Pa)','P6.25(Pa)','P6.375(Pa)','P6.5(Pa)','P6.625(Pa)','P6.75(Pa)','P6.875(Pa)',\
+    # 'P7(Pa)','P7.125(Pa)','P7.25(Pa)','P7.375(Pa)','P7.5(Pa)','P7.625(Pa)','P7.75(Pa)','P7.875(Pa)',\
+    # 'P8(Pa)']
+
+    x = pd.Series([6, 6.125, 6.25, 6.375, 6.5, 6.625, 6.75, 6.875, 7, 7.125, 7.25, 7.375, 7.5, 7.625, 7.75, 7.875,  8])
 
     # Colormap
     colors = ['#A60A0F',\
-              '#FF0000',\
-              '#FF6F00',\
+              #'#FF0000',\
+              #'#FF6F00',\
               '#FF6666',\
               '#CC6600',\
               '#FF8000',\
@@ -40,7 +44,7 @@ def plotPressureProfile(inputFile,outputFile):
               '#4AD77E',\
               '#4EDEDE',\
               '#2880C3',\
-              '#0080FF']
+              '#99ebff']
 
     font = {'family': 'serif',
             'weight': 'normal',
@@ -49,18 +53,19 @@ def plotPressureProfile(inputFile,outputFile):
 
     # Loop on time series
     for i in range(0,len(time)):
-        y = dataframe.iloc[i,1:6]
+        y = dataframe.iloc[i,2:]
         timeLabel = '{:.0f}s'.format(round(time[i],0))
         plt.plot(x,y,c=colors[i],label = timeLabel)
         print(i)
 
-    plt.xlim((5.5,8.5))
-    plt.ylim((80000,240000))
+    plt.xlim((6,8.5))
+    plt.ylim((0,200000))
     plt.xlabel('Column Height (m)', fontdict = font)
     plt.ylabel('Pressure (Pa)', fontdict = font)
     plt.xticks(fontsize = 8)
     plt.yticks(fontsize = 8)
-    plt.legend(loc = 'lower center',bbox_to_anchor=(0.5, 1.01),ncol=7,fontsize = 8)
+    plt.grid(color='0.8', linestyle='-')
+    plt.legend(loc = 'lower center',bbox_to_anchor=(0.5, 1.01),ncol=6,fontsize = 8)
     plt.savefig('./'+outputFile+'.png',dpi=300)
 
     return fig, ax

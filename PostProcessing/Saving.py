@@ -133,11 +133,13 @@ def logResults(t,results,listId,inputs,meshObj,cbarU=0,cbarP=0):
         ui = results[0]
         pi = results[1]
         ci = results[2]
+        rhoMix = results[5]
         dicTitle = {1:'Pressure',2:'Concentration',3:'Velocity'}
         cbarU, cbarP, uXYValues, lValues, pValues, nVertices = prettyplot(1,meshObj,t,ui,pi,ci,dicTitle, resultspath='./PostProcessing/Cases/'+inputs.caseId,tag='/Images/',cbarU=cbarU,cbarP=cbarP,cbarDirection = 0)
         
 
-        linePre = [t ,pi(6,0.22), pi(6.5,0.22), pi(7,0.22), pi(7.5,0.22),  pi(8,0.22)]
+        linePre = [t , rhoMix, pi(6,0.22), pi(6.125,0.22), pi(6.25,0.22), pi(6.375,0.22), pi(6.5,0.22), pi(6.625,0.22), pi(6.75,0.22), pi(6.875,0.22),\
+                      pi(7,0.22), pi(7.125,0.22), pi(7.25,0.22), pi(7.375,0.22), pi(7.5,0.22), pi(7.625,0.22), pi(7.75,0.22), pi(7.875,0.22), pi(8,0.22)]
         writeCSVLine(inputs.outputPressure,linePre)
         listId += 1
 

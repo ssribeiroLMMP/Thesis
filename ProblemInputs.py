@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_LoConsIndex_10000s_2' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_BaseCase_10500s_4' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -49,12 +49,15 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 10000 # s
+        self.tEnd = 10500 # s
 
         # Plot Time List
-        self.plotTimeList = [7, 21, 461, 860, 1351, 2740, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
+        self.plotTimeList = [7, 21, 461, 860, 1351, 2740, 4500, 7000, 8250, 9000, self.tEnd]
         self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
-        self.fieldnamesPre = ['Time(s)','P6(Pa)','P6.5(Pa)','P7(Pa)','P7.5(Pa)','P8(Pa)']
+        self.fieldnamesPre = ['Time(s)','rhoInlet(Kg/m3)',\
+                               'P6(Pa)','P6.125(Pa)','P6.25(Pa)','P6.375(Pa)','P6.5(Pa)','P6.625(Pa)','P6.75(Pa)','P6.875(Pa)',\
+                               'P7(Pa)','P7.125(Pa)','P7.25(Pa)','P7.375(Pa)','P7.5(Pa)','P7.625(Pa)','P7.75(Pa)','P7.875(Pa)',\
+                               'P8(Pa)']
 
         # Variable time step
         self.dtMin = 0.005    # s
@@ -63,7 +66,7 @@ class Inputs():
         self.dt = 0.01
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
         # Result Saving time step
-        self.savedt = 5 # s
+        self.savedt = 60 # s
 
         #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²) on axis X
@@ -73,30 +76,8 @@ class Inputs():
         # Tags
         self.Fluid0 = 0 # Cement 
         self.Fluid1 = 1 - self.Fluid0 # Water
-        self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
-                
-        # Density (kg/m³)
-        
-        # Experimental Values
-        self.rho_water = 1000           # kg/m³
-        self.rho_bulk0 = 1752.039       # kg/m³
-        self.rho_bulkInf = 557.469      # kg/m³    
-        self.rho_cem0 = (self.rho_bulk0 - (1-self.CInitialMixture)*self.rho_water)/(self.CInitialMixture)
-        
-        # Density
-        self.rho_values = [self.rho_cem0 , self.rho_water] # kg/m³
-
-        # if Inclination is zero, shrinkage is neglected
-        self.shrinkage_inclination = 0.008  # kg/m³ / s
-        self.shrinkage_rhoMin = 700         # kg/m³
-        self.shrinkage_t0 = 1000            # s  
-        # Shrinkage Equation rhoMax - ((rhoMax-rhoMin)/(1+math.exp(Inclination*(-t+t0)))+rhoMin) 
-        shrinkageEquation = 'rhoMax-((rhoMax-rhoMin)/(1 + exp(Inclination*(-t+t0)))+rhoMin)+rhoMin'
-        self.shrinkageModel = Expression(shrinkageEquation,\
-                                rhoMax=self.rho_values[self.Fluid0],rhoMin=self.shrinkage_rhoMin,Inclination = self.shrinkage_inclination, \
-                                t=self.t0, t0 = self.shrinkage_t0, degree=2)
-        # self.rho_values = [2000, 1000]
-
+        self.CInitialMixture = 0.3      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
+                       
         # Initial Interface position: Two-Phase Flow
         # self.InterfaceX0 = 0.05
         # self.InterfaceY0 = 0.01
@@ -107,23 +88,48 @@ class Inputs():
         # Rheology
         # Newtonian Viscosity
         self.mu_water = 0.01    # Pa.s
-        self.mu_cem = 1         # Pa.s
+        self.mu_cem = 0.01       # Pa.s
         self.mu_values = [self.mu_cem , self.mu_water]  
         
         # Modified SMD Model Variables
         self.tau0 = 19.019          # Dinamic Yield Stress               
         self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
         self.eta0 = 1e3             # Newtonian Plato: Low shear rates
-        #self.K = 1.43               # Consistency Index
-        self.K = 1                  # Consistency Index
+        self.K = 1.43               # Consistency Index
         self.n = 0.572              # Power-law Index
-        self.ts = 6000             # Caracteristic curing time
+        self.ts = 6000              # Caracteristic viscosity buildup time
 
+        # Density (kg/m³)
+        
+        # Experimental Values
+        self.rho_water = 1000           # kg/m³
+        self.rho_bulk0 = 1737.48        # kg/m³ = 14.5ppg
+        self.rho_bulkInf = 607.469      # kg/m³    
+        self.rho_cem0 = (self.rho_bulk0 - (1-self.CInitialMixture)*self.rho_water)/(self.CInitialMixture)
+        
+        # Initial Density Values per Component
+        self.rho_values = [self.rho_cem0 , self.rho_water] # kg/m³
+
+        # Shrinkage Equation: rhoMax - ((rhoMax-rhoMin)/(1+math.exp(Inclination*(-t+t0)))+rhoMin) +rhoMin
+        # if Inclination is zero, shrinkage is neglected
+        self.shrinkage_inclination = 0.0005  # kg/m³ / s
+        self.shrinkage_rhoMin = self.rho_bulkInf    # kg/m³
+        self.shrinkage_t0 = 1.4*self.ts            # s  
+        # Model Equation
+        shrinkageEquation = 'rhoMax-((rhoMax-rhoMin)/(1 + exp(Inclination*(-t+t0)))+rhoMin)+rhoMin'
+        self.shrinkageModel = Expression(shrinkageEquation,\
+                                rhoMax=self.rho_values[self.Fluid0],rhoMin=self.shrinkage_rhoMin,Inclination = self.shrinkage_inclination, \
+                                t=self.t0, t0 = self.shrinkage_t0, degree=2)
+        # self.rho_values = [2000, 1000]
 
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
         self.meshFile = 'WellSimulator'#'MacroParallelPlates'#'WellSimulator'#
+        # Geometric Values
+        self.Zmin = 6
+        self.ROut = 0.22
+        self.HFluidLoss = .1
         ## Mesh Elements
         # Velocity
         self.velocityElementfamily = 'Lagrange'
@@ -147,7 +153,7 @@ class Inputs():
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        self.pInlet = self.rho_values[0]*6*self.g #0.3164557 #self.rho_values[0]*2*self.g
+        self.pInlet = self.rho_values[0]*self.Zmin*self.g #0.3164557 #self.rho_values[0]*2*self.g
         self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
         # self.pOutlet = 0.6*(self.pInlet + self.rho_values[0]*self.g*1)
         # self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
@@ -155,23 +161,23 @@ class Inputs():
         ## Advected Scalar Field Inputs
         self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
         self.scalarFieldBCs = {}
-        self.COutlet = self.Fluid1
+        self.COutlet = 0.8
         self.scalarFieldBCs.update({'Inlet' : Constant(self.CInitialMixture)}) # CMix
         # self.scalarFieldBCs.update({'Outlet' : Constant(self.CInitialMixture)}) # CMix: REGULAR FLOW
         self.scalarFieldBCs.update({'Outlet': Constant(self.COutlet)}) # C1: FILTRATION
         
         ## Velocity Inputs
         t=self.dtMin
-        AOut = 1
-        rhoOut = self.rho_values[self.Fluid0]
+        self.AOut = 2*pi*self.ROut*self.HFluidLoss
+        self.rhoOut = (1-self.COutlet)*self.rho_values[self.Fluid0]
         self.velocityBCs = {}
         # self.VrOutlet = '0.00043 + 0*t*A*rho'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.061/((pow(t,0.78)))' # BaseCase 0
-        self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.055 /((pow(t,0.78)))' # BaseCase 1 and 2
+        self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.055 /((pow(t,0.78)))' # All BaseCases
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.55 /((pow(t,0.78)))'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
-        self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet), A=AOut,rho=rhoOut,t=t,degree=2)}) # m/s
+        self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet), A=self.AOut,rho=self.rhoOut,t=t,degree=2)}) # m/s
         
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
