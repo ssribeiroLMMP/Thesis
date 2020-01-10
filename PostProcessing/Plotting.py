@@ -15,8 +15,43 @@ import matplotlib.ticker as ticker
 from dolfin import *
 import pandas as pd
 
+class Style():
+    def __init__(self):
+        # Colormap
+        self.colors = ['#800000',\
+                        #'#A60A0F',\
+                        '#ff1a1a',\
+                        '#cc7a00',\
+                        '#ff9900',\
+                        '#ffcc80',\
+                        '#ffcc00',\
+                        '#9DD52D',\
+                        '#4AD77E',\
+                        '#4EDEDE',\
+                        '#2880C3',\
+                        '#99ebff']
 
-def plotPressureProfile(inputFile,outputFile):
+        self.font = {'family': 'serif',
+                'weight': 'normal',
+                'size': 10}
+
+def plotPressureProfileDF(inputFile):
+
+    dataframe = pd.read_csv(inputFile) #Time(s),Depth(m),Pressure(Pa)
+    fig, ax = plt.subplots()
+    
+    i=0
+
+    for key, grp in dataframe.groupby(['Time']):
+        timeLabel = '{:.0f}s'.format(key)
+        ax = grp.plot(ax=ax, kind='line', x='Depth(m)', y='Pressure(Pa)', \
+                      c = Style().colors[i], label=timeLabel)
+        i+=1
+    plt.legend(loc='best')
+    plt.show()
+
+
+def plotPressureProfile(inputFile,toutputFile):
     fig, ax = plt.subplots()
     
     dataframe = pd.read_csv(inputFile) #Time(s),P6(Pa),P6.5(Pa),P7(Pa),P7.5(Pa),P8(Pa)
@@ -28,28 +63,8 @@ def plotPressureProfile(inputFile,outputFile):
     # 'P7(Pa)','P7.125(Pa)','P7.25(Pa)','P7.375(Pa)','P7.5(Pa)','P7.625(Pa)','P7.75(Pa)','P7.875(Pa)',\
     # 'P8(Pa)']
 
-    x = pd.Series([6, 6.125, 6.25, 6.375, 6.5, 6.625, 6.75, 6.875, 7, 7.125, 7.25, 7.375, 7.5, 7.625, 7.75, 7.875,  8])
-
-    # Colormap
-    colors = ['#A60A0F',\
-              #'#FF0000',\
-              #'#FF6F00',\
-              '#FF6666',\
-              '#CC6600',\
-              '#FF8000',\
-              '#FF9933',\
-              '#FFB266',\
-              '#F0D941',\
-              '#9DD52D',\
-              '#4AD77E',\
-              '#4EDEDE',\
-              '#2880C3',\
-              '#99ebff']
-
-    font = {'family': 'serif',
-            'weight': 'normal',
-            'size': 10,
-            }
+    x = pd.Series([6, 6.125, 6.25, 6.375, 6.5, 6.625, 6.75, 6.875, 6.9375,\
+                   7, 7.0625,7.10, 7.125, 7.25, 7.375, 7.5, 7.625, 7.75, 7.875,  8])
 
     # Loop on time series
     for i in range(0,len(time)):
@@ -58,7 +73,7 @@ def plotPressureProfile(inputFile,outputFile):
         plt.plot(x,y,c=colors[i],label = timeLabel)
         print(i)
 
-    plt.xlim((6,8.5))
+    plt.xlim((6,8))
     plt.ylim((0,200000))
     plt.xlabel('Column Height (m)', fontdict = font)
     plt.ylabel('Pressure (Pa)', fontdict = font)

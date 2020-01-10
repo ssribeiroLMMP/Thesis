@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_BaseCase_10500s_4' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_BaseCase_14000s_5' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -49,15 +49,13 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 10500 # s
+        self.tEnd = 14000 # s
 
         # Plot Time List
-        self.plotTimeList = [7, 21, 461, 860, 1351, 2740, 4500, 7000, 8250, 9000, self.tEnd]
+        self.plotTimeList = [0, 200, 2500, 4500, 7000, 8250, 9000, 10500, 12000, self.tEnd]#
         self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
-        self.fieldnamesPre = ['Time(s)','rhoInlet(Kg/m3)',\
-                               'P6(Pa)','P6.125(Pa)','P6.25(Pa)','P6.375(Pa)','P6.5(Pa)','P6.625(Pa)','P6.75(Pa)','P6.875(Pa)',\
-                               'P7(Pa)','P7.125(Pa)','P7.25(Pa)','P7.375(Pa)','P7.5(Pa)','P7.625(Pa)','P7.75(Pa)','P7.875(Pa)',\
-                               'P8(Pa)']
+        self.dZPlot = 0.01
+        self.fieldnamesPre = ['Time(s)','rhoInlet(Kg/m3)']
 
         # Variable time step
         self.dtMin = 0.005    # s
@@ -83,7 +81,7 @@ class Inputs():
         # self.InterfaceY0 = 0.01
         
         # Diffusity of Between species (m²/s)
-        self.D = 1e-1
+        self.D = 1e-3
         
         # Rheology
         # Newtonian Viscosity
@@ -104,7 +102,7 @@ class Inputs():
         # Experimental Values
         self.rho_water = 1000           # kg/m³
         self.rho_bulk0 = 1737.48        # kg/m³ = 14.5ppg
-        self.rho_bulkInf = 607.469      # kg/m³    
+        self.rho_bulkInf = 900      # kg/m³    
         self.rho_cem0 = (self.rho_bulk0 - (1-self.CInitialMixture)*self.rho_water)/(self.CInitialMixture)
         
         # Initial Density Values per Component
@@ -112,9 +110,9 @@ class Inputs():
 
         # Shrinkage Equation: rhoMax - ((rhoMax-rhoMin)/(1+math.exp(Inclination*(-t+t0)))+rhoMin) +rhoMin
         # if Inclination is zero, shrinkage is neglected
-        self.shrinkage_inclination = 0.0005  # kg/m³ / s
+        self.shrinkage_inclination = 0.0004  # kg/m³ / s
         self.shrinkage_rhoMin = self.rho_bulkInf    # kg/m³
-        self.shrinkage_t0 = 1.4*self.ts            # s  
+        self.shrinkage_t0 = 1.2*self.ts            # s  
         # Model Equation
         shrinkageEquation = 'rhoMax-((rhoMax-rhoMin)/(1 + exp(Inclination*(-t+t0)))+rhoMin)+rhoMin'
         self.shrinkageModel = Expression(shrinkageEquation,\
@@ -128,6 +126,7 @@ class Inputs():
         self.meshFile = 'WellSimulator'#'MacroParallelPlates'#'WellSimulator'#
         # Geometric Values
         self.Zmin = 6
+        self.Zmax = 8
         self.ROut = 0.22
         self.HFluidLoss = .1
         ## Mesh Elements

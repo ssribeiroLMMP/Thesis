@@ -11,6 +11,7 @@ import csv
 import sys
 sys.path.append(os.path.abspath('.'))
 from PostProcessing.Plotting import *
+import pandas as pd
 
 class Paths():
     def __init__(self):
@@ -114,6 +115,50 @@ def savingPreparation(paraFullPath,ParaViewFilenames):
 
     return paraFiles
 
+def initializePressureProfile(inputs):
+    meshpath, paraFullPath, imFullPath,parapath, imagespath, geopath, \
+    postpath = assemblePaths(inputs)
+
+    filePath = postpath + inputs.caseId+'/pressureProfile.csv'
+    
+    if os.path.exists(filePath):
+        os.truncate(filePath,0)
+    
+    createCSVOutput(filePath,['Time','Depth(m)','Pressure(Pa)'])
+
+def savePressureProfileDuringRun(inputs,p,t):
+    meshpath, paraFullPath, imFullPath,parapath, imagespath, geopath, \
+    postpath = assemblePaths(inputs)
+
+    filePath = postpath+inputs.caseId+'/pressureProfile.csv'
+
+    # dataframe = pd.read_csv(filePath)
+    dataframe = pd.DataFrame(columns=['Time','Depth(m)','Pressure(Pa)'])
+
+    # Number of Points in Z
+    nZPoints = (inputs.Zmax - inputs.Zmin)/inputs.dZPlot
+
+
+    # Loop over Depth
+    z = inputs.Zmin
+
+    # # Initialize PANDAS dataframe
+    # dataframe = dataframe.append({'Time': t,\
+    #                               'Depth(m)': z,\
+    #                               'Pressure(Pa)': p(z,inputs.ROut)}, ignore_index=True)
+
+    while z < inputs.Zmax:
+        dataframe = dataframe.append({'Time':round(t,0),\
+                                      'Depth(m)': z,\
+                                      'Pressure(Pa)': p(z,inputs.ROut)}, ignore_index=True)
+        z += inputs.dZPlot
+        z = round(z,2)
+        # print(z)        
+    
+    dataframe.to_csv(filePath, index=False, mode='a',header=False)
+
+    return 
+
 def saveResults(results,paraFiles,ParaViewFilenames,ParaViewTitles):
     # Save Data for Paraview
     for i in range(0,len(results)):
@@ -133,6 +178,8 @@ def logResults(t,results,listId,inputs,meshObj,cbarU=0,cbarP=0):
         ui = results[0]
         pi = results[1]
         ci = results[2]
+        # Test Write Pressure Profile
+        savePressureProfileDuringRun(inputs,pi,t)
         rhoMix = results[5]
         dicTitle = {1:'Pressure',2:'Concentration',3:'Velocity'}
         cbarU, cbarP, uXYValues, lValues, pValues, nVertices = prettyplot(1,meshObj,t,ui,pi,ci,dicTitle, resultspath='./PostProcessing/Cases/'+inputs.caseId,tag='/Images/',cbarU=cbarU,cbarP=cbarP,cbarDirection = 0)

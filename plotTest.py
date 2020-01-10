@@ -3,7 +3,9 @@
 
 from PostProcessing.Plotting import *
 
-inputFile = '/home/sergio/Documents/Thesis/GitHub/Master/Thesis/PostProcessing/Cases/TransWellSimulator_BaseCase_10500s_4/pressureOutput.csv'
+inputFile = '/home/sergio/Documents/Thesis/GitHub/Master/Thesis/PostProcessing/Cases/TransWellSimulator_BaseCase_14000s_5/pressureProfile.csv'
 outputFile = 'teste'
 
-plotPressureProfile(inputFile,outputFile)
+# plotPressureProfile(inputFile,outputFile)
+
+plotPressureProfileDF(inputFile)

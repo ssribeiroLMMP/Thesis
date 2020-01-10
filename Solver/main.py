@@ -81,6 +81,7 @@ def main(inputs):
     # Create CSV File
     createCSVOutput(inputs.outputFlowrate,inputs.fieldnamesFlow)
     createCSVOutput(inputs.outputPressure,inputs.fieldnamesPre)
+    initializePressureProfile(inputs)
 
     TOC = inputs.Zmin
     rhoMix = inputs.CInitialMixture*inputs.rho_values[0] + \
