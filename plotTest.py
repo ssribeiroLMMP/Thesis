@@ -8,4 +8,4 @@ outputFile = 'teste'
 
 # plotPressureProfile(inputFile,outputFile)
 
-plotPressureProfileDF(inputFile)
+plotPressureProfileDF(inputFile,outputFile)

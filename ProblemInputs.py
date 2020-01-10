@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_BaseCase_14000s_5' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_BaseCase_14000s_6' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -52,7 +52,7 @@ class Inputs():
         self.tEnd = 14000 # s
 
         # Plot Time List
-        self.plotTimeList = [0, 200, 2500, 4500, 7000, 8250, 9000, 10500, 12000, self.tEnd]#
+        self.plotTimeList = [1, 200, 2500, 4500, 7000, 8250, 9000, 10500, 12000, self.tEnd]#
         self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
         self.dZPlot = 0.01
         self.fieldnamesPre = ['Time(s)','rhoInlet(Kg/m3)']
@@ -102,7 +102,7 @@ class Inputs():
         # Experimental Values
         self.rho_water = 1000           # kg/m³
         self.rho_bulk0 = 1737.48        # kg/m³ = 14.5ppg
-        self.rho_bulkInf = 900      # kg/m³    
+        self.rho_bulkInf = 1200      # kg/m³    
         self.rho_cem0 = (self.rho_bulk0 - (1-self.CInitialMixture)*self.rho_water)/(self.CInitialMixture)
         
         # Initial Density Values per Component

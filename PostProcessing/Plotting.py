@@ -35,7 +35,7 @@ class Style():
                 'weight': 'normal',
                 'size': 10}
 
-def plotPressureProfileDF(inputFile):
+def plotPressureProfileDF(inputFile,outputFile):
 
     dataframe = pd.read_csv(inputFile) #Time(s),Depth(m),Pressure(Pa)
     fig, ax = plt.subplots()
@@ -47,11 +47,19 @@ def plotPressureProfileDF(inputFile):
         ax = grp.plot(ax=ax, kind='line', x='Depth(m)', y='Pressure(Pa)', \
                       c = Style().colors[i], label=timeLabel)
         i+=1
-    plt.legend(loc='best')
-    plt.show()
+    plt.xlim((6,8))
+    # plt.ylim((0,200000))
+    plt.xlabel('Column Height (m)', fontdict = Style().font)
+    plt.ylabel('Pressure (Pa)', fontdict = Style().font)
+    plt.xticks(fontsize = 8)
+    plt.yticks(fontsize = 8)
+    plt.grid(color='0.8', linestyle='-')
+    plt.legend(loc = 'lower center',bbox_to_anchor=(0.5, 1.01),ncol=6,fontsize = 8)
+    plt.savefig('./'+outputFile+'.png',dpi=300)
 
+    return fig, ax
 
-def plotPressureProfile(inputFile,toutputFile):
+def plotPressureProfile(inputFile,outputFile):
     fig, ax = plt.subplots()
     
     dataframe = pd.read_csv(inputFile) #Time(s),P6(Pa),P6.5(Pa),P7(Pa),P7.5(Pa),P8(Pa)
