@@ -24,7 +24,7 @@ import timeit
 import sys
 import os
 sys.path.append(os.path.abspath('.'))
-from ProblemInputs import *
+from ProblemInputsNew import * #from ProblemInputs import *
 from PreProcessing.meshConversion import *
 from Solver.Equations import *
 from PostProcessing.Saving import *

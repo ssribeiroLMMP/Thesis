@@ -6,10 +6,9 @@ Created on Thu Aug 22 16:00:58 2019
 @author: adminlinux
 """
 import datetime
-from ProblemInputs import *
+from ProblemInputsNew import *
 from Solver.main import *
 from PostProcessing.Saving import *
-
 
 def infoCommand():    
     return 'python3 ./Info.py>./PostProcessing/Cases/'+inputs.caseId+'/Execution.txt' 
@@ -18,6 +17,14 @@ def solveCommand():
     return 'python3 ./Solver/main.py>>./PostProcessing/Cases/'+inputs.caseId+'/Execution.txt'
     
 inputs = Inputs()
+print(inputs.absTol)
+print(inputs.linearSolver)
+TestData = TestMatrixDataframe('/home/sergio/Documents/Thesis/GitHub/Master/Thesis/TestMatrix.csv')
+i=0
+inputs.setUserInputs(self,TestData,i)
+print(inputs.absTol)
+print(inputs.linearSolver)
+
 mainPaths = Paths()
 
 # Store Simulation Execution Info
