@@ -3,9 +3,16 @@
 
 from PostProcessing.Plotting import *
 
-inputFile = '/home/sergio/Documents/Thesis/GitHub/Master/Thesis/PostProcessing/Cases/TransWellSimulator_BaseCase_14000s_5/pressureProfile.csv'
-outputFile = 'teste'
 
-# plotPressureProfile(inputFile,outputFile)
+def plotPressureProfile(CaseId):
+    inputFile = '/home/sergio/Documents/Thesis/GitHub/Master/Thesis/PostProcessing/Cases/'+CaseId+'/pressureProfile.csv'
+    outputFile = '/home/sergio/Documents/Thesis/GitHub/Master/Thesis/PostProcessing/Cases/'+CaseId+'/Images/PressureProfile'
 
-plotPressureProfileDF(inputFile,outputFile)
+    # plotPressureProfile(inputFile,outputFile)
+
+    plotPressureProfileDF(inputFile,outputFile)
+
+# Calls Plot Functions
+if __name__ == "__main__":
+    CaseId = sys.argv[1]
+    plotPressureProfile(CaseId)

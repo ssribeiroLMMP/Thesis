@@ -14,6 +14,7 @@ import numpy as np
 import matplotlib.ticker as ticker
 from dolfin import *
 import pandas as pd
+import sys
 
 class Style():
     def __init__(self):
@@ -54,8 +55,8 @@ def plotPressureProfileDF(inputFile,outputFile):
     plt.xticks(fontsize = 8)
     plt.yticks(fontsize = 8)
     plt.grid(color='0.8', linestyle='-')
-    plt.legend(loc = 'lower center',bbox_to_anchor=(0.5, 1.01),ncol=6,fontsize = 8)
-    plt.savefig('./'+outputFile+'.png',dpi=300)
+    plt.legend(loc = 'lower center',bbox_to_anchor=(0.5, 1.01),ncol=5,fontsize = 8)
+    plt.savefig(outputFile+'.png',dpi=300)
 
     return fig, ax
 

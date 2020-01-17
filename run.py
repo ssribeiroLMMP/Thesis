@@ -11,9 +11,9 @@ from Info import *
 createDirectories(inputs)
 
 # Overwrite the previous Execution.txt with new Header
-os.system(infoCommand())
+# os.system(infoCommand())
 
-# Append Execut                   vi  on.txt with Simulation Residues
-os.system(solveCommand())
+# # Append Execut                   vi  on.txt with Simulation Residues
+# os.system(solveCommand())
 # main(inputs)
-os.system('python3 plotTest.py')
+os.system(plotCommand())
