@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_BaseCase_14000s_3' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_LowPowLawIndex_14000s_3' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -52,7 +52,7 @@ class Inputs():
         self.tEnd = 14000 # s
 
         # Plot Time List
-        self.plotTimeList = [1, 200, 2500, 4500, 7000, 8250, 9000, 10500, 12000, self.tEnd]#
+        self.plotTimeList = [0.2, 200, 2500, 4500, 7000, 8250, 9000, 10500, 12000, self.tEnd]#
         self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
         self.dZPlot = 0.01
         self.fieldnamesPre = ['Time(s)','rhoInlet(Kg/m3)']
@@ -86,7 +86,7 @@ class Inputs():
         # Rheology
         # Newtonian Viscosity
         self.mu_water = 0.01    # Pa.s
-        self.mu_cem = 0.01       # Pa.s
+        self.mu_cem = 0.1       # Pa.s
         self.mu_values = [self.mu_cem , self.mu_water]  
         
         # Modified SMD Model Variables
@@ -94,8 +94,8 @@ class Inputs():
         self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
         self.eta0 = 1e3             # Newtonian Plato: Low shear rates
         self.K = 1.43               # Consistency Index
-        self.n = 0.572              # Power-law Index
-        self.ts = 6000              # Caracteristic viscosity buildup time
+        self.n = 0.0572              # Power-law Index
+        self.ts = 4000              # Caracteristic viscosity buildup time
 
         # Density (kg/m³)
         
@@ -112,7 +112,7 @@ class Inputs():
         # if Inclination is zero, shrinkage is neglected
         self.shrinkage_inclination = 0.0004  # kg/m³ / s
         self.shrinkage_rhoMin = self.rho_bulkInf    # kg/m³
-        self.shrinkage_t0 = 1.2*self.ts            # s  
+        self.shrinkage_t0 = 10800 #1.2*self.ts            # s  
         # Model Equation
         shrinkageEquation = 'rhoMax-((rhoMax-rhoMin)/(1 + exp(Inclination*(-t+t0)))+rhoMin)+rhoMin'
         self.shrinkageModel = Expression(shrinkageEquation,\
