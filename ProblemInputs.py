@@ -90,15 +90,22 @@ class Inputs():
         self.mu_values = [self.mu_cem , self.mu_water]  
         
         # Modified SMD Model Variables
+        #etaCem = [1 - e^(- eta0/gammaDot)]*[tau0/gammaDot) + K*gammaDot^(n-1)] + etaInf
         self.tau0 = 19.019          # Dinamic Yield Stress               
-        self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
+        self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: High shear rates)
         self.eta0 = 1e3             # Newtonian Plato: Low shear rates
-        self.K = 1.43               # Consistency Index
+        # self.K = 1.43               # Consistency Index
         self.n = 0.0572              # Power-law Index
         self.ts = 4000              # Caracteristic viscosity buildup time
 
+        # Newtonian Model 
+        # mu = etaInf
+        self.K = 0               # Consistency Index(Neutonian)
+        self.tau0 = 0            # Dinamic Yield Stress               
+        self.eta0 = 0            # Newtonian Plato: Low shear rates
+
+
         # Density (kg/m³)
-        
         # Experimental Values
         self.rho_water = 1000           # kg/m³
         self.rho_bulk0 = 1737.48        # kg/m³ = 14.5ppg
