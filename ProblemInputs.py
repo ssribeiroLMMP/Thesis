@@ -14,7 +14,7 @@ def dynamicTimestep(t,dtMax,dtMin,t0):
     Inclination = 3
     return (dtMax-dtMin)/(1+math.exp(Inclination*(-t+t0)))+dtMin
 
-def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
+def autoTimestep(no_iterations,dt,inputs,limitIterations=3,increment=2):
     # Check if 
     if no_iterations < limitIterations:
         dt = min(increment*dt,inputs.dtMax)
@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_LowPowLawIndex_14000s_3' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_BaseCaseNewtonian10X_14000s_3' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -59,7 +59,7 @@ class Inputs():
 
         # Variable time step
         self.dtMin = 0.005    # s
-        self.dtMax = 10  # s
+        self.dtMax = 1  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
         self.dt = 0.01
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
@@ -83,19 +83,24 @@ class Inputs():
         # Diffusity of Between species (m²/s)
         self.D = 1e-3
         
-        # Rheology
-        # Newtonian Viscosity
-        self.mu_water = 0.01    # Pa.s
-        self.mu_cem = 0.1       # Pa.s
-        self.mu_values = [self.mu_cem , self.mu_water]  
-        
+        # Rheology       
         # Modified SMD Model Variables
         self.tau0 = 19.019          # Dinamic Yield Stress               
-        self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
+        # self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
+        self.etaInf = 2.95         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
         self.eta0 = 1e3             # Newtonian Plato: Low shear rates
         self.K = 1.43               # Consistency Index
-        self.n = 0.0572              # Power-law Index
+        self.n = 0.0572             # Power-law Index
         self.ts = 4000              # Caracteristic viscosity buildup time
+
+        # Newtonian Model
+        # Newtonian Viscosity
+        self.mu_water = 0.01        # Pa.s
+        self.mu_cem = self.etaInf   # Pa.s
+        self.mu_values = [self.mu_cem , self.mu_water]
+        self.tau0 = 0          # Dinamic Yield Stress
+        self.eta0 = 0             # Newtonian Plato: Low shear rates
+        self.K = 0               # Consistency Index
 
         # Density (kg/m³)
         
@@ -172,7 +177,7 @@ class Inputs():
         self.velocityBCs = {}
         # self.VrOutlet = '0.00043 + 0*t*A*rho'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.061/((pow(t,0.78)))' # BaseCase 0
-        self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.055 /((pow(t,0.78)))' # All BaseCases
+        self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.055 /((pow(t,0.78)))' # All BaseCases
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.55 /((pow(t,0.78)))'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s

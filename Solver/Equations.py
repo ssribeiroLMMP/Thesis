@@ -107,6 +107,7 @@ def smdM(C,inputs,u,t):
     eps = 1e-10
 
     # Modified smd Model (Souza Mendes e Dutra (2004)) + Cure(tauY(t))  
+    # [1 - exp(-eta0*(gammaDot)/tauY_t)]* (tauY_t/(gammaDot+eps) + K*(pow((abs(gammaDot)+eps),nPow)/(gammaDot+eps))) + etaInf
     smdEquation = Expression('(1 - exp(-eta0*(gammaDot)/tauY_t))* \
                              (tauY_t/(gammaDot+eps)+ K*(pow((abs(gammaDot)+eps),nPow)/(gammaDot+eps))) + etaInf',\
                             etaInf=inputs.etaInf,eta0=inputs.eta0,K = inputs.K,nPow = inputs.n,ts = inputs.ts, \
@@ -128,8 +129,8 @@ def smdM(C,inputs,u,t):
 
 # Calculates Fluid properties by Mesh Cell
 def assignFluidProperties(inputs,c,C=0,u=0,t=0):
-    # Constant Viscosity and Densityof Each Specie
-    if C == 0:
+    # Constant Viscosity and Density of Each Specie
+    if inputs.tau0 == 0 and inputs.eta0 == 0 and inputs.K == 0:
         mu = inputs.mu_values[inputs.Fluid0]*c + inputs.mu_values[inputs.Fluid1]*(1-c)
         
     # Cement Rheology is modeled by Modified SMD Non-Newtonian Model + Cure(tauY(t))
