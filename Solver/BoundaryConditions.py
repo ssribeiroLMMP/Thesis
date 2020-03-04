@@ -37,7 +37,9 @@ def flowBC(U,inputs,meshId,boundariesId,subdomainsDict):
         
     # Velocity Conditions  #ERROR ON VERSION 1.0.4
     for key,value in inputs.velocityBCs.items():
-        bc.append(DirichletBC(U,value,boundariesId,subdomainsDict[key]))
+        dim = value[0]
+        velValue = value[1]
+        bc.append(DirichletBC(U.sub(dim-1),velValue,boundariesId,subdomainsDict[key]))
     
     return bc
 

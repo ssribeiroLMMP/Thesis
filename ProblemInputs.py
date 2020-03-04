@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=1.1):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'vargesPR_HeleShawCell_SurfTensTest_sigma0_01_miStar_5e0_IP'
+        self.caseId = 'vargesPR_HeleShawCell_CSFTest_sigma0_01_miStar_5e0_noSlip'
 #        self.caseId = 'vargesPR_HeleShawCell_etaStar5_3_RectTriangMesh' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
@@ -52,7 +52,7 @@ class Inputs():
         # self.InterfaceY0 = 0.01
         
         # Diffusity of Between species (m²/s)
-        self.D = 1e-8
+        self.D = 1e-6
         
         # Interfacial Tension (N/m)
         self.sigma = 0.01
@@ -70,10 +70,10 @@ class Inputs():
         self.tEnd = 80 # s
         
         # Variable time step
-        self.dtMin = 0.05   # s
-        self.dtMax = 2  # s
+        self.dtMin = 0.005   # s
+        self.dtMax = 0.1  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 0.5
+        self.dt = 0.05
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
         
         #%%############ Logging Options   ###############################
@@ -96,20 +96,28 @@ class Inputs():
         self.scalarFieldElementOrder = 1
         
         #%%############ Boundary Conditions
-        
-        ## No slip Boundaries
+               
+        ## Velocity Boundaries
+        # No-Slip
         self.noSlipBCs = []
-        self.noSlipBCs.append('TopWall')
-        self.noSlipBCs.append('BottomWall')
+        # self.noSlipBCs.append('TopWall')
+        # self.noSlipBCs.append('BottomWall')
 #        self.noSlipBCs.append('RightWall')
 #        self.noSlipBCs.append('LeftWall')
         #noSlipBoundaries.append('InnerWalls')
+        # Inputs
+        self.velocityBCs = {}
+        self.velocityBCs.update({'TopWall' : [2, 0.0]}) # m/s
+        self.velocityBCs.update({'BottomWall' : [2, 0.0]}) # m/s
+        # self.VxInlet = 1e-2
+        # self.velocityBCs.update({'Inlet' : Constant((self.VxInlet,0.0))}) # m/s
+        
         
         ## Pressure Inputs
         self.pressureBCs = {}
-#        self.PInlet = 1
+        self.PInlet = 2
         self.POutlet = 0
-#        self.pressureBCs.update({'Inlet' : self.PInlet}) # Pa
+        self.pressureBCs.update({'Inlet' : self.PInlet}) # Pa
         self.pressureBCs.update({'Outlet' : self.POutlet}) # Pa
         
         ## Advected Scalar Field Inputs
@@ -117,11 +125,6 @@ class Inputs():
         self.scalarFieldBCs = {}
         self.scalarFieldBCs.update({'Inlet' : Constant(self.CInlet)}) # % Only fluid 0 enters
         #self.scalarFieldBCs.update({'TopWall': self.TTopWall}) # T
-        
-        ## Velocity Inputs
-        self.velocityBCs = {}
-        self.VxInlet = 1e-2
-        self.velocityBCs.update({'Inlet' : Constant((self.VxInlet,0.0))}) # m/s
         
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
