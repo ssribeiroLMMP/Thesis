@@ -106,9 +106,15 @@ class Inputs():
 #        self.noSlipBCs.append('LeftWall')
         #noSlipBoundaries.append('InnerWalls')
         # Inputs
+<<<<<<< HEAD
         self.velocityBCs = {}                # Vx = 0 m/s    Vy = 0 m/s
         self.velocityBCs.update({'TopWall'    : {1 : 0.0 , 2 : 0.0}}) 
         self.velocityBCs.update({'BottomWall' : {1 : 0.0 , 2 : 0.0}})
+=======
+        self.velocityBCs = {}
+        self.velocityBCs.update({'TopWall' : [2, 0.0]}) # m/s
+        self.velocityBCs.update({'BottomWall' : [2, 0.0]}) # m/s
+>>>>>>> f6494501cd5278610775d64b6616f070559a267b
         # self.VxInlet = 1e-2
         # self.velocityBCs.update({'Inlet' : Constant((self.VxInlet,0.0))}) # m/s
         
