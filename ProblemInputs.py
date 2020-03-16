@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=1.1):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'vargesPR_HeleShawCell_CSFTest_sigma0_01_miStar_5e0_noSlip'
+        self.caseId = 'vargesPR_HeleShawCell_sigma0_01_miStar_5e0_CSF_CurvedInterface_NavierSlip'
 #        self.caseId = 'vargesPR_HeleShawCell_etaStar5_3_RectTriangMesh' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
@@ -48,14 +48,17 @@ class Inputs():
         self.rho_values = [1191, 867.6]
         
         # Initial Interface position
-        self.InterfaceX0 = 0.02
-        # self.InterfaceY0 = 0.01
+        self.InterfaceR = 0.05
+        self.InterfaceX0 = 0.02 + self.InterfaceR
+        self.InterfaceY0 = 0.071
         
         # Diffusity of Between species (m²/s)
         self.D = 1e-6
         
         # Interfacial Tension (N/m)
         self.sigma = 0.01
+        # slip Coefficient (m)
+        self.dSlip = 1e-6 # (1 um)
                 
         
         # Rheology
@@ -67,18 +70,18 @@ class Inputs():
         # Start Time
         self.t0 = 0 # s
         # Simulation Time
-        self.tEnd = 80 # s
+        self.tEnd = 10 # s
         
         # Variable time step
-        self.dtMin = 0.005   # s
-        self.dtMax = 0.1  # s
+        self.dtMin = 1e-3   # s
+        self.dtMax = 1e-1  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 0.05
+        self.dt = 5e-2
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
         
         #%%############ Logging Options   ###############################
         # Result Saving time step
-        self.savedt = 0.5 # s
+        self.savedt = 1e-2 # s
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
@@ -98,6 +101,12 @@ class Inputs():
         #%%############ Boundary Conditions
                
         ## Velocity Boundaries
+        # Navier-Slip
+        self.navierslip = {}
+        # self.navierslip.update({'BottomWall' : self.dSlip})
+        # self.navierslip.update({'TopWall'    : self.dSlip})
+        
+        
         # No-Slip
         self.noSlipBCs = []
         # self.noSlipBCs.append('TopWall')
@@ -106,22 +115,16 @@ class Inputs():
 #        self.noSlipBCs.append('LeftWall')
         #noSlipBoundaries.append('InnerWalls')
         # Inputs
-<<<<<<< HEAD
-        self.velocityBCs = {}                # Vx = 0 m/s    Vy = 0 m/s
-        self.velocityBCs.update({'TopWall'    : {1 : 0.0 , 2 : 0.0}}) 
-        self.velocityBCs.update({'BottomWall' : {1 : 0.0 , 2 : 0.0}})
-=======
-        self.velocityBCs = {}
-        self.velocityBCs.update({'TopWall' : [2, 0.0]}) # m/s
-        self.velocityBCs.update({'BottomWall' : [2, 0.0]}) # m/s
->>>>>>> f6494501cd5278610775d64b6616f070559a267b
+        self.velocityBCs = {}                #  Vy = 0 m/s
+        self.velocityBCs.update({'TopWall'    : {2 : 0.0}}) 
+        self.velocityBCs.update({'BottomWall' : {2 : 0.0}})
         # self.VxInlet = 1e-2
         # self.velocityBCs.update({'Inlet' : Constant((self.VxInlet,0.0))}) # m/s
         
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        self.PInlet = 2
+        self.PInlet = 5
         self.POutlet = 0
         self.pressureBCs.update({'Inlet' : self.PInlet}) # Pa
         self.pressureBCs.update({'Outlet' : self.POutlet}) # Pa

@@ -22,7 +22,7 @@ def IP(c,l,n,meshObj):
 
 # Normalization of Mollified Color Function(c = rho - Brackbird 1992)
 def normalization(cFLimits):
-    diffC = cFLimits[1]-cFLimits[0]
+    diffC = max(cFLimits)-min(cFLimits)
     medC = np.average(cFLimits)
     return diffC, medC
 
@@ -31,13 +31,14 @@ def interface(c,meshObj):
     N = VectorFunctionSpace(meshObj, "CG", 2, dim=2) 
     DD = FunctionSpace(meshObj,"CG",1)
     grad_c = project(grad(c),N)
-    nGamma = grad_c/sqrt(dot(grad_c,grad_c))
-    #nGammaMag = project(nGamma,DD)
-    #nGammaNorm = nGamma/nGammaMag
-    k = -div(nGamma)
     gradientMag = sqrt(dot(grad_c,grad_c))
     gradProj = project(gradientMag,DD)
+    nGamma = grad_c/gradProj
     deltaDirac = gradientMag/gradProj.vector().max()
+    #nGammaMag = project(nGamma,DD)
+    #nGammaNorm = nGamma/nGammaMag
+    k = div(nGamma)
+    
     #deltaDirac = interpolate(Expression("c > 0.32 & c < 0.68  ? 1 : 0", c=c, degree=1),V0)
     return k,nGamma,deltaDirac
 
@@ -161,9 +162,9 @@ def transientFlow(W,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     dx, ds, n = meshMeasures(meshObj,boundaries)
     # Rot = Expression((('0','1'),('-1','0')),degree=1)
     
-    # # Interface Properties
-    # k,nGamma,dDirac = interface(c0,meshObj)
-    # # Tangent of the Interface
+    # Interface Properties
+    k,nGamma,dDirac = interface(rho,meshObj)
+    # Tangent of the Interface
     # tGamma = Rot* nGamma
 
     #tGamma = I - outer(nGamma,nGamma)
@@ -172,62 +173,72 @@ def transientFlow(W,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     Dt = Constant(dt)
    
     alpha = Constant(inputs.alpha)
-    ##########   Equations
+    
+    ###  Equations
     # Linear Momentum Conservation
           
            # Transient Term            # Inertia Term             # Surface Forces Term           # Pressure Force              
     a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho)*dx() + \
                                (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p/rho)*dx()    # Relaxation
+
                       
-    ## Body Forces Term - Example: Weight(Gravity)
+    # Body Forces Term - Example: Weight(Gravity)
     Fb = + dot(fb(inputs.g),v)
 
-    ## Surface Tension Term
+    # Surface Tension Term
     # CSF - Brackbill 1992
     # Normalization Factors diffC = [c] = c2-c1 ; medC = <c> = (c1+c2)/2
     diffrho,medrho = normalization(inputs.rho_values)
     
-    # Interface Properties
-    k,nGamma,dDirac = interface(rho,meshObj)
+    # # Interface Properties
+    # k,nGamma,dDirac = interface(c0,meshObj)
     
     # Surface Tension force (but written as a Body Force)
-    FsV = (inputs.sigma)*(k/(diffrho*medrho))*dot(grad(rho),v)
-
-    ## Viscous Drag
+    rhoNorm = rho/diffrho
+    grad_rhoNorm = grad(rho)/medrho
+    FsV = (inputs.sigma)*(k)*dot(rhoNorm*grad_rhoNorm,v)*dDirac
+    # uSlip = inputs.lSlip
+    
+    # Viscous Drag
     # Dvwalls = - (12/(inputs.CellThickness**2))*(mu/rho)*inner(u,v)*dx()
     
     # Right Hand Side of Mommentum Conservation Equation
-      # Body Forces    # Surface Tension   # Viscous Drad(2D proxy due to top and bottom walls)   
-    L1 = 0# Fb*dx() +              FsV*dx() #+             Dvwalls          
+      # Surface Tension   # Body Forces      # Viscous Drad(2D proxy due to top and bottom walls)   
+    L1 = 1/rho*FsV*dx()          # Fb*dx() +          Dvwalls          
 
     ## Natural Boundary Conditions
+    # Pressure BCs
     for key, value in inputs.pressureBCs.items():
         Pi = Constant(value)
                # Pressure Force: Natural Boundary Conditions
         L1 = L1 - (Pi/rho)*dot(v,n)*ds(Subdomains[key])
     
-  
-    # Add Mass Conservation
+    # Velocity BCs (Navier-Slip)
+    for key, value in inputs.navierslip.items():
+        uslip = value*dot(grad(u),n)
+        L1 = L1 + (mu/rho)*value*dot(dot(grad(uslip),n),v)*ds(Subdomains[key])
+    
+    ## Add Mass Conservation
     # Left Hand Side of Mass Conservation Equation
     a2 = (q*div(u))*dx() 
     # Right Hand Side of Mass Conservation Equation 
     L2 = 0
     
-    # Weak Complete Form
+    ## Weak Complete Form
     F = a1 + a2 - (L1 + L2)
         
-    # Jacobian Matrix
+    ## Jacobian Matrix
     J = derivative(F,w,dw)
     
     # Apply Flow Boundary Conditions
     bcU = flowBC(U,inputs,meshObj,boundaries,Subdomains)
 
-    # General parameters
-    parameters['dof_ordering_library'] = 'Boost'
-    parameters['form_compiler']['quadrature_degree'] = 2
-
-    ##########   Numerical Solver Properties
-    # Problem and Solver definitions
+    ###   Numerical Solver Properties
+    # General Parameters
+    # parameters['dof_ordering_library'] = 'Boost'
+    # parameters['form_compiler']['quadrature_degree'] = 2
+    
+    ## Problem and Solver definitions
     problemU = NonlinearVariationalProblem(F,w,bcU,J)
     solverU = NonlinearVariationalSolver(problemU)
     # Solver Parameters
@@ -268,19 +279,35 @@ def initialConditionField(C,inputs):
     c0.assign(project(init,C))
     return c0
 
-## Fluid Interface 
-def initialInterface(C,inputs):
-    CIn = inputs.FluidTags[0] + 1e-10
-    COut = inputs.FluidTags[1] - 1e-10
-    IntIncl = 200
-    inflection = inputs.InterfaceX0
+# Fluid Interface 
+# def initialInterface(C,inputs):
+#     CIn = inputs.FluidTags[1] - 1e-10
+#     COut = inputs.FluidTags[0] + 1e-10
+#     IntIncl = 200
+#     inflection = inputs.InterfaceX0
 
-    smoothstep = Expression('(CMax-CMin)/(1+exp(IntIncl*(-x[0]+x0)))+CMin',CMin=CIn,CMax=COut, IntIncl=IntIncl,x0=inflection,degree=1)
+#     smoothstep = Expression('(CMax-CMin)/(1+exp(IntIncl*(-x[0]+x0)))+CMin',CMin=CIn,CMax=COut, IntIncl=IntIncl,x0=inflection,degree=1)
+#     # smoothstep = Expression('(CMin*exp(IntIncl*x0)+CMax*exp(IntIncl*x[0]))/(exp(IntIncl*x0)+exp(IntIncl*x[0]))',IntIncl = 300,x0=inputs.InterfaceX0,CMin=CIn,CMax=COut,degree=2)
+#     # smoothstep = Expression('x[0] < x0 ? 0 : 1',x0=inputs.VxInlet,degree=1)
+#     c0 = Function(C)
+#     c0.assign(project(smoothstep,C))
+#     return c0
+def initialInterface(C,inputs):
+    CIn = inputs.FluidTags[1] - 1e-10
+    COut = inputs.FluidTags[0] + 1e-10
+    IntIncl = 500
+    x0 = inputs.InterfaceX0
+    y0 = inputs.InterfaceY0
+    R = inputs.InterfaceR
+    # (Cmax-Cmin) / (1+exp(IntIncl*(-sqrt(  (x[0]-x0)^2  +  (x[1]-y0)^2)      +R)))+Cmin
+    
+    smoothstep = Expression('(CMax-CMin) / (1 + exp(IntIncl* (-pow(pow(x[0]-x0,2) + pow(x[1]-y0,2),0.5)+R)))+CMin',CMin=CIn,CMax=COut, IntIncl=IntIncl,x0=x0,y0=y0,R=R, degree=2)
     # smoothstep = Expression('(CMin*exp(IntIncl*x0)+CMax*exp(IntIncl*x[0]))/(exp(IntIncl*x0)+exp(IntIncl*x[0]))',IntIncl = 300,x0=inputs.InterfaceX0,CMin=CIn,CMax=COut,degree=2)
     # smoothstep = Expression('x[0] < x0 ? 0 : 1',x0=inputs.VxInlet,degree=1)
     c0 = Function(C)
     c0.assign(project(smoothstep,C))
     return c0
+
 
 def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains):
     ## Trial and Test function(s)
@@ -312,8 +339,8 @@ def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdoma
     return c1
 
 def simpleReinit(C, c1, inputs, IntIncl = 200, inflection = 0.5):
-    CIn = inputs.FluidTags[0] + 1e-10
-    COut = inputs.FluidTags[1] - 1e-10
+    CIn = inputs.FluidTags[1] - 1e-10
+    COut = inputs.FluidTags[0] + 1e-10
 
     # sharpener = Expression('c < 0.5 ? 0 : 1',c=c1,degree=1)
     # sharpener = Expression('(CMin*exp(IntIncl*x0)+CMax*exp(IntIncl*x[0]))/(exp(IntIncl*x0)+exp(IntIncl*c))',IntIncl = IntIncl,c=c1, x0=inflection,CMin=CIn,CMax=COut,degree=2)

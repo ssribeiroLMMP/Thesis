@@ -1,0 +1,608 @@
+Simulation Execution: 2020-03-12 11:28:43.879267
+Case: vargesPR_HeleShawCell_sigma0_01_miStar_5e0_CSF_StraightInterface_NavierSlip
+Source: FCS_v1.0
+caseId=vargesPR_HeleShawCell_sigma0_01_miStar_5e0_CSF_StraightInterface_NavierSlip
+ParaViewFilenames=['velocity', 'pressure', 'concentration']
+ParaViewTitles=['Velocity (m/s)', 'Pressure (Pa)', 'Mass Fraction (Fluid Tags)']
+g=9.81
+FluidTags=[0, 1]
+rho_values=[1191, 867.6]
+InterfaceR=0.8
+InterfaceX0=0.02
+InterfaceY0=0.071
+D=1e-06
+sigma=0.01
+dSlip=1e-06
+mu_values=[0.0251, 0.134]
+mu_star=0.1873134328358209
+t0=0
+tEnd=10
+dtMin=0.001
+dtMax=0.05
+tChange=0
+dt=0.005
+savedt=0.1
+meshFile=OriginalHeleShaw
+CellThickness=0.0007
+velocityElementfamily=Lagrange
+velocityElementOrder=2
+pressureElementfamily=Lagrange
+pressureElementOrder=1
+scalarFieldElementfamily=Lagrange
+scalarFieldElementOrder=1
+navierslip={'BottomWall': 1e-06, 'TopWall': 1e-06}
+noSlipBCs=[]
+velocityBCs={'TopWall': {2: 0.0}, 'BottomWall': {2: 0.0}}
+pressureBCs={'Inlet': 2, 'Outlet': 0}
+PInlet=2
+POutlet=0
+CInlet=1
+scalarFieldBCs={'Inlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 0)}
+absTol=1e-12
+relTol=1e-10
+maxIter=15
+linearSolver=mumps
+alpha=0.85
+alphaC=1
+
+
+--------- Saving Initial Conditions ----------
+Flow - Time:0.000s, dt:0.005000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.419e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.571e-11 (tol = 1.000e-12) r (rel) = 7.520e-07 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.226e-19 (tol = 1.000e-12) r (rel) = 6.510e-15 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:0.005s, dt:0.005500
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.442e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.249e-08 (tol = 1.000e-12) r (rel) = 3.630e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 8.684e-15 (tol = 1.000e-12) r (rel) = 2.523e-10 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.011s, dt:0.006050
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.415e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.349e-08 (tol = 1.000e-12) r (rel) = 3.950e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.336e-14 (tol = 1.000e-12) r (rel) = 3.913e-10 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.017s, dt:0.006655
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.431e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.504e-08 (tol = 1.000e-12) r (rel) = 4.384e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.879e-14 (tol = 1.000e-12) r (rel) = 5.477e-10 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.023s, dt:0.007321
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.444e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.547e-08 (tol = 1.000e-12) r (rel) = 4.492e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.190e-14 (tol = 1.000e-12) r (rel) = 6.360e-10 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.031s, dt:0.008053
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.461e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.571e-08 (tol = 1.000e-12) r (rel) = 4.537e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.443e-14 (tol = 1.000e-12) r (rel) = 7.059e-10 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.039s, dt:0.008858
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.476e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.562e-08 (tol = 1.000e-12) r (rel) = 4.493e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.588e-14 (tol = 1.000e-12) r (rel) = 7.446e-10 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.047s, dt:0.009744
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.492e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.559e-08 (tol = 1.000e-12) r (rel) = 4.465e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.731e-14 (tol = 1.000e-12) r (rel) = 7.821e-10 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.057s, dt:0.010718
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.510e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.579e-08 (tol = 1.000e-12) r (rel) = 4.499e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.951e-14 (tol = 1.000e-12) r (rel) = 8.407e-10 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.068s, dt:0.011790
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.530e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.622e-08 (tol = 1.000e-12) r (rel) = 4.595e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 3.278e-14 (tol = 1.000e-12) r (rel) = 9.286e-10 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.080s, dt:0.012969
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.543e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.635e-08 (tol = 1.000e-12) r (rel) = 4.614e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 3.510e-14 (tol = 1.000e-12) r (rel) = 9.908e-10 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.093s, dt:0.014266
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.561e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.694e-08 (tol = 1.000e-12) r (rel) = 4.758e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 3.983e-14 (tol = 1.000e-12) r (rel) = 1.119e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.107s, dt:0.015692
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.575e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.754e-08 (tol = 1.000e-12) r (rel) = 4.905e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 4.509e-14 (tol = 1.000e-12) r (rel) = 1.261e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:0.123s, dt:0.017261
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.592e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.840e-08 (tol = 1.000e-12) r (rel) = 5.123e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 5.231e-14 (tol = 1.000e-12) r (rel) = 1.456e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.140s, dt:0.018987
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.603e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.910e-08 (tol = 1.000e-12) r (rel) = 5.300e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 5.959e-14 (tol = 1.000e-12) r (rel) = 1.654e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.159s, dt:0.020886
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.618e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.027e-08 (tol = 1.000e-12) r (rel) = 5.601e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.105e-14 (tol = 1.000e-12) r (rel) = 1.964e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.180s, dt:0.022975
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.630e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.138e-08 (tol = 1.000e-12) r (rel) = 5.891e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 8.368e-14 (tol = 1.000e-12) r (rel) = 2.305e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.203s, dt:0.025272
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.638e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.241e-08 (tol = 1.000e-12) r (rel) = 6.161e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 9.815e-14 (tol = 1.000e-12) r (rel) = 2.698e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.228s, dt:0.027800
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.654e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.433e-08 (tol = 1.000e-12) r (rel) = 6.657e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.234e-13 (tol = 1.000e-12) r (rel) = 3.378e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:0.256s, dt:0.030580
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.660e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.546e-08 (tol = 1.000e-12) r (rel) = 6.955e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.458e-13 (tol = 1.000e-12) r (rel) = 3.985e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.286s, dt:0.033637
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.670e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.712e-08 (tol = 1.000e-12) r (rel) = 7.391e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.793e-13 (tol = 1.000e-12) r (rel) = 4.885e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.320s, dt:0.037001
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.682e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.916e-08 (tol = 1.000e-12) r (rel) = 7.921e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.253e-13 (tol = 1.000e-12) r (rel) = 6.121e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.357s, dt:0.040701
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.692e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 3.121e-08 (tol = 1.000e-12) r (rel) = 8.453e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.822e-13 (tol = 1.000e-12) r (rel) = 7.644e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:0.398s, dt:0.044772
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.702e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 3.323e-08 (tol = 1.000e-12) r (rel) = 8.975e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 3.503e-13 (tol = 1.000e-12) r (rel) = 9.463e-09 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.442s, dt:0.049249
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.713e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 3.540e-08 (tol = 1.000e-12) r (rel) = 9.533e-04 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 4.351e-13 (tol = 1.000e-12) r (rel) = 1.172e-08 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.492s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.781e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 3.784e-08 (tol = 1.000e-12) r (rel) = 1.001e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 5.216e-13 (tol = 1.000e-12) r (rel) = 1.380e-08 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:0.542s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.868e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 4.082e-08 (tol = 1.000e-12) r (rel) = 1.055e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 6.261e-13 (tol = 1.000e-12) r (rel) = 1.619e-08 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.592s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 3.954e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 4.257e-08 (tol = 1.000e-12) r (rel) = 1.077e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 7.058e-13 (tol = 1.000e-12) r (rel) = 1.785e-08 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:0.642s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4.052e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 4.587e-08 (tol = 1.000e-12) r (rel) = 1.132e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 8.281e-13 (tol = 1.000e-12) r (rel) = 2.044e-08 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.692s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4.150e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 4.849e-08 (tol = 1.000e-12) r (rel) = 1.168e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 9.401e-13 (tol = 1.000e-12) r (rel) = 2.265e-08 (tol = 1.000e-10)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:0.742s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4.251e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 5.123e-08 (tol = 1.000e-12) r (rel) = 1.205e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.056e-12 (tol = 1.000e-12) r (rel) = 2.485e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.286e-19 (tol = 1.000e-12) r (rel) = 5.378e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.792s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4.359e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 5.479e-08 (tol = 1.000e-12) r (rel) = 1.257e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.207e-12 (tol = 1.000e-12) r (rel) = 2.769e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.316e-19 (tol = 1.000e-12) r (rel) = 5.313e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:0.842s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4.464e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 5.733e-08 (tol = 1.000e-12) r (rel) = 1.284e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.332e-12 (tol = 1.000e-12) r (rel) = 2.983e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.385e-19 (tol = 1.000e-12) r (rel) = 5.343e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.892s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4.576e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 6.106e-08 (tol = 1.000e-12) r (rel) = 1.334e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.505e-12 (tol = 1.000e-12) r (rel) = 3.290e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.368e-19 (tol = 1.000e-12) r (rel) = 5.176e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:0.942s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4.687e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 6.422e-08 (tol = 1.000e-12) r (rel) = 1.370e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.674e-12 (tol = 1.000e-12) r (rel) = 3.573e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.350e-19 (tol = 1.000e-12) r (rel) = 5.013e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:0.992s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4.800e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 6.770e-08 (tol = 1.000e-12) r (rel) = 1.410e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.868e-12 (tol = 1.000e-12) r (rel) = 3.892e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.342e-19 (tol = 1.000e-12) r (rel) = 4.880e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1.042s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 4.911e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 7.019e-08 (tol = 1.000e-12) r (rel) = 1.429e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.035e-12 (tol = 1.000e-12) r (rel) = 4.143e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.324e-19 (tol = 1.000e-12) r (rel) = 4.732e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:1.092s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 5.024e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 7.328e-08 (tol = 1.000e-12) r (rel) = 1.459e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.239e-12 (tol = 1.000e-12) r (rel) = 4.456e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.308e-19 (tol = 1.000e-12) r (rel) = 4.595e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1.142s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 5.141e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 7.692e-08 (tol = 1.000e-12) r (rel) = 1.496e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.492e-12 (tol = 1.000e-12) r (rel) = 4.848e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.502e-19 (tol = 1.000e-12) r (rel) = 4.866e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:1.192s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 5.251e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 7.873e-08 (tol = 1.000e-12) r (rel) = 1.499e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.669e-12 (tol = 1.000e-12) r (rel) = 5.082e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.519e-19 (tol = 1.000e-12) r (rel) = 4.798e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1.242s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 5.367e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 8.230e-08 (tol = 1.000e-12) r (rel) = 1.533e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 2.942e-12 (tol = 1.000e-12) r (rel) = 5.481e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.463e-19 (tol = 1.000e-12) r (rel) = 4.589e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:1.292s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 5.481e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 8.494e-08 (tol = 1.000e-12) r (rel) = 1.550e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 3.189e-12 (tol = 1.000e-12) r (rel) = 5.818e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.455e-19 (tol = 1.000e-12) r (rel) = 4.479e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1.342s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 5.593e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 8.740e-08 (tol = 1.000e-12) r (rel) = 1.563e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 3.424e-12 (tol = 1.000e-12) r (rel) = 6.122e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.448e-19 (tol = 1.000e-12) r (rel) = 4.376e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:1.392s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 5.702e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 8.964e-08 (tol = 1.000e-12) r (rel) = 1.572e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 3.645e-12 (tol = 1.000e-12) r (rel) = 6.391e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.423e-19 (tol = 1.000e-12) r (rel) = 4.249e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1.442s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 5.822e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 9.237e-08 (tol = 1.000e-12) r (rel) = 1.586e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 3.910e-12 (tol = 1.000e-12) r (rel) = 6.716e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.519e-19 (tol = 1.000e-12) r (rel) = 4.327e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:1.492s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 5.938e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 9.479e-08 (tol = 1.000e-12) r (rel) = 1.596e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 4.159e-12 (tol = 1.000e-12) r (rel) = 7.005e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.505e-19 (tol = 1.000e-12) r (rel) = 4.219e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1.542s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 6.055e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 9.749e-08 (tol = 1.000e-12) r (rel) = 1.610e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 4.415e-12 (tol = 1.000e-12) r (rel) = 7.291e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.476e-19 (tol = 1.000e-12) r (rel) = 4.089e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:1.592s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 6.169e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.004e-07 (tol = 1.000e-12) r (rel) = 1.627e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 4.692e-12 (tol = 1.000e-12) r (rel) = 7.606e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.415e-19 (tol = 1.000e-12) r (rel) = 3.915e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1.642s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 6.285e-05 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.037e-07 (tol = 1.000e-12) r (rel) = 1.650e-03 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 4.981e-12 (tol = 1.000e-12) r (rel) = 7.926e-08 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.457e-19 (tol = 1.000e-12) r (rel) = 3.910e-15 (tol = 1.000e-10)
+    Newton solver finished in 3 iterations and 3 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+Flow - Time:1.692s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.005e-04 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.099e-05 (tol = 1.000e-12) r (rel) = 2.090e-01 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.640e-06 (tol = 1.000e-12) r (rel) = 1.632e-02 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 2.188e-08 (tol = 1.000e-12) r (rel) = 2.178e-04 (tol = 1.000e-10)
+    Newton iteration 4: r (abs) = 3.052e-12 (tol = 1.000e-12) r (rel) = 3.039e-08 (tol = 1.000e-10)
+    Newton iteration 5: r (abs) = 2.546e-19 (tol = 1.000e-12) r (rel) = 2.534e-15 (tol = 1.000e-10)
+    Newton solver finished in 5 iterations and 5 linear solver iterations.
+Concentration
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:1.742s, dt:0.045455
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.799e-04 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 1.333e-04 (tol = 1.000e-12) r (rel) = 7.409e-01 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.101e-03 (tol = 1.000e-12) r (rel) = 6.123e+00 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 3.008e-04 (tol = 1.000e-12) r (rel) = 1.672e+00 (tol = 1.000e-10)
+    Newton iteration 4: r (abs) = 1.744e-04 (tol = 1.000e-12) r (rel) = 9.696e-01 (tol = 1.000e-10)
+    Newton iteration 5: r (abs) = 8.794e-04 (tol = 1.000e-12) r (rel) = 4.889e+00 (tol = 1.000e-10)
+    Newton iteration 6: r (abs) = 2.738e-04 (tol = 1.000e-12) r (rel) = 1.522e+00 (tol = 1.000e-10)
+    Newton iteration 7: r (abs) = 2.449e-04 (tol = 1.000e-12) r (rel) = 1.361e+00 (tol = 1.000e-10)
+    Newton iteration 8: r (abs) = 2.824e-04 (tol = 1.000e-12) r (rel) = 1.570e+00 (tol = 1.000e-10)
+    Newton iteration 9: r (abs) = 2.356e-04 (tol = 1.000e-12) r (rel) = 1.310e+00 (tol = 1.000e-10)
+    Newton iteration 10: r (abs) = 2.986e-04 (tol = 1.000e-12) r (rel) = 1.660e+00 (tol = 1.000e-10)
+    Newton iteration 11: r (abs) = 1.976e-04 (tol = 1.000e-12) r (rel) = 1.099e+00 (tol = 1.000e-10)
+    Newton iteration 12: r (abs) = 7.319e-04 (tol = 1.000e-12) r (rel) = 4.069e+00 (tol = 1.000e-10)
+    Newton iteration 13: r (abs) = 2.435e-04 (tol = 1.000e-12) r (rel) = 1.354e+00 (tol = 1.000e-10)
+    Newton iteration 14: r (abs) = 2.362e-04 (tol = 1.000e-12) r (rel) = 1.313e+00 (tol = 1.000e-10)
+    Newton iteration 15: r (abs) = 2.529e-04 (tol = 1.000e-12) r (rel) = 1.406e+00 (tol = 1.000e-10)

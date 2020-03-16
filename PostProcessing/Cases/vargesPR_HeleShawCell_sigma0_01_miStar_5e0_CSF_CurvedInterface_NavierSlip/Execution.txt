@@ -1,0 +1,48 @@
+Simulation Execution: 2020-03-13 15:49:52.158062
+Case: vargesPR_HeleShawCell_sigma0_01_miStar_5e0_CSF_CurvedInterface_NavierSlip
+Source: FCS_v1.0
+caseId=vargesPR_HeleShawCell_sigma0_01_miStar_5e0_CSF_CurvedInterface_NavierSlip
+ParaViewFilenames=['velocity', 'pressure', 'concentration']
+ParaViewTitles=['Velocity (m/s)', 'Pressure (Pa)', 'Mass Fraction (Fluid Tags)']
+g=9.81
+FluidTags=[0, 1]
+rho_values=[1191, 867.6]
+InterfaceR=0.05
+InterfaceX0=0.07
+InterfaceY0=0.071
+D=1e-06
+sigma=0.01
+dSlip=1e-06
+mu_values=[0.0251, 0.134]
+mu_star=0.1873134328358209
+t0=0
+tEnd=10
+dtMin=0.001
+dtMax=0.1
+tChange=0
+dt=0.05
+savedt=0.01
+meshFile=OriginalHeleShaw
+CellThickness=0.0007
+velocityElementfamily=Lagrange
+velocityElementOrder=2
+pressureElementfamily=Lagrange
+pressureElementOrder=1
+scalarFieldElementfamily=Lagrange
+scalarFieldElementOrder=1
+navierslip={}
+noSlipBCs=[]
+velocityBCs={'TopWall': {2: 0.0}, 'BottomWall': {2: 0.0}}
+pressureBCs={'Inlet': 5, 'Outlet': 0}
+PInlet=5
+POutlet=0
+CInlet=0
+scalarFieldBCs={'Inlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 0)}
+absTol=1e-12
+relTol=1e-10
+maxIter=15
+linearSolver=mumps
+alpha=0.85
+alphaC=1
+
+
