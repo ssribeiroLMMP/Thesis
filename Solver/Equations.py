@@ -20,6 +20,8 @@ def IP(c,l,n,meshObj):
     r = one('+')*h_avg*h_avg*inner(jump(grad(c),n), jump(grad(l),n))*dS
     return (r)
 
+# def uni
+
 # Normalization of Mollified Color Function(c = rho - Brackbird 1992)
 def normalization(cFLimits):
     diffC = max(cFLimits)-min(cFLimits)
@@ -32,12 +34,12 @@ def interface(c,meshObj):
     DD = FunctionSpace(meshObj,"CG",1)
     grad_c = project(grad(c),N)
     gradientMag = sqrt(dot(grad_c,grad_c))
-    gradProj = project(gradientMag,DD)
-    nGamma = grad_c/gradProj
-    deltaDirac = gradientMag/gradProj.vector().max()
+    nGamma = project(grad_c/gradientMag)
+    # nGamma = interpolate(Expression('grad_c/norm_grad_c',grad_c=grad_c,norm_grad_c=gradientMag,degree=1))
+    deltaDirac = gradientMag/grad_c.vector().max()
     #nGammaMag = project(nGamma,DD)
     #nGammaNorm = nGamma/nGammaMag
-    k = div(nGamma)
+    k = project(-div(nGamma*deltaDirac),DD)
     
     #deltaDirac = interpolate(Expression("c > 0.32 & c < 0.68  ? 1 : 0", c=c, degree=1),V0)
     return k,nGamma,deltaDirac
