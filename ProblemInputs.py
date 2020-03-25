@@ -26,7 +26,7 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=1.1):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'vargesPR_HeleShawCell_sigma0_01_miStar_5e0_CSF_CurvedInterface_NavierSlip'
+        self.caseId = 'PushingBubble_sigma0_01_miStar_5e0_CSF_CircularInterface_35'
 #        self.caseId = 'vargesPR_HeleShawCell_etaStar5_3_RectTriangMesh' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
@@ -38,14 +38,14 @@ class Inputs():
         
         #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²)
-        self.g = 9.81
+        self.g = 0.0
         
         #%%############ Fluids' Properties ##############################
         # Tags
         self.FluidTags = [0,1]
                 
         # Density (kg/m³)
-        self.rho_values = [1191, 867.6]
+        self.rho_values = [1100.0, 1000.0]
         
         # Initial Interface position
         self.InterfaceR = 0.05
@@ -73,10 +73,10 @@ class Inputs():
         self.tEnd = 10 # s
         
         # Variable time step
-        self.dtMin = 1e-3   # s
-        self.dtMax = 1e-1  # s
+        self.dtMin = 1e-4   # s
+        self.dtMax = 1e-2  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 5e-2
+        self.dt = 1e-3
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.dtMin,self.tChange)    # s
         
         #%%############ Logging Options   ###############################
@@ -109,16 +109,17 @@ class Inputs():
         
         # No-Slip
         self.noSlipBCs = []
-        # self.noSlipBCs.append('TopWall')
-        # self.noSlipBCs.append('BottomWall')
-#        self.noSlipBCs.append('RightWall')
-#        self.noSlipBCs.append('LeftWall')
+        self.noSlipBCs.append('TopWall')
+        self.noSlipBCs.append('BottomWall')
+        # self.noSlipBCs.append('Inlet')
+        # self.noSlipBCs.append('Outlet')
         #noSlipBoundaries.append('InnerWalls')
         # Inputs
         self.velocityBCs = {}                #  Vy = 0 m/s
-        self.velocityBCs.update({'TopWall'    : {2 : 0.0}}) 
-        self.velocityBCs.update({'BottomWall' : {2 : 0.0}})
-        # self.VxInlet = 1e-2
+        # self.velocityBCs.update({'TopWall'    : {2 : 0.0}}) 
+        # self.velocityBCs.update({'BottomWall' : {2 : 0.0}})
+
+        # self.VxInlet = 1e-2d
         # self.velocityBCs.update({'Inlet' : Constant((self.VxInlet,0.0))}) # m/s
         
         

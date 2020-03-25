@@ -1,0 +1,68 @@
+Simulation Execution: 2020-03-18 23:31:44.631326
+Case: vargesPR_HeleShawCell_sigma0_01_miStar_5e0_CSF_CircularInterface_Gravity_40
+Source: FCS_v1.0
+caseId=vargesPR_HeleShawCell_sigma0_01_miStar_5e0_CSF_CircularInterface_Gravity_40
+ParaViewFilenames=['velocity', 'pressure', 'concentration']
+ParaViewTitles=['Velocity (m/s)', 'Pressure (Pa)', 'Mass Fraction (Fluid Tags)']
+g=9.81
+FluidTags=[0, 1]
+rho_values=[1191, 867.6]
+InterfaceR=0.05
+InterfaceX0=0.07
+InterfaceY0=0.071
+D=1e-06
+sigma=0.01
+dSlip=1e-06
+mu_values=[0.0251, 0.134]
+mu_star=0.1873134328358209
+t0=0
+tEnd=10
+dtMin=0.001
+dtMax=0.1
+tChange=0
+dt=0.05
+savedt=0.01
+meshFile=OriginalHeleShaw
+CellThickness=0.0007
+velocityElementfamily=Lagrange
+velocityElementOrder=2
+pressureElementfamily=Lagrange
+pressureElementOrder=1
+scalarFieldElementfamily=Lagrange
+scalarFieldElementOrder=1
+navierslip={}
+noSlipBCs=['TopWall', 'BottomWall', 'Inlet', 'Outlet']
+velocityBCs={}
+pressureBCs={}
+CInlet=0
+scalarFieldBCs={'Inlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 0)}
+absTol=1e-12
+relTol=1e-10
+maxIter=15
+linearSolver=mumps
+alpha=0.85
+alphaC=1
+
+
+--------- Saving Initial Conditions ----------
+Flow - Time:0.000s, dt:0.050000
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 2.586e-01 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-10)
+    Newton iteration 1: r (abs) = 2.204e+00 (tol = 1.000e-12) r (rel) = 8.523e+00 (tol = 1.000e-10)
+    Newton iteration 2: r (abs) = 1.533e+03 (tol = 1.000e-12) r (rel) = 5.928e+03 (tol = 1.000e-10)
+    Newton iteration 3: r (abs) = 4.388e+02 (tol = 1.000e-12) r (rel) = 1.697e+03 (tol = 1.000e-10)
+    Newton iteration 4: r (abs) = 4.581e+05 (tol = 1.000e-12) r (rel) = 1.772e+06 (tol = 1.000e-10)
+    Newton iteration 5: r (abs) = 4.128e+05 (tol = 1.000e-12) r (rel) = 1.596e+06 (tol = 1.000e-10)
+    Newton iteration 6: r (abs) = 1.047e+05 (tol = 1.000e-12) r (rel) = 4.049e+05 (tol = 1.000e-10)
+    Newton iteration 7: r (abs) = 2.668e+04 (tol = 1.000e-12) r (rel) = 1.032e+05 (tol = 1.000e-10)
+    Newton iteration 8: r (abs) = 7.496e+03 (tol = 1.000e-12) r (rel) = 2.899e+04 (tol = 1.000e-10)
+    Newton iteration 9: r (abs) = 2.378e+05 (tol = 1.000e-12) r (rel) = 9.197e+05 (tol = 1.000e-10)
+    Newton iteration 10: r (abs) = 5.982e+04 (tol = 1.000e-12) r (rel) = 2.314e+05 (tol = 1.000e-10)
+    Newton iteration 11: r (abs) = 1.714e+04 (tol = 1.000e-12) r (rel) = 6.629e+04 (tol = 1.000e-10)
+    Newton iteration 12: r (abs) = 1.655e+05 (tol = 1.000e-12) r (rel) = 6.400e+05 (tol = 1.000e-10)
+    Newton iteration 13: r (abs) = 4.830e+04 (tol = 1.000e-12) r (rel) = 1.868e+05 (tol = 1.000e-10)
+    Newton iteration 14: r (abs) = 4.564e+04 (tol = 1.000e-12) r (rel) = 1.765e+05 (tol = 1.000e-10)
+    Newton iteration 15: r (abs) = 2.081e+05 (tol = 1.000e-12) r (rel) = 8.050e+05 (tol = 1.000e-10)

@@ -32,22 +32,37 @@ def normalization(cFLimits):
 def interface(c,meshObj):
     N = VectorFunctionSpace(meshObj, "CG", 2, dim=2) 
     DD = FunctionSpace(meshObj,"CG",1)
+
+    # # Geometric dimension
+    # d = meshObj.geometric_dimension()
+    # # d x d identiy matrix
+    # I = Identity(d)
+
     grad_c = project(grad(c),N)
     gradientMag = sqrt(dot(grad_c,grad_c))
-    nGamma = project(grad_c/gradientMag)
     # nGamma = interpolate(Expression('grad_c/norm_grad_c',grad_c=grad_c,norm_grad_c=gradientMag,degree=1))
     deltaDirac = gradientMag/grad_c.vector().max()
+    nGamma = project(grad_c/gradientMag,N)*deltaDirac
     #nGammaMag = project(nGamma,DD)
     #nGammaNorm = nGamma/nGammaMag
-    k = project(-div(nGamma*deltaDirac),DD)
-    
+    # Rot = Expression((('0','1'),('-1','0')),degree=1)
+    # k = -div(nGamma)
+    k = project(-div(nGamma)*deltaDirac,DD) # Brackbill1992, Eq 35
+    # k = project((1/gradientMag)*dot(nGamma,grad(gradientMag)) - div(grad_c),DD)               # Brackbill1992, Eq 40
+    # k = curvatureSolver(DD,nGamma)
+
+    # Tangent of the Interface
+    # tGamma = I - outer(nGamma,nGamma)
+    # k = project(sqrt(inner(grad(tGamma),grad(tGamma))),DD)*deltaDirac
+
+
     #deltaDirac = interpolate(Expression("c > 0.32 & c < 0.68  ? 1 : 0", c=c, degree=1),V0)
     return k,nGamma,deltaDirac
 
 # Body Forces Term: Gravity
 def fb(g):
     # Body Forces: Gravity
-    return Constant((0.0, -g))
+    return Constant((-g, 0.0))
 
 
 def assignFluidProperties(inputs,c0):
@@ -162,14 +177,10 @@ def transientFlow(W,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     
     # Calculate Important Measures: Omega(dx), deltaOmega(ds), Normal Vector(n)
     dx, ds, n = meshMeasures(meshObj,boundaries)
-    # Rot = Expression((('0','1'),('-1','0')),degree=1)
-    
+        
     # Interface Properties
     k,nGamma,dDirac = interface(rho,meshObj)
-    # Tangent of the Interface
-    # tGamma = Rot* nGamma
 
-    #tGamma = I - outer(nGamma,nGamma)
     
     # Time step Constant
     Dt = Constant(dt)
@@ -185,7 +196,7 @@ def transientFlow(W,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
 
                       
     # Body Forces Term - Example: Weight(Gravity)
-    Fb = + dot(fb(inputs.g),v)
+    Fb = + inner(fb(inputs.g),v)
 
     # Surface Tension Term
     # CSF - Brackbill 1992
@@ -198,15 +209,19 @@ def transientFlow(W,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
     # Surface Tension force (but written as a Body Force)
     rhoNorm = rho/diffrho
     grad_rhoNorm = grad(rho)/medrho
-    FsV = (inputs.sigma)*(k)*dot(rhoNorm*grad_rhoNorm,v)*dDirac
+    FsV = (inputs.sigma)*(-div(nGamma))*dot(rhoNorm*grad_rhoNorm,v)*dDirac
     # uSlip = inputs.lSlip
     
     # Viscous Drag
     # Dvwalls = - (12/(inputs.CellThickness**2))*(mu/rho)*inner(u,v)*dx()
     
     # Right Hand Side of Mommentum Conservation Equation
-      # Surface Tension   # Body Forces      # Viscous Drad(2D proxy due to top and bottom walls)   
-    L1 = 1/rho*FsV*dx()          # Fb*dx() +          Dvwalls          
+     # Surface Tension      
+    L1 = 0#(1/rho)*FsV*dx()         
+     # Body Forces 
+    L1 = L1 + Fb*dx() 
+    # Viscous Drad(2D proxy due to top and bottom walls)# 
+    L1 = L1 + 0 #Dvwalls
 
     ## Natural Boundary Conditions
     # Pressure BCs
@@ -237,8 +252,8 @@ def transientFlow(W,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):
 
     ###   Numerical Solver Properties
     # General Parameters
-    # parameters['dof_ordering_library'] = 'Boost'
-    # parameters['form_compiler']['quadrature_degree'] = 2
+    parameters['dof_ordering_library'] = 'Boost'
+    parameters['form_compiler']['quadrature_degree'] = 2
     
     ## Problem and Solver definitions
     problemU = NonlinearVariationalProblem(F,w,bcU,J)
@@ -310,6 +325,19 @@ def initialInterface(C,inputs):
     c0.assign(project(smoothstep,C))
     return c0
 
+def curvatureSolver(C,nGamma):
+    ## Trial and Test function(s)
+    k = TrialFunction(C)
+    Psi = TestFunction(C)
+    k = Function(C)
+    bc = []
+
+    a = inner(k,Psi)*dx
+    L = - inner(div(nGamma),Psi)*dx
+
+    solve(a==L, k, bc)
+
+    return k0
 
 def transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains):
     ## Trial and Test function(s)
