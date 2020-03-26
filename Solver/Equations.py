@@ -85,33 +85,7 @@ def calculateOutletFlowrate(u1,inputs,boundaries,Subdomains):
 # Body Forces Term: Gravity
 def fb(inputs):
     # Body Forces: Gravity
-    return Constant((inputs.g, 0.0))
-
-# Shrinkage
-def shrinkage(inputs,C,t):
-    inputs.shrinkageModel.t=t
-    return project(inputs.shrinkageModel,C)    
-
-# Rheological Model Function
-# TODO: Move SMD Definition into Problem Inputs
-# def rheologicicalModel(modelExpression,C)
-def smdM(C,inputs,u,t):
-
-    # Determine gammaDot from deformation tensor D
-    D = sym(grad(u))
-    gammaDot = project(sqrt(2*tr(dot(D,D))),C)
-
-    # Time dependent Yield Stress - Curing Process: tauY(t) 
-    tauY_t = inputs.tau0*exp(t/inputs.ts)
-
-    eps = 1e-10
-
-    # Modified smd Model (Souza Mendes e Dutra (2004)) + Cure(tauY(t))  
-    smdEquation = Expression('(1 - exp(-eta0*(gammaDot)/tauY_t))* \
-                             (tauY_t/(gammaDot+eps)+ K*(pow((abs(gammaDot)+eps),nPow)/(gammaDot+eps))) + etaInf',\
-                            etaInf=inputs.etaInf,eta0=inputs.eta0,K = inputs.K,nPow = inputs.n,ts = inputs.ts, \
-                            gammaDot = gammaDot, t=t, tauY_t = tauY_t,eps = eps, degree=2)
-    return project(smdEquation,C)
+    return Constant((inputs.g, 0.0)) 
 
 # # Calculates Fluid properties by Mesh Cell
 # def assignFluidProperties(inputs,c0,C=0,u=0,t=0):
@@ -127,23 +101,12 @@ def smdM(C,inputs,u,t):
 #     return rho, mu
 
 # Calculates Fluid properties by Mesh Cell
-def assignFluidProperties(inputs,c,C=0,u=0,t=0):
-    # Constant Viscosity and Densityof Each Specie
-    if C == 0:
-        mu = inputs.mu_values[inputs.Fluid0]*c + inputs.mu_values[inputs.Fluid1]*(1-c)
-        
-    # Cement Rheology is modeled by Modified SMD Non-Newtonian Model + Cure(tauY(t))
-    else: 
-              # Cement                      # Water
-        mu = smdM(C,inputs,u,t)*c + inputs.mu_values[inputs.Fluid1]*(1-c)
-
-    # Constant Viscosity of Each Specie
-    if inputs.shrinkage_inclination == 0:
-        rho = inputs.rho_values[inputs.Fluid0]*c + inputs.rho_values[inputs.Fluid1]*(1-c)
-    # Cement Density decay with time due to shrinkage
-    else:
-                 # Cement                      # Water
-        rho = shrinkage(inputs,C,t)*c + inputs.rho_values[inputs.Fluid1]*(1-c)
+def assignFluidProperties(inputs,C,c,u,t):
+    
+    # Density Shrinkage
+    rho = shrinkage(inputs,C,c,t)
+    # Rheological Model
+    mu = smdM(inputs,C,u,t)
     
     return rho, mu
 

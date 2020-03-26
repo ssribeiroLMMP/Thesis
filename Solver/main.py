@@ -93,7 +93,8 @@ def main(inputs):
         
         # Assign Fluids Properties
         (u0, p0) = w0.leaf_node().split()
-        rho,mu = assignFluidProperties(inputs,c0,C,u0,t)
+        #assignFluidProperties(inputs,C,c,u,t)
+        rho,mu = assignFluidProperties(inputs,C,c0,u0,t)
         
     	   # Solve Equations
         # try:

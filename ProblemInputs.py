@@ -28,6 +28,30 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
 def dynamicSaveDt(dt):
     return 5*dt
 
+# Shrinkage Model Function
+def shrinkage(inputs,C,c,t):
+    # Density of assignment
+    inputs.shrinkageModel.t = t
+    inputs.shrinkageModel.c = c
+    
+    return project(inputs.shrinkageModel,C)   
+
+# Rheological Model Function
+def smdM(inputs,C,u,t):
+    
+    # Determine gammaDot from deformation tensor D
+    D = sym(grad(u))
+    gammaDot = project(sqrt(2*tr(dot(D,D))),C)
+
+    # Time dependent Yield Stress - Curing Process: tauY(t) 
+    tauY_t = inputs.tau0*exp(t/inputs.ts)
+
+    inputs.rheologyModel.t=t
+    inputs.rheologyModel.gammaDot=gammaDot
+    inputs.rheologyModel.tauY_t = tauY_t
+    
+    return project(inputs.rheologyModel,C)
+
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
@@ -89,16 +113,25 @@ class Inputs():
         self.mu_cem = 0.01       # Pa.s
         self.mu_values = [self.mu_cem , self.mu_water]  
         
-        # Modified SMD Model Variables
+        ## Rheology - Modified SMD (Souza Mendes e Dutra (2004)) + Cure(tauY(t)) 
+        # Input Variables
         self.tau0 = 19.019          # Dinamic Yield Stress               
         self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
         self.eta0 = 1e3             # Newtonian Plato: Low shear rates
         self.K = 1.43               # Consistency Index
         self.n = 0.572              # Power-law Index
         self.ts = 6000              # Caracteristic viscosity buildup time
+        self.eps = 1e-10
+        # Modified SMD Model Expression   
+        self.rheologyModel = Expression('(1 - exp(-eta0*(gammaDot)/tauY_t))* \
+                                        (tauY_t/(gammaDot+eps) + \
+                                        K*(pow((abs(gammaDot)+eps),nPow)/(gammaDot+eps))) \
+                                        + etaInf', degree=2, \
+                                        etaInf=self.etaInf, eta0=inputs.eta0, \
+                                        K = self.K, nPow = self.n, ts = self.ts, \
+                                        eps = self.eps)
 
         # Density (kg/m³)
-        
         # Experimental Values
         self.rho_water = 1000           # kg/m³
         self.rho_bulk0 = 1737.48        # kg/m³ = 14.5ppg
@@ -113,14 +146,17 @@ class Inputs():
         self.shrinkage_inclination = 0.0004  # kg/m³ / s
         self.shrinkage_rhoMin = self.rho_bulkInf    # kg/m³
         self.shrinkage_t0 = 1.2*self.ts            # s  
-        # Model Equation
-        shrinkageEquation = 'rhoMax-((rhoMax-rhoMin)/(1 + exp(Inclination*(-t+t0)))+rhoMin)+rhoMin'
-        self.shrinkageModel = Expression(shrinkageEquation,\
-                                rhoMax=self.rho_values[self.Fluid0],rhoMin=self.shrinkage_rhoMin,Inclination = self.shrinkage_inclination, \
-                                t=self.t0, t0 = self.shrinkage_t0, degree=2)
-        # self.rho_values = [2000, 1000]
 
-        
+        # Shrinkage Model Expression
+        self.shrinkageModel = Expression('(rhoMax-((rhoMax-rhoMin) / \
+                                         (1 + exp(Inclination*(-t+t0))) \
+                                         +rhoMin) + rhoMin)*c + rho_water*(1-c)', degree=2, \
+                                         rhoMax = self.rho_values[self.Fluid0], \
+                                         rhoMin = self.shrinkage_rhoMin, \
+                                         Inclination = self.shrinkage_inclination, \
+                                         t=self.t0, t0 = self.shrinkage_t0, \
+                                         rho_water = self.rho_values[self.Fluid1])
+                
         #%%############ Problem Geometry   ##############################
         ## Mesh File
         self.meshFile = 'WellSimulator'#'MacroParallelPlates'#'WellSimulator'#
