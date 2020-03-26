@@ -28,34 +28,10 @@ def autoTimestep(no_iterations,dt,inputs,limitIterations=4,increment=2):
 def dynamicSaveDt(dt):
     return 5*dt
 
-# Shrinkage Model Function
-def shrinkage(inputs,C,c,t):
-    # Density of assignment
-    inputs.shrinkageModel.t = t
-    inputs.shrinkageModel.c = c
-    
-    return project(inputs.shrinkageModel,C)   
-
-# Rheological Model Function
-def smdM(inputs,C,u,t):
-    
-    # Determine gammaDot from deformation tensor D
-    D = sym(grad(u))
-    gammaDot = project(sqrt(2*tr(dot(D,D))),C)
-
-    # Time dependent Yield Stress - Curing Process: tauY(t) 
-    tauY_t = inputs.tau0*exp(t/inputs.ts)
-
-    inputs.rheologyModel.t=t
-    inputs.rheologyModel.gammaDot=gammaDot
-    inputs.rheologyModel.tauY_t = tauY_t
-    
-    return project(inputs.rheologyModel,C)
-
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_VelBCsTest_1' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_FluiProperTest_1' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -117,19 +93,23 @@ class Inputs():
         # Input Variables
         self.tau0 = 19.019          # Dinamic Yield Stress               
         self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
-        self.eta0 = 1e3             # Newtonian Plato: Low shear rates
+        self.eta0 = 1e1             # Newtonian Plato: Low shear rates
         self.K = 1.43               # Consistency Index
         self.n = 0.572              # Power-law Index
-        self.ts = 6000              # Caracteristic viscosity buildup time
+        self.ts = 10000             # Caracteristic viscosity buildup time
         self.eps = 1e-10
-        # Modified SMD Model Expression   
-        self.rheologyModel = Expression('(1 - exp(-eta0*(gammaDot)/tauY_t))* \
-                                        (tauY_t/(gammaDot+eps) + \
-                                        K*(pow((abs(gammaDot)+eps),nPow)/(gammaDot+eps))) \
-                                        + etaInf', degree=2, \
-                                        etaInf=self.etaInf, eta0=inputs.eta0, \
-                                        K = self.K, nPow = self.n, ts = self.ts, \
-                                        eps = self.eps)
+        self.tauY_t = Expression('tau0*exp(t/ts)',degree=1,\
+                                  tau0 = self.tau0, \
+                                  ts = self.ts, t = 0)
+        # Modified SMD Model Expression
+        self.rheologicalModel = Expression('(1 - exp(-eta0*(gammaDot)/tauY_t))* \
+                                            (tauY_t/(gammaDot+eps) + \
+                                            K*(pow(gammaDot+eps,nPow)/(gammaDot+eps))) \
+                                            + etaInf', degree=2, \
+                                            etaInf=self.etaInf, eta0=self.eta0, \
+                                            K = self.K, nPow = self.n, ts = self.ts, \
+                                            eps = self.eps, gammaDot = Constant(1/self.eps),\
+                                            tauY_t = Constant(self.eps))
 
         # Density (kg/m³)
         # Experimental Values
@@ -148,9 +128,10 @@ class Inputs():
         self.shrinkage_t0 = 1.2*self.ts            # s  
 
         # Shrinkage Model Expression
-        self.shrinkageModel = Expression('(rhoMax-((rhoMax-rhoMin) / \
+        self.shrinkageModel = Expression('(rhoMax-((rhoMax-rhoMin)/  \
                                          (1 + exp(Inclination*(-t+t0))) \
-                                         +rhoMin) + rhoMin)*c + rho_water*(1-c)', degree=2, \
+                                         +rhoMin) + rhoMin)*cFrac + rho_water*(1-cFrac)', degree=2, \
+                                         cFrac = Constant(self.eps), \
                                          rhoMax = self.rho_values[self.Fluid0], \
                                          rhoMin = self.shrinkage_rhoMin, \
                                          Inclination = self.shrinkage_inclination, \

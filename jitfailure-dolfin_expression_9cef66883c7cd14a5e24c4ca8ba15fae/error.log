@@ -1,0 +1,15 @@
+/tmp/tmpssb_cwki/dolfin_expression_9cef66883c7cd14a5e24c4ca8ba15fae.cpp: In member function ‘virtual void dolfin::dolfin_expression_9cef66883c7cd14a5e24c4ca8ba15fae::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmpssb_cwki/dolfin_expression_9cef66883c7cd14a5e24c4ca8ba15fae.cpp:68:49: error: ‘tauY_t’ was not declared in this scope
+           values[0] = (1 - exp(-eta0*(gammaDot)/tauY_t))*                                         (tauY_t/(gammaDot+eps) +                                         K*(pow(gammaDot+eps,nPow)/(gammaDot+eps)))                                         + etaInf;
+                                                 ^~~~~~
+/tmp/tmpssb_cwki/dolfin_expression_9cef66883c7cd14a5e24c4ca8ba15fae.cpp:68:49: note: suggested alternative: ‘time_t’
+           values[0] = (1 - exp(-eta0*(gammaDot)/tauY_t))*                                         (tauY_t/(gammaDot+eps) +                                         K*(pow(gammaDot+eps,nPow)/(gammaDot+eps)))                                         + etaInf;
+                                                 ^~~~~~
+                                                 time_t
+/tmp/tmpssb_cwki/dolfin_expression_9cef66883c7cd14a5e24c4ca8ba15fae.cpp: In member function ‘virtual double dolfin::dolfin_expression_9cef66883c7cd14a5e24c4ca8ba15fae::get_property(std::__cxx11::string) const’:
+/tmp/tmpssb_cwki/dolfin_expression_9cef66883c7cd14a5e24c4ca8ba15fae.cpp:80:11: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+           if (name == "etaInf") return etaInf;          if (name == "eta0") return eta0;          if (name == "K") return K;          if (name == "nPow") return nPow;          if (name == "ts") return ts;          if (name == "eps") return eps;          if (name == "gammaDot") return gammaDot;
+           ^~
+/tmp/tmpssb_cwki/dolfin_expression_9cef66883c7cd14a5e24c4ca8ba15fae.cpp:80:57: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+           if (name == "etaInf") return etaInf;          if (name == "eta0") return eta0;          if (name == "K") return K;          if (name == "nPow") return nPow;          if (name == "ts") return ts;          if (name == "eps") return eps;          if (name == "gammaDot") return gammaDot;
+                                                         ^~

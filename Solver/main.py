@@ -28,7 +28,7 @@ from ProblemInputs import *
 from PreProcessing.meshConversion import *
 from Solver.Equations import *
 from PostProcessing.Saving import *
-    
+
 def main(inputs):
     
     # Prepare for saving
@@ -100,7 +100,7 @@ def main(inputs):
         # try:
         begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
         if t>0:
-            pInlet, TOC, rhoMix = calculateNewInletPressure(TOC,outputMassFlowrate,C,c0,t,dt,boundaries,Subdomains,inputs)
+            pInlet, TOC, rhoMix = calculateNewInletPressure(TOC,outputMassFlowrate,rho,t,dt,boundaries,Subdomains,inputs)
             
         (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,pInlet)
         end()
