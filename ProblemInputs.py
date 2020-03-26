@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_BaseCase_14000s_6' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_VelBCsTest_1' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -168,15 +168,24 @@ class Inputs():
         ## Velocity Inputs
         t=self.dtMin
         self.AOut = 2*pi*self.ROut*self.HFluidLoss
-        self.rhoOut = (1-self.COutlet)*self.rho_values[self.Fluid0]
+        self.rhoOut = self.rho_values[self.Fluid1] # Water Only
+        self.muOut = self.mu_values[self.Fluid1] # Water Only
         self.velocityBCs = {}
         # self.VrOutlet = '0.00043 + 0*t*A*rho'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.061/((pow(t,0.78)))' # BaseCase 0
-        self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.055 /((pow(t,0.78)))' # All BaseCases
+        # self.VrInlet = Expression('VrInlet',VrInlet=0.0,degree=1)
+        self.VrInlet = Expression('VrInlet',VrInlet=0.0,degree=2)
+        self.VzOutlet = Expression('VzOutlet',VzOutlet=0.0,degree=2)
+        self.VrOutlet = Expression('t <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.055 /((pow(t,0.78)))',\
+                                   A=self.AOut,rho=self.rhoOut,t=t,degree=2) # All BaseCases
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.55 /((pow(t,0.78)))'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
-        # self.velocityBCs.update({'Inlet' : Expression((self.VxInlet,'0.0'),t=t,degree=1)}) # m/s
-        self.velocityBCs.update({'Outlet' : Expression(('0.0',self.VrOutlet), A=self.AOut,rho=self.rhoOut,t=t,degree=2)}) # m/s
+        # self.velocityBCs.update({'Inlet' : {2: self.VrInlet}}) # m/s
+        # self.VOutlet_exp = Expression('VrOutlet',VrOutlet=self.VrOutlet,degree=2)
+        self.velocityBCs.update({'Inlet' : {1: self.VrInlet}}) # m/s
+        # self.velocityBCs.update({'Outlet' : {1: self.VzOutlet}}) # m/s
+        self.velocityBCs.update({'Outlet' : {0: self.VzOutlet}}) # m/s
+        self.velocityBCs.update({'Outlet' : {1: self.VrOutlet}}) # m/s
         
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
