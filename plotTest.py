@@ -2,10 +2,18 @@
 # -*- coding: utf-8 -*-
 
 from PostProcessing.Plotting import *
+from ProblemInputs import *
 
-inputFile = '/home/sergio/Documents/Thesis/GitHub/Master/Thesis/PostProcessing/Cases/TransWellSimulator_BaseCase_14000s_5/pressureProfile.csv'
-outputFile = 'teste'
+def plotTest(inputs):
+    dir = './PostProcessing/Cases/'+inputs.caseId
+    inputFile = dir+'/pressureProfile.csv'
+    outputFile = dir+'/ pressureProfile'
+    # plotPressureProfile(inputFile,outputFile)
+    plotPressureProfileDF(inputFile,outputFile)
 
-# plotPressureProfile(inputFile,outputFile)
+if __name__ == '__main__':
+    inputs = Inputs()
 
-plotPressureProfileDF(inputFile,outputFile)
+    # Prepare for saving
+    plotTest(inputs)
+    

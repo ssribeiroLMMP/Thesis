@@ -16,7 +16,10 @@ def infoCommand():
 
 def solveCommand():
     return 'python3 ./Solver/main.py>>./PostProcessing/Cases/'+inputs.caseId+'/Execution.txt'
-    
+
+def plotCommand():
+    return 'python3 ./plotTest.py inputs'
+   
 inputs = Inputs()
 mainPaths = Paths()
 

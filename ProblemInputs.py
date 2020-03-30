@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_FluiProperTest_1' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_TestMat_7_LowtauY' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -74,7 +74,7 @@ class Inputs():
         # Tags
         self.Fluid0 = 0 # Cement 
         self.Fluid1 = 1 - self.Fluid0 # Water
-        self.CInitialMixture = 0.3      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
+        self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
                        
         # Initial Interface position: Two-Phase Flow
         # self.InterfaceX0 = 0.05
@@ -91,12 +91,12 @@ class Inputs():
         
         ## Rheology - Modified SMD (Souza Mendes e Dutra (2004)) + Cure(tauY(t)) 
         # Input Variables
-        self.tau0 = 19.019          # Dinamic Yield Stress               
-        self.etaInf = 0.295         # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
-        self.eta0 = 1e1             # Newtonian Plato: Low shear rates
-        self.K = 1.43               # Consistency Index
-        self.n = 0.572              # Power-law Index
-        self.ts = 10000             # Caracteristic viscosity buildup time
+        self.tau0 = 30#1.9019         # Dinamic Yield Stress               
+        self.etaInf = 0.295        # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
+        self.eta0 = 1e4            # Viscosity Value for Low shear rates
+        self.K = 1.43              # Consistency Index
+        self.n = 0.572             # Power-law Index
+        self.ts = 6000             # Caracteristic viscosity buildup time
         self.eps = 1e-10
         self.tauY_t = Expression('tau0*exp(t/ts)',degree=1,\
                                   tau0 = self.tau0, \
