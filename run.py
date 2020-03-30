@@ -16,4 +16,4 @@ os.system(infoCommand())
 # Append Execut                   vi  on.txt with Simulation Residues
 os.system(solveCommand())
 # main(inputs)
-os.system('python3 plotTest.py')
+plotPressure(inputs)

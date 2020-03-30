@@ -9,14 +9,15 @@ import datetime
 from ProblemInputs import *
 from Solver.main import *
 from PostProcessing.Saving import *
-
+from PostProcessing.Plotting import *
 
 def infoCommand():    
     return 'python3 ./Info.py>./PostProcessing/Cases/'+inputs.caseId+'/Execution.txt' 
 
 def solveCommand():
     return 'python3 ./Solver/main.py>>./PostProcessing/Cases/'+inputs.caseId+'/Execution.txt'
-    
+
+   
 inputs = Inputs()
 mainPaths = Paths()
 

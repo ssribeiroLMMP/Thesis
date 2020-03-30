@@ -28,7 +28,7 @@ from ProblemInputs import *
 from PreProcessing.meshConversion import *
 from Solver.Equations import *
 from PostProcessing.Saving import *
-    
+
 def main(inputs):
     
     # Prepare for saving
@@ -93,13 +93,14 @@ def main(inputs):
         
         # Assign Fluids Properties
         (u0, p0) = w0.leaf_node().split()
-        rho,mu = assignFluidProperties(inputs,c0,C,u0,t)
+        #assignFluidProperties(inputs,C,c,u,t)
+        rho,mu = assignFluidProperties(inputs,C,c0,u0,t)
         
     	   # Solve Equations
         # try:
         begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
         if t>0:
-            pInlet, TOC, rhoMix = calculateNewInletPressure(TOC,outputMassFlowrate,C,c0,t,dt,boundaries,Subdomains,inputs)
+            pInlet, TOC, rhoMix = calculateNewInletPressure(TOC,outputMassFlowrate,rho,t,dt,boundaries,Subdomains,inputs)
             
         (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,pInlet)
         end()

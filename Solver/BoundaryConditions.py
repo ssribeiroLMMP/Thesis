@@ -73,14 +73,16 @@ def flowBC(t,U,inputs,meshId,boundariesId,subdomainsDict):
     
     
     # Velocity Conditions  #ERROR ON VERSION 1.0.4
-    for DomainKey,valueExp in inputs.velocityBCs.items():
-        if t < 4:
-            valueExp.t = 4
-        else:
-            valueExp.t = t
-        valueExp.A = outletArea
-        valueExp.rho = rhoOut
-        bc.append(DirichletBC(U,valueExp,boundariesId,subdomainsDict[DomainKey]))   
+    for DomainKey,value in inputs.velocityBCs.items():
+        # valueExp.A = outletArea
+        # valueExp.rho = rhoOut
+        for key2, valueExp in value.items():
+            if t < 4:
+                valueExp.t = 4
+            else:
+                valueExp.t = t
+            dim = key2
+            bc.append(DirichletBC(U.sub(dim),valueExp,boundariesId,subdomainsDict[DomainKey]))
     
     return bc
 
