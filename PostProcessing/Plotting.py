@@ -93,6 +93,13 @@ def plotPressureProfile(inputFile,outputFile):
 
     return fig, ax
 
+def plotPressure(inputs):
+    dir = './PostProcessing/Cases/'+inputs.caseId
+    inputFile = dir+'/pressureProfile.csv'
+    outputFile = dir+'/ pressureProfile'
+    # plotPressureProfile(inputFile,outputFile)
+    plotPressureProfileDF(inputFile,outputFile)
+
 def plotResult(output,outputFile,outType = 0):
     fig, ax = plt.subplots()
     plt.clf

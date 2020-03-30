@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_TestMat_7_LowtauY' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_TestMat_7_' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -53,6 +53,7 @@ class Inputs():
 
         # Plot Time List
         self.plotTimeList = [1, 200, 2500, 4500, 7000, 8250, 9000, 10500, 12000, self.tEnd]#
+        # self.plotTimeList = [1, self.tEnd]
         self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
         self.dZPlot = 0.01
         self.fieldnamesPre = ['Time(s)','rhoInlet(Kg/m3)']
@@ -91,7 +92,7 @@ class Inputs():
         
         ## Rheology - Modified SMD (Souza Mendes e Dutra (2004)) + Cure(tauY(t)) 
         # Input Variables
-        self.tau0 = 30#1.9019         # Dinamic Yield Stress               
+        self.tau0 = 19.019         # Dinamic Yield Stress               
         self.etaInf = 0.295        # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
         self.eta0 = 1e4            # Viscosity Value for Low shear rates
         self.K = 1.43              # Consistency Index
