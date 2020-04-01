@@ -96,7 +96,7 @@ def plotPressureProfile(inputFile,outputFile):
 def plotPressure(inputs):
     dir = './PostProcessing/Cases/'+inputs.caseId
     inputFile = dir+'/pressureProfile.csv'
-    outputFile = dir+'/ pressureProfile'
+    outputFile = dir'/ presProf_'+inputs.caseId
     # plotPressureProfile(inputFile,outputFile)
     plotPressureProfileDF(inputFile,outputFile)
 
