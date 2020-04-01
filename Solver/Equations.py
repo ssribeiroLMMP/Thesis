@@ -187,8 +187,9 @@ def steadyStateFlow(rho,mu,inputs,meshObj,boundaries,Subdomains):
     a1 = alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p/rho)*dx() + \
     (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v))- div(v)*p0/rho)*dx()  # Relaxation
                       
-            # Pressure Force: Natural Boundary Conditions             # Body Forces Term: Gravity         
+    # # Body Forces Term: Gravity         
     L1 = 0
+    # Pressure Force: Natural Boundary Conditions             
     for key, value in inputs.pressureBCs.items():
         Pi = Constant(value)
         L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
@@ -227,7 +228,7 @@ def steadyStateFlow(rho,mu,inputs,meshObj,boundaries,Subdomains):
     return w
 
 #%% Transient Coupled scheeme for Flow 
-def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):    
+def transientFlow(t,W,w0,C,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):    
     #####  Functions and Constants
         ## Trial and Test function(s)
     dw = TrialFunction(W)
@@ -256,11 +257,30 @@ def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):
                                (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p /rho)*dx()    # Relaxation
                       
     L1 = 0
+    inputs.kFL
+    if t < 4:
+        inputs.kFL.t=4
+        inputs.VrOutlet.t=4
+    else:
+        inputs.kFL.t=t
+        inputs.VrOutlet.t=t
+
+    kFL = Function(C)
+    # kFL = project(inputs.kFL,C)
+    kFL = Constant(inputs.kFL0)
+
+    VrOutlet = Function(C)
+    VrOutlet = project(inputs.VrOutlet,C)
+
     for key, value in inputs.pressureBCs.items():
-        if Pin>0 and key == 'Inlet':
-            Pi = Constant(Pin)
+        if key  == 'Inlet':
+            value = Constant(Pin)
         else:
-            Pi = Constant(value)   
+            value.VrOutlet = VrOutlet
+            value.kFL = kFL
+
+        Pi = project(value,C)
+            # 
         # Pressure Force: Natural Boundary Conditions
         L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
     

@@ -102,7 +102,7 @@ def main(inputs):
         if t>0:
             pInlet, TOC, rhoMix = calculateNewInletPressure(TOC,outputMassFlowrate,rho,t,dt,boundaries,Subdomains,inputs)
             
-        (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,pInlet)
+        (w,no_iterations,converged) = transientFlow(t,W,w0,C,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,pInlet)
         end()
         # except: 
         #     no_iterations = inputs.maxIter
@@ -130,6 +130,9 @@ def main(inputs):
                 results.append(outputMassFlowrate)
                 results.append(TOC)
                 results.append(rhoMix)
+                
+                # Update saveDt
+                inputs.savedt = max(t,60)
                 cbarU, cbarP, listId = logResults(t,results,listId,inputs,meshObj,cbarU=cbarU,cbarP=cbarP)
                 if listId < len(inputs.plotTimeList):
                     saveDt = min([t + inputs.savedt, inputs.plotTimeList[listId]])

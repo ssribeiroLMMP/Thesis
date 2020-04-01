@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_TestMat_7_' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_VelBC_NonNewtonian' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -59,13 +59,13 @@ class Inputs():
         self.fieldnamesPre = ['Time(s)','rhoInlet(Kg/m3)']
 
         # Variable time step
-        self.dtMin = 0.005    # s
-        self.dtMax = 10  # s
+        self.dtMin = 1e-6    # s
+        self.dtMax = 1e-1  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 0.01
+        self.dt = 1e-5
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
         # Result Saving time step
-        self.savedt = 60 # s
+        self.savedt = self.dt # s
 
         #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²) on axis X
@@ -93,8 +93,9 @@ class Inputs():
         ## Rheology - Modified SMD (Souza Mendes e Dutra (2004)) + Cure(tauY(t)) 
         # Input Variables
         self.tau0 = 19.019         # Dinamic Yield Stress               
-        self.etaInf = 0.295        # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
-        self.eta0 = 1e4            # Viscosity Value for Low shear rates
+        self.etaInf = 0.295        # Equilibrium Viscosity(Newtonian Plato: Low shear rates)
+        self.eta0 = 1e2            # Viscosity Value for Low shear rates
+        # self.K = 0.143              # Consistency Index
         self.K = 1.43              # Consistency Index
         self.n = 0.572             # Power-law Index
         self.ts = 6000             # Caracteristic viscosity buildup time
@@ -138,12 +139,22 @@ class Inputs():
                                          Inclination = self.shrinkage_inclination, \
                                          t=self.t0, t0 = self.shrinkage_t0, \
                                          rho_water = self.rho_values[self.Fluid1])
-                
+        
+        ## Fluid Loss Inputs
+        self.DeltaRLF = 0.1                    # Delta R of porous media
+        self.kFL0 = (1e6)*9.86923266716E-13         # Initial Permeability of Fluid Loss Wall (m²)
+        self.Dk = 0.9                          # Permeanbility Decay Factor
+        # Dynamic Permeability of Porous Media
+        self.kFL = Expression('k0+pow(1-DecayFactor,t)',\
+                               t=0,k0=self.kFL0,\
+                               DecayFactor=self.Dk,degree=2)
+        
         #%%############ Problem Geometry   ##############################
         ## Mesh File
         self.meshFile = 'WellSimulator'#'MacroParallelPlates'#'WellSimulator'#
         # Geometric Values
         self.Zmin = 6
+        self.ZFL = 8
         self.Zmax = 8
         self.ROut = 0.22
         self.HFluidLoss = .1
@@ -168,17 +179,10 @@ class Inputs():
         self.noSlipBCs.append('BottomWall')  # Both
         #noSlipBoundaries.append('InnerWalls')
         
-        ## Pressure Inputs
-        self.pressureBCs = {}
-        self.pInlet = self.rho_values[0]*self.Zmin*self.g #0.3164557 #self.rho_values[0]*2*self.g
-        self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
-        # self.pOutlet = 0.6*(self.pInlet + self.rho_values[0]*self.g*1)
-        # self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
-        
         ## Advected Scalar Field Inputs
-        self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
+        self.CInitialMixture = 0.3      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
         self.scalarFieldBCs = {}
-        self.COutlet = 0.8
+        self.COutlet = 1
         self.scalarFieldBCs.update({'Inlet' : Constant(self.CInitialMixture)}) # CMix
         # self.scalarFieldBCs.update({'Outlet' : Constant(self.CInitialMixture)}) # CMix: REGULAR FLOW
         self.scalarFieldBCs.update({'Outlet': Constant(self.COutlet)}) # C1: FILTRATION
@@ -196,18 +200,31 @@ class Inputs():
         self.VzOutlet = Expression('VzOutlet',VzOutlet=0.0,degree=2)
         self.VrOutlet = Expression('t <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.055 /((pow(t,0.78)))',\
                                    A=self.AOut,rho=self.rhoOut,t=t,degree=2) # All BaseCases
+        # self.VrOutlet = Expression('(1/(rho*A))*0.00163 + 0*t',\
+                                #    A=self.AOut,rho=self.rhoOut,t=t,degree=2) # All BaseCases
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.55 /((pow(t,0.78)))'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
-        # self.velocityBCs.update({'Inlet' : {2: self.VrInlet}}) # m/s
-        # self.VOutlet_exp = Expression('VrOutlet',VrOutlet=self.VrOutlet,degree=2)
-        self.velocityBCs.update({'Inlet' : {1: self.VrInlet}}) # m/s
+        # self.velocityBCs.update({'Inlet' : {1: self.VrInlet}}) # m/s
         # self.velocityBCs.update({'Outlet' : {1: self.VzOutlet}}) # m/s
-        self.velocityBCs.update({'Outlet' : {0: self.VzOutlet}}) # m/s
+        # self.velocityBCs.update({'Outlet' : {0: self.VzOutlet}}) # m/s
         self.velocityBCs.update({'Outlet' : {1: self.VrOutlet}}) # m/s
         
+        ## Pressure Inputs
+        self.pressureBCs = {}
+        self.pInlet = self.rho_values[0]*self.Zmin*self.g #0.3164557 #self.rho_values[0]*2*self.g
+        self.pressureBCs.update({'Inlet' : Constant(self.pInlet)}) # Pa
+        self.pOutlet = Constant(0.6*(self.pInlet + self.rho_values[0]*self.g*1))
+        # Pressure at the Outlet (Darcy's Law)
+        self.pFL = 0.9*(self.pInlet + self.rho_values[0]*self.g*(self.ZFL - self.Zmin))
+        self.pOutlet = Expression('VrOutlet*Dr*mu/kFL + P0',VrOutlet = Constant(0.0), \
+                                            Dr=self.DeltaRLF,P0=self.pFL, \
+                                            mu=self.mu_values[self.Fluid1],\
+                                            kFL = Constant(0.0),degree=1)
+        # self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
+
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
-        self.absTol = 1e-12
+        self.absTol = 1e-13
         
         # Relative Tolerance
         self.relTol = 1e-20
@@ -219,8 +236,8 @@ class Inputs():
         self.linearSolver = 'mumps'
             
         # Relaxation Factors
-        self.alpha = 0.9
-        self.alphaC = 0.9
+        self.alpha = 0.8
+        self.alphaC = 0.8
             
         #%% Possible Solvers
         # Solver method  |  Description    
