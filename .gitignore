@@ -2,7 +2,8 @@
 .spyproject/
 
 # __pycache__
-*pycache*/
+./__pycache__/
+./**/__pycache__/
 *.pyc
 
 

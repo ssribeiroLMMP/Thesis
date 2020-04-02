@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_TestMat_7_' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_PresPeakTest_Newtonian_ConstPOut_3' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -59,13 +59,14 @@ class Inputs():
         self.fieldnamesPre = ['Time(s)','rhoInlet(Kg/m3)']
 
         # Variable time step
-        self.dtMin = 0.005    # s
-        self.dtMax = 10  # s
-        self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 0.01
+        self.dtMin = 1e-4   # s
+        self.dtMax = 1e1    # s
+        self.tChange = 0    # point in time of sigmoid inflection occurs (s)
+        self.dt = 1e-2      # s
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
+        
         # Result Saving time step
-        self.savedt = 60 # s
+        self.savedt = 60    # s
 
         #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²) on axis X
@@ -87,14 +88,15 @@ class Inputs():
         # Rheology
         # Newtonian Viscosity
         self.mu_water = 0.01    # Pa.s
-        self.mu_cem = 0.01       # Pa.s
+        self.mu_cem = 0.3       # Pa.s
         self.mu_values = [self.mu_cem , self.mu_water]  
         
         ## Rheology - Modified SMD (Souza Mendes e Dutra (2004)) + Cure(tauY(t)) 
         # Input Variables
         self.tau0 = 19.019         # Dinamic Yield Stress               
-        self.etaInf = 0.295        # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
-        self.eta0 = 1e4            # Viscosity Value for Low shear rates
+        self.eta0 = 1.3e3            # Viscosity Value for Low shear rates
+        self.etaInf = self.eta0*0.1  # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
+        # self.etaInf = self.mu_cem       # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
         self.K = 1.43              # Consistency Index
         self.n = 0.572             # Power-law Index
         self.ts = 6000             # Caracteristic viscosity buildup time
@@ -104,8 +106,8 @@ class Inputs():
                                   ts = self.ts, t = 0)
         # Modified SMD Model Expression
         self.rheologicalModel = Expression('(1 - exp(-eta0*(gammaDot)/tauY_t))* \
-                                            (tauY_t/(gammaDot+eps) + \
-                                            K*(pow(gammaDot+eps,nPow)/(gammaDot+eps))) \
+                                            (tauY_t/(gammaDot+eps) + K*(pow(gammaDot+eps,nPow)/ \
+                                            (gammaDot+eps))) \
                                             + etaInf', degree=2, \
                                             etaInf=self.etaInf, eta0=self.eta0, \
                                             K = self.K, nPow = self.n, ts = self.ts, \
@@ -145,6 +147,7 @@ class Inputs():
         # Geometric Values
         self.Zmin = 6
         self.Zmax = 8
+        self.ZFL = 7
         self.ROut = 0.22
         self.HFluidLoss = .1
         ## Mesh Elements
@@ -168,17 +171,10 @@ class Inputs():
         self.noSlipBCs.append('BottomWall')  # Both
         #noSlipBoundaries.append('InnerWalls')
         
-        ## Pressure Inputs
-        self.pressureBCs = {}
-        self.pInlet = self.rho_values[0]*self.Zmin*self.g #0.3164557 #self.rho_values[0]*2*self.g
-        self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
-        # self.pOutlet = 0.6*(self.pInlet + self.rho_values[0]*self.g*1)
-        # self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
-        
         ## Advected Scalar Field Inputs
         self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
         self.scalarFieldBCs = {}
-        self.COutlet = 0.8
+        self.COutlet = 1
         self.scalarFieldBCs.update({'Inlet' : Constant(self.CInitialMixture)}) # CMix
         # self.scalarFieldBCs.update({'Outlet' : Constant(self.CInitialMixture)}) # CMix: REGULAR FLOW
         self.scalarFieldBCs.update({'Outlet': Constant(self.COutlet)}) # C1: FILTRATION
@@ -194,6 +190,8 @@ class Inputs():
         # self.VrInlet = Expression('VrInlet',VrInlet=0.0,degree=1)
         self.VrInlet = Expression('VrInlet',VrInlet=0.0,degree=2)
         self.VzOutlet = Expression('VzOutlet',VzOutlet=0.0,degree=2)
+        # self.VrOutlet = Expression('(1/(rho*A))*0.000163 + 0*t',\
+        #                     A=self.AOut,rho=self.rhoOut,t=t,degree=2) # All BaseCases
         self.VrOutlet = Expression('t <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.055 /((pow(t,0.78)))',\
                                    A=self.AOut,rho=self.rhoOut,t=t,degree=2) # All BaseCases
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.55 /((pow(t,0.78)))'
@@ -203,11 +201,23 @@ class Inputs():
         self.velocityBCs.update({'Inlet' : {1: self.VrInlet}}) # m/s
         # self.velocityBCs.update({'Outlet' : {1: self.VzOutlet}}) # m/s
         self.velocityBCs.update({'Outlet' : {0: self.VzOutlet}}) # m/s
-        self.velocityBCs.update({'Outlet' : {1: self.VrOutlet}}) # m/s
+        # self.velocityBCs.update({'Outlet' : {1: self.VrOutlet}}) # m/s
         
+        ## Pressure Inputs
+        self.pressureBCs = {}
+        # Mixture Initial Density
+        self.rho_mix0 = (self.rho_values[0]*self.CInitialMixture + self.rho_values[1]*(1-self.CInitialMixture))
+        # Inlet Pressure
+        self.pInlet = self.rho_mix0*self.Zmin*self.g #0.3164557 #self.rho_values[0]*2*self.g
+        self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
+        # Outlet Pressure
+        self.pOutlet = 0.95*(self.rho_mix0*self.g*self.ZFL)
+        self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
+        
+
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
-        self.absTol = 1e-12
+        self.absTol = 1e-13
         
         # Relative Tolerance
         self.relTol = 1e-20
