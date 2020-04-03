@@ -31,7 +31,11 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
+<<<<<<< HEAD
         self.caseId = 'TransWellSimulator_PresPeakTest_Newtonian_ConstPOut_3' ## If name already exists in folder ./PostProcessing/Cases, 
+=======
+        self.caseId = 'TransWellSimulator_BaseCase_14000_7' ## If name already exists in folder ./PostProcessing/Cases, 
+>>>>>>> NewPresPerDephtPlot
                          ## old data will be overwritten.
         
         # Output Variables
@@ -53,20 +57,32 @@ class Inputs():
 
         # Plot Time List
         self.plotTimeList = [1, 200, 2500, 4500, 7000, 8250, 9000, 10500, 12000, self.tEnd]#
+        self.plotDepthList = [8, 7.6, 7.2, 6.8, 6.4, 6]
         # self.plotTimeList = [1, self.tEnd]
         self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
         self.dZPlot = 0.01
         self.fieldnamesPre = ['Time(s)','rhoInlet(Kg/m3)']
 
         # Variable time step
+<<<<<<< HEAD
         self.dtMin = 1e-4   # s
         self.dtMax = 1e1    # s
         self.tChange = 0    # point in time of sigmoid inflection occurs (s)
         self.dt = 1e-2      # s
+=======
+        self.dtMin = 0.005    # s
+        self.dtMax = 20  # s
+        self.tChange = 0   # point in time of sigmoid inflection occurs (s)
+        self.dt = 0.01
+>>>>>>> NewPresPerDephtPlot
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
         
         # Result Saving time step
+<<<<<<< HEAD
         self.savedt = 60    # s
+=======
+        self.savedt = 100 # s
+>>>>>>> NewPresPerDephtPlot
 
         #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²) on axis X
@@ -146,6 +162,7 @@ class Inputs():
         self.meshFile = 'WellSimulator'#'MacroParallelPlates'#'WellSimulator'#
         # Geometric Values
         self.Zmin = 6
+        self.ZFL = 7
         self.Zmax = 8
         self.ZFL = 7
         self.ROut = 0.22
@@ -210,9 +227,13 @@ class Inputs():
         # Inlet Pressure
         self.pInlet = self.rho_mix0*self.Zmin*self.g #0.3164557 #self.rho_values[0]*2*self.g
         self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
+<<<<<<< HEAD
         # Outlet Pressure
         self.pOutlet = 0.95*(self.rho_mix0*self.g*self.ZFL)
         self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
+=======
+        
+>>>>>>> NewPresPerDephtPlot
         
 
         #%%############ Solver parameters ###############################

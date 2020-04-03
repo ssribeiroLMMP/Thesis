@@ -115,6 +115,17 @@ def savingPreparation(paraFullPath,ParaViewFilenames):
 
     return paraFiles
 
+def initializePressurePerDepth(inputs):
+    meshpath, paraFullPath, imFullPath,parapath, imagespath, geopath, \
+    postpath = assemblePaths(inputs)
+
+    filePath = postpath + inputs.caseId+'/pressurePerDepth.csv'
+    
+    if os.path.exists(filePath):
+        os.truncate(filePath,0)
+    
+    createCSVOutput(filePath,['Time(s)','Depth(m)','Pressure(Pa)'])
+
 def initializePressureProfile(inputs):
     meshpath, paraFullPath, imFullPath,parapath, imagespath, geopath, \
     postpath = assemblePaths(inputs)
@@ -124,7 +135,30 @@ def initializePressureProfile(inputs):
     if os.path.exists(filePath):
         os.truncate(filePath,0)
     
-    createCSVOutput(filePath,['Time','Depth(m)','Pressure(Pa)'])
+    createCSVOutput(filePath,['Time(s)','Depth(m)','Pressure(Pa)'])
+
+def savePressurePerDepthDuringRun(inputs,p,t):
+    meshpath, paraFullPath, imFullPath,parapath, imagespath, geopath, \
+    postpath = assemblePaths(inputs)
+
+    filePath = postpath+inputs.caseId+'/pressurePerDepth.csv'
+
+    # dataframe = pd.read_csv(filePath)
+    dataframe = pd.DataFrame(columns=['Time(s)','Depth(m)','Pressure(Pa)'])
+
+    # # Initialize PANDAS dataframe
+    # dataframe = dataframe.append({'Time': t,\
+    #                               'Depth(m)': z,\
+    #                               'Pressure(Pa)': p(z,inputs.ROut)}, ignore_index=True)
+
+    for z in inputs.plotDepthList:
+        dataframe = dataframe.append({'Time(s)':round(t,0),\
+                                      'Depth(m)': z,\
+                                      'Pressure(Pa)': p(z,inputs.ROut)}, ignore_index=True)
+         
+    dataframe.to_csv(filePath, index=False, mode='a',header=False)
+
+    return
 
 def savePressureProfileDuringRun(inputs,p,t):
     meshpath, paraFullPath, imFullPath,parapath, imagespath, geopath, \
@@ -133,7 +167,7 @@ def savePressureProfileDuringRun(inputs,p,t):
     filePath = postpath+inputs.caseId+'/pressureProfile.csv'
 
     # dataframe = pd.read_csv(filePath)
-    dataframe = pd.DataFrame(columns=['Time','Depth(m)','Pressure(Pa)'])
+    dataframe = pd.DataFrame(columns=['Time(s)','Depth(m)','Pressure(Pa)'])
 
     # Number of Points in Z
     nZPoints = (inputs.Zmax - inputs.Zmin)/inputs.dZPlot
@@ -148,7 +182,7 @@ def savePressureProfileDuringRun(inputs,p,t):
     #                               'Pressure(Pa)': p(z,inputs.ROut)}, ignore_index=True)
 
     while z < inputs.Zmax:
-        dataframe = dataframe.append({'Time':round(t,0),\
+        dataframe = dataframe.append({'Time(s)':round(t,0),\
                                       'Depth(m)': z,\
                                       'Pressure(Pa)': p(z,inputs.ROut)}, ignore_index=True)
         z += inputs.dZPlot
@@ -190,5 +224,31 @@ def logResults(t,results,listId,inputs,meshObj,cbarU=0,cbarP=0):
         writeCSVLine(inputs.outputPressure,linePre)
         listId += 1
 
-
     return cbarU, cbarP, listId
+# def logResults(t,results,listId,inputs,meshObj,cbarU=0,cbarP=0):
+#     # Save Data into CSV to later plot
+#     outletFlowRate = results[3]
+#     line = [t,outletFlowRate]
+#     writeCSVLine(inputs.outputFlowrate,line)
+#     TOC = results[4]
+#     line = [t,TOC]
+#     writeCSVLine(inputs.outputTOC,line)
+    
+#     ui = results[0]
+#     pi = results[1]
+#     ci = results[2]
+
+#     # Test Write Pressure Profile    
+#     if listId < len(inputs.plotTimeList) and t >= inputs.plotTimeList[listId]:
+    
+#         # Test Write Pressure Profile
+#         savePressureProfileDuringRun(inputs,pi,t)
+#         rhoMix = results[5]
+#         dicTitle = {1:'Pressure',2:'Concentration',3:'Velocity'}
+#         cbarU, cbarP, uXYValues, lValues, pValues, nVertices = prettyplot(1,meshObj,t,ui,pi,ci,dicTitle, resultspath='./PostProcessing/Cases/'+inputs.caseId,tag='/Images/',cbarU=cbarU,cbarP=cbarP,cbarDirection = 0)
+        
+
+#         linePre = [t , rhoMix, pi(6,0.22), pi(6.125,0.22), pi(6.25,0.22), pi(6.375,0.22), pi(6.5,0.22), pi(6.625,0.22), pi(6.75,0.22), pi(6.875,0.22),\
+#                       pi(7,0.22), pi(7.125,0.22), pi(7.25,0.22), pi(7.375,0.22), pi(7.5,0.22), pi(7.625,0.22), pi(7.75,0.22), pi(7.875,0.22), pi(8,0.22)]
+#         writeCSVLine(inputs.outputPressure,linePre)
+#         listId += 1
