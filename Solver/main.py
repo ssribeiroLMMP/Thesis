@@ -82,6 +82,7 @@ def main(inputs):
     createCSVOutput(inputs.outputFlowrate,inputs.fieldnamesFlow)
     createCSVOutput(inputs.outputPressure,inputs.fieldnamesPre)
     initializePressureProfile(inputs)
+    initializePressurePerDepth(inputs)
 
     TOC = inputs.Zmin
     rhoMix = inputs.CInitialMixture*inputs.rho_values[0] + \
@@ -127,9 +128,18 @@ def main(inputs):
                 results.append(p1)
                 results.append(c1)
                 saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
+                # Pressure per Depth
+                if not(t==0):
+                    savePressurePerDepthDuringRun(inputs,p1,t)
+                
+                # Save Flowrate
                 results.append(outputMassFlowrate)
+                # Save TOC
                 results.append(TOC)
+                # Save Fluid Properties
                 results.append(rhoMix)
+                # results.append(rho)
+                # results.append(mu)
                 cbarU, cbarP, listId = logResults(t,results,listId,inputs,meshObj,cbarU=cbarU,cbarP=cbarP)
                 if listId < len(inputs.plotTimeList):
                     saveDt = min([t + inputs.savedt, inputs.plotTimeList[listId]])
