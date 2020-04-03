@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_TestMat_7_' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_BaseCase_14000_7' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -53,6 +53,7 @@ class Inputs():
 
         # Plot Time List
         self.plotTimeList = [1, 200, 2500, 4500, 7000, 8250, 9000, 10500, 12000, self.tEnd]#
+        self.plotDepthList = [8, 7.6, 7.2, 6.8, 6.4, 6]
         # self.plotTimeList = [1, self.tEnd]
         self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
         self.dZPlot = 0.01
@@ -60,12 +61,12 @@ class Inputs():
 
         # Variable time step
         self.dtMin = 0.005    # s
-        self.dtMax = 10  # s
+        self.dtMax = 20  # s
         self.tChange = 0   # point in time of sigmoid inflection occurs (s)
         self.dt = 0.01
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
         # Result Saving time step
-        self.savedt = 60 # s
+        self.savedt = 100 # s
 
         #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²) on axis X
@@ -144,6 +145,7 @@ class Inputs():
         self.meshFile = 'WellSimulator'#'MacroParallelPlates'#'WellSimulator'#
         # Geometric Values
         self.Zmin = 6
+        self.ZFL = 7
         self.Zmax = 8
         self.ROut = 0.22
         self.HFluidLoss = .1
@@ -167,13 +169,6 @@ class Inputs():
         self.noSlipBCs.append('OuterWall') # WelSimulator only
         self.noSlipBCs.append('BottomWall')  # Both
         #noSlipBoundaries.append('InnerWalls')
-        
-        ## Pressure Inputs
-        self.pressureBCs = {}
-        self.pInlet = self.rho_values[0]*self.Zmin*self.g #0.3164557 #self.rho_values[0]*2*self.g
-        self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
-        # self.pOutlet = 0.6*(self.pInlet + self.rho_values[0]*self.g*1)
-        # self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
         
         ## Advected Scalar Field Inputs
         self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
@@ -205,6 +200,16 @@ class Inputs():
         self.velocityBCs.update({'Outlet' : {0: self.VzOutlet}}) # m/s
         self.velocityBCs.update({'Outlet' : {1: self.VrOutlet}}) # m/s
         
+        ## Pressure Inputs
+        self.pressureBCs = {}
+        # Mixture Initial Density
+        self.rho_mix0 = (self.rho_values[0]*self.CInitialMixture + self.rho_values[1]*(1-self.CInitialMixture))
+        # Inlet Pressure
+        self.pInlet = self.rho_mix0*self.Zmin*self.g #0.3164557 #self.rho_values[0]*2*self.g
+        self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
+        
+        
+
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
         self.absTol = 1e-12

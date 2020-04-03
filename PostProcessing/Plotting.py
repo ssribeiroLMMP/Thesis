@@ -19,7 +19,7 @@ class Style():
     def __init__(self):
         # Colormap
         self.colors = ['#800000',\
-                        #'#A60A0F',\
+                        '#A60A0F',\
                         '#ff1a1a',\
                         '#cc7a00',\
                         '#ff9900',\
@@ -35,14 +35,38 @@ class Style():
                 'weight': 'normal',
                 'size': 10}
 
-def plotPressureProfileDF(inputFile,outputFile):
+def plotPressureProfileTime(inputFile,outputFile):
 
     dataframe = pd.read_csv(inputFile) #Time(s),Depth(m),Pressure(Pa)
     fig, ax = plt.subplots()
     
     i=0
 
-    for key, grp in dataframe.groupby(['Time']):
+    for key, grp in dataframe.groupby(['Depth(m)']):
+        depthLabel = '{:.0f}m'.format(key)
+        ax = grp.plot(ax=ax, kind='line', x='Time(s)', y='Pressure(Pa)', \
+                      c = Style().colors[i], label=depthLabel)
+        i+=1
+    plt.xlim((inputs.t0,inputs.tEnd))
+    # plt.ylim((0,200000))
+    plt.xlabel('Time (m)', fontdict = Style().font)
+    plt.ylabel('Pressure (Pa)', fontdict = Style().font)
+    plt.xticks(fontsize = 8)
+    plt.yticks(fontsize = 8)
+    plt.grid(color='0.8', linestyle='-')
+    plt.legend(loc = 'lower center',bbox_to_anchor=(0.5, 1.01),ncol=6,fontsize = 8)
+    plt.savefig('./'+outputFile+'.png',dpi=300)
+
+    return fig, ax
+
+def plotPressureProfileDepth(inputFile,outputFile):
+
+    dataframe = pd.read_csv(inputFile) #Time(s),Depth(m),Pressure(Pa)
+    fig, ax = plt.subplots()
+    
+    i=0
+
+    for key, grp in dataframe.groupby(['Time(s)']):
         timeLabel = '{:.0f}s'.format(key)
         ax = grp.plot(ax=ax, kind='line', x='Depth(m)', y='Pressure(Pa)', \
                       c = Style().colors[i], label=timeLabel)
@@ -95,10 +119,13 @@ def plotPressureProfile(inputFile,outputFile):
 
 def plotPressure(inputs):
     dir = './PostProcessing/Cases/'+inputs.caseId
-    inputFile = dir+'/pressureProfile.csv'
-    outputFile = dir'/ presProf_'+inputs.caseId
+    inputFile1 = dir+'/pressureProfile.csv'
+    inputFile2 = dir+'/pressurePerDepth.csv'
+    outputFile1 = dir+'/ presProf_'+inputs.caseId
+    outputFile2 = dir+'/ presPerDepth_'+inputs.caseId
     # plotPressureProfile(inputFile,outputFile)
-    plotPressureProfileDF(inputFile,outputFile)
+    plotPressureProfileDepth(inputFile1,outputFile1)
+    plotPressureProfileTime(inputFile2,outputFile2)
 
 def plotResult(output,outputFile,outType = 0):
     fig, ax = plt.subplots()

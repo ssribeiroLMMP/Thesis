@@ -1,6 +1,10 @@
 # Don't track content of these folders
 .spyproject/
 
+# __pycache__
+./__pycache__/
+./**/__pycache__/
+*.pyc
 
 # VTU and VTK #
 ###############
