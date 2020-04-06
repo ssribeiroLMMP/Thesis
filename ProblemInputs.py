@@ -31,11 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-<<<<<<< HEAD
-        self.caseId = 'TransWellSimulator_PresPeakTest_Newtonian_ConstPOut_3' ## If name already exists in folder ./PostProcessing/Cases, 
-=======
-        self.caseId = 'TransWellSimulator_BaseCase_14000_7' ## If name already exists in folder ./PostProcessing/Cases, 
->>>>>>> NewPresPerDephtPlot
+        self.caseId = 'TransWellSimulator_7_PressBC_Test1' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -57,32 +53,21 @@ class Inputs():
 
         # Plot Time List
         self.plotTimeList = [1, 200, 2500, 4500, 7000, 8250, 9000, 10500, 12000, self.tEnd]#
-        self.plotDepthList = [8, 7.6, 7.2, 6.8, 6.4, 6]
+        self.plotDepthList = [6, 6.4, 6.8, 7.2, 7.6, 8]
         # self.plotTimeList = [1, self.tEnd]
         self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
         self.dZPlot = 0.01
         self.fieldnamesPre = ['Time(s)','rhoInlet(Kg/m3)']
 
         # Variable time step
-<<<<<<< HEAD
         self.dtMin = 1e-4   # s
-        self.dtMax = 1e1    # s
+        self.dtMax = 2e1    # s
         self.tChange = 0    # point in time of sigmoid inflection occurs (s)
-        self.dt = 1e-2      # s
-=======
-        self.dtMin = 0.005    # s
-        self.dtMax = 20  # s
-        self.tChange = 0   # point in time of sigmoid inflection occurs (s)
-        self.dt = 0.01
->>>>>>> NewPresPerDephtPlot
+        self.dt = 1e-3      # s
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
         
         # Result Saving time step
-<<<<<<< HEAD
-        self.savedt = 60    # s
-=======
-        self.savedt = 100 # s
->>>>>>> NewPresPerDephtPlot
+        self.savedt = 100    # s
 
         #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²) on axis X
@@ -93,10 +78,6 @@ class Inputs():
         self.Fluid0 = 0 # Cement 
         self.Fluid1 = 1 - self.Fluid0 # Water
         self.CInitialMixture = 0.5      # Mass fraction of Fluid0. Fluid1 = 1-Flui0
-                       
-        # Initial Interface position: Two-Phase Flow
-        # self.InterfaceX0 = 0.05
-        # self.InterfaceY0 = 0.01
         
         # Diffusity of Between species (m²/s)
         self.D = 1e-3
@@ -110,8 +91,8 @@ class Inputs():
         ## Rheology - Modified SMD (Souza Mendes e Dutra (2004)) + Cure(tauY(t)) 
         # Input Variables
         self.tau0 = 19.019         # Dinamic Yield Stress               
-        self.eta0 = 1.3e3            # Viscosity Value for Low shear rates
-        self.etaInf = self.eta0*0.1  # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
+        self.eta0 = 1.3e4            # Viscosity Value for Low shear rates
+        self.etaInf = 0.1*self.eta0  # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
         # self.etaInf = self.mu_cem       # Equilibrium Viscosity(Newtonian Plato: Lowgh shear rates)
         self.K = 1.43              # Consistency Index
         self.n = 0.572             # Power-law Index
@@ -214,10 +195,9 @@ class Inputs():
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.55 /((pow(t,0.78)))'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : {2: self.VrInlet}}) # m/s
-        # self.VOutlet_exp = Expression('VrOutlet',VrOutlet=self.VrOutlet,degree=2)
         self.velocityBCs.update({'Inlet' : {1: self.VrInlet}}) # m/s
         # self.velocityBCs.update({'Outlet' : {1: self.VzOutlet}}) # m/s
-        self.velocityBCs.update({'Outlet' : {0: self.VzOutlet}}) # m/s
+        # self.velocityBCs.update({'Outlet' : {0: self.VzOutlet}}) # m/s
         # self.velocityBCs.update({'Outlet' : {1: self.VrOutlet}}) # m/s
         
         ## Pressure Inputs
@@ -227,13 +207,9 @@ class Inputs():
         # Inlet Pressure
         self.pInlet = self.rho_mix0*self.Zmin*self.g #0.3164557 #self.rho_values[0]*2*self.g
         self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
-<<<<<<< HEAD
         # Outlet Pressure
-        self.pOutlet = 0.95*(self.rho_mix0*self.g*self.ZFL)
+        self.pOutlet = 0.60*(self.rho_mix0*self.g*self.ZFL)
         self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
-=======
-        
->>>>>>> NewPresPerDephtPlot
         
 
         #%%############ Solver parameters ###############################

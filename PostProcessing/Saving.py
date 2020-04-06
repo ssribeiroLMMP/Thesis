@@ -146,13 +146,9 @@ def savePressurePerDepthDuringRun(inputs,p,t):
     # dataframe = pd.read_csv(filePath)
     dataframe = pd.DataFrame(columns=['Time(s)','Depth(m)','Pressure(Pa)'])
 
-    # # Initialize PANDAS dataframe
-    # dataframe = dataframe.append({'Time': t,\
-    #                               'Depth(m)': z,\
-    #                               'Pressure(Pa)': p(z,inputs.ROut)}, ignore_index=True)
-
     for z in inputs.plotDepthList:
-        dataframe = dataframe.append({'Time(s)':round(t,0),\
+        # Append PANDAS dataframe
+        dataframe = dataframe.append({'Time(s)':round(t,1),\
                                       'Depth(m)': z,\
                                       'Pressure(Pa)': p(z,inputs.ROut)}, ignore_index=True)
          
@@ -176,13 +172,9 @@ def savePressureProfileDuringRun(inputs,p,t):
     # Loop over Depth
     z = inputs.Zmin
 
-    # # Initialize PANDAS dataframe
-    # dataframe = dataframe.append({'Time': t,\
-    #                               'Depth(m)': z,\
-    #                               'Pressure(Pa)': p(z,inputs.ROut)}, ignore_index=True)
-
     while z < inputs.Zmax:
-        dataframe = dataframe.append({'Time(s)':round(t,0),\
+        # Append PANDAS dataframe
+        dataframe = dataframe.append({'Time(s)':round(t,1),\
                                       'Depth(m)': z,\
                                       'Pressure(Pa)': p(z,inputs.ROut)}, ignore_index=True)
         z += inputs.dZPlot

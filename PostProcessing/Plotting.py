@@ -41,13 +41,15 @@ def plotPressureProfileTime(inputFile,outputFile):
     fig, ax = plt.subplots()
     
     i=0
+    maxTime = dataframe['Time(s)'].max()
+    minTime = 0 #dataframe['Time(s)'].min()
 
-    for key, grp in dataframe.groupby(['Depth(m)']):
-        depthLabel = '{:.0f}m'.format(key)
+    for key, grp in dataframe.groupby(['Depth(m)']): 
+        depthLabel = '{:.1f}m'.format(key)
         ax = grp.plot(ax=ax, kind='line', x='Time(s)', y='Pressure(Pa)', \
                       c = Style().colors[i], label=depthLabel)
         i+=1
-    plt.xlim((inputs.t0,inputs.tEnd))
+    plt.xlim((minTime,maxTime))
     # plt.ylim((0,200000))
     plt.xlabel('Time (m)', fontdict = Style().font)
     plt.ylabel('Pressure (Pa)', fontdict = Style().font)
@@ -119,15 +121,10 @@ def plotPressureProfile(inputFile,outputFile):
 
 def plotPressure(inputs):
     dir = './PostProcessing/Cases/'+inputs.caseId
-<<<<<<< HEAD
-    inputFile = dir+'/pressureProfile.csv'
-    outputFile = dir+'/ presProf_'+inputs.caseId
-=======
     inputFile1 = dir+'/pressureProfile.csv'
-    inputFile2 = dir+'/pressurePerDepth.csv'
     outputFile1 = dir+'/ presProf_'+inputs.caseId
+    inputFile2 = dir+'/pressurePerDepth.csv'
     outputFile2 = dir+'/ presPerDepth_'+inputs.caseId
->>>>>>> NewPresPerDephtPlot
     # plotPressureProfile(inputFile,outputFile)
     plotPressureProfileDepth(inputFile1,outputFile1)
     plotPressureProfileTime(inputFile2,outputFile2)
