@@ -226,6 +226,14 @@ def steadyStateFlow(rho,mu,inputs,meshObj,boundaries,Subdomains):
     # Append Flow Problem
     return w
 
+#%% Deformation Tensor 
+def DD(u):
+    return sym(nabla_grad(u))
+
+# Define stress tensor
+def TT(u, p, mu):
+    return 2*mu*DD(u) - p*Identity(len(u))
+
 #%% Transient Coupled scheeme for Flow 
 def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):    
     #####  Functions and Constants
@@ -251,9 +259,14 @@ def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):
     ##########   Equations
     # Linear Momentum Conservation
           
-           # Transient Term            # Inertia Term             # Surface Forces Term           # Pressure Force
-    a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho)*dx() + \
-                               (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p /rho)*dx()    # Relaxation
+    #        # Transient Term            # Inertia Term             # Surface Forces Term           # Pressure Force
+    # a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho)*dx() + \
+    #                            (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p /rho)*dx()    # Relaxation
+
+    
+           # Transient Term            # Inertia Term                           # Surface Forces Term           
+    a1 = rho*dot((u-u0)/Dt,v)*dx() + alpha *(rho*dot(dot(u,nabla_grad(u)), v) + inner(TT(u,p,mu),DD(v)))*dx() + \
+                                (1 - alpha)*(rho*dot(dot(u0,nabla_grad(u0)),v) + inner(TT(u,p,mu),DD(v)))*dx()  # Relaxation
                       
     L1 = 0
     for key, value in inputs.pressureBCs.items():
@@ -262,11 +275,12 @@ def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):
         else:
             Pi = Constant(value)   
         # Pressure Force: Natural Boundary Conditions
-        L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
+        # L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
+        L1 = L1 + (Pi)*dot(n,v)*ds(Subdomains[key])
     
 
     # Body Forces Term: Gravity 
-    L1 = - L1 + inner(fb(inputs),v)*dx()
+    L1 = - L1 + inner(rho*fb(inputs),v)*dx()
     
     # Add Mass Conservation
     a2 = (q*div(u))*dx() 

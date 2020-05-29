@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_7_PressBC_Test1' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_8_NonNewt_TestPresOutlet' ## If name already exists in folder ./PostProcessing/Cases, 
                          ## old data will be overwritten.
         
         # Output Variables
@@ -189,16 +189,19 @@ class Inputs():
         self.VrInlet = Expression('VrInlet',VrInlet=0.0,degree=2)
         self.VzOutlet = Expression('VzOutlet',VzOutlet=0.0,degree=2)
         # self.VrOutlet = Expression('(1/(rho*A))*0.000163 + 0*t',\
-        #                     A=self.AOut,rho=self.rhoOut,t=t,degree=2) # All BaseCases
-        self.VrOutlet = Expression('t <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.055 /((pow(t,0.78)))',\
-                                   A=self.AOut,rho=self.rhoOut,t=t,degree=2) # All BaseCases
+        #                     A=self.AOut,rho=self.rhoOut,t=t,degree=2) # Constant Flow Rate
+        self.VrOutlet = Expression('t <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*(a/(pow(t,b)) - (1/(d*c))*exp((t-ts)/(e*c)))',\
+                                    A=self.AOut,rho=self.rhoOut,t=t,degree=2, \
+                                    a= 0.032,b=0.67 ,c=1300, d=8, e=3 ,ts=17000) # Best Experimental Fit
+        # self.VrOutlet = Expression('t <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))',\
+        #                            A=self.AOut,rho=self.rhoOut,t=t,degree=2) # All BaseCases
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.55 /((pow(t,0.78)))'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : {2: self.VrInlet}}) # m/s
         self.velocityBCs.update({'Inlet' : {1: self.VrInlet}}) # m/s
         # self.velocityBCs.update({'Outlet' : {1: self.VzOutlet}}) # m/s
-        # self.velocityBCs.update({'Outlet' : {0: self.VzOutlet}}) # m/s
-        # self.velocityBCs.update({'Outlet' : {1: self.VrOutlet}}) # m/s
+        self.velocityBCs.update({'Outlet' : {0: self.VzOutlet}}) # m/s
+        self.velocityBCs.update({'Outlet' : {1: self.VrOutlet}}) # m/s
         
         ## Pressure Inputs
         self.pressureBCs = {}
@@ -208,16 +211,16 @@ class Inputs():
         self.pInlet = self.rho_mix0*self.Zmin*self.g #0.3164557 #self.rho_values[0]*2*self.g
         self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
         # Outlet Pressure
-        self.pOutlet = 0.60*(self.rho_mix0*self.g*self.ZFL)
-        self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
+        # self.pOutlet = 0.60*(self.rho_mix0*self.g*self.ZFL)
+        # self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
         
 
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
-        self.absTol = 1e-13
+        self.absTol = 1e-10
         
         # Relative Tolerance
-        self.relTol = 1e-20
+        self.relTol = 1e-15
         
         # Maximum Iterations
         self.maxIter = 15
