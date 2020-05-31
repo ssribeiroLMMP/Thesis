@@ -31,8 +31,8 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_8_NonNewt_TestPresOutlet' ## If name already exists in folder ./PostProcessing/Cases, 
-                         ## old data will be overwritten.
+        self.caseId = 'TransWellSimulator_8_NonNewt_MassConsChange_test1' ## If name already exists in folder ./PostProcessing/Cases, 
+                    ## old data will be overwritten.
         
         # Output Variables
         self.ParaViewFilenames = []; self.ParaViewTitles = []
@@ -99,8 +99,8 @@ class Inputs():
         self.ts = 6000             # Caracteristic viscosity buildup time
         self.eps = 1e-10
         self.tauY_t = Expression('tau0*exp(t/ts)',degree=1,\
-                                  tau0 = self.tau0, \
-                                  ts = self.ts, t = 0)
+                                tau0 = self.tau0, \
+                                ts = self.ts, t = 0)
         # Modified SMD Model Expression
         self.rheologicalModel = Expression('(1 - exp(-eta0*(gammaDot)/tauY_t))* \
                                             (tauY_t/(gammaDot+eps) + K*(pow(gammaDot+eps,nPow)/ \
@@ -115,7 +115,7 @@ class Inputs():
         # Experimental Values
         self.rho_water = 1000           # kg/m³
         self.rho_bulk0 = 1737.48        # kg/m³ = 14.5ppg
-        self.rho_bulkInf = 1200      # kg/m³    
+        self.rho_bulkInf = 1200         # kg/m³    
         self.rho_cem0 = (self.rho_bulk0 - (1-self.CInitialMixture)*self.rho_water)/(self.CInitialMixture)
         
         # Initial Density Values per Component
@@ -123,20 +123,28 @@ class Inputs():
 
         # Shrinkage Equation: rhoMax - ((rhoMax-rhoMin)/(1+math.exp(Inclination*(-t+t0)))+rhoMin) +rhoMin
         # if Inclination is zero, shrinkage is neglected
-        self.shrinkage_inclination = 0.0004  # kg/m³ / s
+        self.shrinkage_inclination = 0.0004         # kg/m³ / s
+        self.shrinkage_rhoMax = self.rho_bulk0      # kg/m³
         self.shrinkage_rhoMin = self.rho_bulkInf    # kg/m³
-        self.shrinkage_t0 = 1.2*self.ts            # s  
+        self.shrinkage_t0 = 1.2*self.ts             # s  
 
         # Shrinkage Model Expression
         self.shrinkageModel = Expression('(rhoMax-((rhoMax-rhoMin)/  \
-                                         (1 + exp(Inclination*(-t+t0))) \
-                                         +rhoMin) + rhoMin)*cFrac + rho_water*(1-cFrac)', degree=2, \
-                                         cFrac = Constant(self.eps), \
-                                         rhoMax = self.rho_values[self.Fluid0], \
-                                         rhoMin = self.shrinkage_rhoMin, \
-                                         Inclination = self.shrinkage_inclination, \
-                                         t=self.t0, t0 = self.shrinkage_t0, \
-                                         rho_water = self.rho_values[self.Fluid1])
+                                        (1 + exp(Inclination*(-t+t0))) \
+                                        +rhoMin) + rhoMin)', degree=2, \
+                                        rhoMax = self.shrinkage_rhoMax, \
+                                        rhoMin = self.shrinkage_rhoMin, \
+                                        Inclination = self.shrinkage_inclination, \
+                                        t=self.t0, t0 = self.shrinkage_t0)
+        # self.shrinkageModel = Expression('(rhoMax-((rhoMax-rhoMin)/  \
+        #                                 (1 + exp(Inclination*(-t+t0))) \
+        #                                 +rhoMin) + rhoMin)*cFrac + rho_water*(1-cFrac)', degree=2, \
+        #                                 cFrac = Constant(self.eps), \
+        #                                 rhoMax = self.rho_values[self.Fluid0], \
+        #                                 rhoMin = self.shrinkage_rhoMin, \
+        #                                 Inclination = self.shrinkage_inclination, \
+        #                                 t=self.t0, t0 = self.shrinkage_t0, \
+        #                                 rho_water = self.rho_values[self.Fluid1])
                 
         #%%############ Problem Geometry   ##############################
         ## Mesh File
@@ -145,7 +153,6 @@ class Inputs():
         self.Zmin = 6
         self.ZFL = 7
         self.Zmax = 8
-        self.ZFL = 7
         self.ROut = 0.22
         self.HFluidLoss = .1
         ## Mesh Elements
@@ -214,7 +221,6 @@ class Inputs():
         # self.pOutlet = 0.60*(self.rho_mix0*self.g*self.ZFL)
         # self.pressureBCs.update({'Outlet' : self.pOutlet}) # Pa
         
-
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
         self.absTol = 1e-10

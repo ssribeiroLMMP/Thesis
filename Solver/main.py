@@ -44,7 +44,6 @@ def main(inputs):
     
     # Get Mesh Dimension: 1, 2 or 3
     Dim = meshObj.geometric_dimension()
-        
     
     #%%#################    Time Loop - If Transient
     t = inputs.t0
@@ -61,6 +60,7 @@ def main(inputs):
     W = flowSpaceCreation(inputs,meshObj)
     C = fieldSpaceCreation(inputs,meshObj)
     w0 = Function(W)
+    rho_cem_t = project(inputs.shrinkage_rhoMax,C)
     
     # Initial Conditions
     c0 = initialMixture(C,inputs)
@@ -86,16 +86,18 @@ def main(inputs):
 
     TOC = inputs.Zmin
     rhoMix = inputs.CInitialMixture*inputs.rho_values[0] + \
-             (1-inputs.CInitialMixture)*inputs.rho_values[1]
-             
+            (1-inputs.CInitialMixture)*inputs.rho_values[1]
+            
     while t <= inputs.tEnd:
+        rho_cem_t0 = rho_cem_t
         # Initialize results Vector
         results = []
         
         # Assign Fluids Properties
         (u0, p0) = w0.leaf_node().split()
+        
         #assignFluidProperties(inputs,C,c,u,t)
-        rho,mu = assignFluidProperties(inputs,C,c0,u0,t)
+        rho,mu,rho_cem_t = assignFluidProperties(inputs,C,c0,u0,t)
         
     	   # Solve Equations
         # try:
@@ -117,7 +119,7 @@ def main(inputs):
             outputMassFlowrate = calculateOutletFlowrate(u1,inputs,boundaries,Subdomains)
             
             begin('Concentration')
-            c1 = transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains)
+            c1 = transienFieldTransport(C,c0,dt,u1,D,rho_cem_t,rho_cem_t0,mu,inputs,meshObj,boundaries,Subdomains)
             end()
             
             # Save Paraview Files
