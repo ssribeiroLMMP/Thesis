@@ -69,7 +69,7 @@ def calculateNewInletPressure(TOC,massFlowrate,rho,t,dt,boundaries,Subdomains,in
     # avg Inlet Cement Density
     rhoMix = cumsum/n  
 
-             # Cement                      # Water
+    # Cement                            # Water
     # rhoMix = rho_cem_inlet*cInlet + inputs.rho_values[inputs.Fluid1]*(1-cInlet)
     
     # rhoMix = cInlet*inputs.rho_values[inputs.Fluid0] + (1-cInlet)*inputs.rho_values[inputs.Fluid1]
@@ -157,6 +157,7 @@ def meshMeasures(meshObj,boundaries):
     n = FacetNormal(meshObj) # Normal vector to mesh
     return dx, ds, n
 
+# Function Space Creation - Mixed space: Flow varibles pressure and velocity
 def flowSpaceCreation(inputs,meshObj):
     # Get Element Shape: Triangle, etc...
     elementShape = meshObj.ufl_cell()
@@ -246,7 +247,7 @@ def TT(u, p, mu):
     return 2*mu*DD(u) - p*Identity(len(u))
 
 #%% Transient Coupled scheeme for Flow 
-def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):    
+def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):    
     #####  Functions and Constants
         ## Trial and Test function(s)
     dw = TrialFunction(W)
@@ -289,8 +290,13 @@ def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):
     # Body Forces Term: Gravity 
     L1 = - L1 + inner(rho*fb(inputs),v)*dx()
     
-    # Add Mass Conservation
-    a2 = (q*div(u))*dx() 
+    # Add Mass Conservation Equation
+    # if t <= inputs.dt:
+    #     a2 = ((dot(u,grad(rho))*q + rho*div(u)*q)*dx())
+    # else:
+    a2 = ((rho-rho0)/Dt)*q*dx() + (alpha)*((dot(u,grad(rho))*q + rho*div(u)*q)*dx()) + \
+                                    (1-alpha)*((inner(u,grad(rho0))*q + rho0*div(u)*q)*dx())
+                                
     L2 = 0
     
     # Weak Complete Form
@@ -323,6 +329,7 @@ def transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):
 
 #%% Field Advection Functions
 
+# Function Space Creation - Mixed space: Flow varibles pressure and velocity
 def fieldSpaceCreation(inputs,meshObj):
     # Get Element Shape: Triangle, etc...
     elementShape = meshObj.ufl_cell()
@@ -334,20 +341,21 @@ def fieldSpaceCreation(inputs,meshObj):
     
     return C
 
-## Fluid Mixture
+## Initial Conditions - 
+# Expression Fluid Mixture
 def initialConditionField(C,inputs):
     init = Expression('C0','C0',C0=inputs.CMixture,degree=2)
     c0 = Function(C)
     c0.assign(project(init,C))
     return c0
 
-## Fluid Interface 
+## Constant Fluid Mixture 
 def initialMixture(C,inputs):
     c0 = Function(C)
     c0.assign(project(Constant(inputs.CInitialMixture),C))
     return c0
 
-## Fluid Interface 
+## Fluids smooth Interface
 def initialInterface(C,inputs):
     smoothstep = Expression('(CMax-CMin)/(1+exp(IntIncl*(-x[0]+x0)))+CMin',IntIncl = 20000,x0=inputs.InterfaceX0,CMax=inputs.Fluid1,CMin=inputs.Fluid0,degree=2)
     c0 = Function(C)
@@ -383,34 +391,6 @@ def transienFieldTransport(C,c_i0,dt,u1,D,rho_i_t,rho_i_t0,mu,inputs,meshObj,bou
     solve(a == L, c_i1, bcC)
     
     return c_i1
-# def transienFieldTransport(C,c_i0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains):
-#     ## Trial and Test function(s)
-#     c_i = TrialFunction(C)  # Mass fraction of i component
-#     l = TestFunction(C)   
-    
-#     ## Result Functions
-#     c_i1 = Function(C)
-    
-#     # Load Important Measures: Omega, deltaOmega, Normal Vector
-#     dx, ds, n = meshMeasures(meshObj,boundaries)
-    
-#     # Time step Constant
-#     Dt = Constant(dt)
-#     alphaC = Constant(inputs.alphaC)
-    
-#     # Concentration Equation                         
-#             # Transient Term   #                 Advection Term                         # Diffusion Term                            
-#     F = inner((c_i - c_i0)/Dt,l)*dx() + alphaC*(inner(u1,(grad(c_i ))*l) + (D/rho)*dot(grad(c_i ), grad(l)))*dx() +\
-#                                     (1-alphaC)*(inner(u1,(grad(c_i0))*l) + (D/rho)*dot(grad(c_i0), grad(l)))*dx() # Relaxation
-#     a, L = lhs(F), rhs(F)
-
-#     # Boundary Conditions    
-#     bcC = fieldTransportBC(C,inputs,meshObj,boundaries,Subdomains)
-    
-#     # Solve Problem
-#     solve(a == L, c_i1, bcC)
-    
-#     return c_i1
 
     #%% Transient Coupled scheeme for Flow 
 # def transientImplicitFlow(t,W,C,w0,c0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains):    

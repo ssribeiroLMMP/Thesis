@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_8_NonNewt_MassConsChange_test1' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_8_NonNewt_MassConsChange_test3' ## If name already exists in folder ./PostProcessing/Cases, 
                     ## old data will be overwritten.
         
         # Output Variables
@@ -39,6 +39,8 @@ class Inputs():
         self.ParaViewFilenames.append("velocity"); self.ParaViewTitles.append('Velocity (m/s)')
         self.ParaViewFilenames.append("pressure"); self.ParaViewTitles.append('Pressure (Pa)')
         self.ParaViewFilenames.append("concentration"); self.ParaViewTitles.append('Mass Fraction (Fluid Tags)')
+        self.ParaViewFilenames.append("density"); self.ParaViewTitles.append('Density (kg/m³)')
+        self.ParaViewFilenames.append("viscosity"); self.ParaViewTitles.append('Viscosity (Pa.s)')
         self.outputFlowrate = './PostProcessing/Cases/'+self.caseId+'/flowrateInput.csv'
         self.outputPressure = './PostProcessing/Cases/'+self.caseId+'/pressureOutput.csv'
         self.outputTOC = './PostProcessing/Cases/'+self.caseId+'/TOC.csv'
