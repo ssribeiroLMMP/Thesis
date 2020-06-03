@@ -31,7 +31,7 @@ def dynamicSaveDt(dt):
 class Inputs():
     def __init__(self):
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_8_NonNewt_MassConsChange_test3' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_8_PInlet_test' ## If name already exists in folder ./PostProcessing/Cases, 
                     ## old data will be overwritten.
         
         # Output Variables
@@ -116,9 +116,10 @@ class Inputs():
         # Density (kg/m³)
         # Experimental Values
         self.rho_water = 1000           # kg/m³
-        self.rho_bulk0 = 1737.48        # kg/m³ = 14.5ppg
+        self.rho_bulk0 = 1845.48        # kg/m³ = 15.4ppg
         self.rho_bulkInf = 1200         # kg/m³    
         self.rho_cem0 = (self.rho_bulk0 - (1-self.CInitialMixture)*self.rho_water)/(self.CInitialMixture)
+        self.rho_cemInf = (self.rho_bulkInf - (1-self.CInitialMixture)*self.rho_water)/(self.CInitialMixture)
         
         # Initial Density Values per Component
         self.rho_values = [self.rho_cem0 , self.rho_water] # kg/m³
@@ -126,8 +127,8 @@ class Inputs():
         # Shrinkage Equation: rhoMax - ((rhoMax-rhoMin)/(1+math.exp(Inclination*(-t+t0)))+rhoMin) +rhoMin
         # if Inclination is zero, shrinkage is neglected
         self.shrinkage_inclination = 0.0004         # kg/m³ / s
-        self.shrinkage_rhoMax = self.rho_bulk0      # kg/m³
-        self.shrinkage_rhoMin = self.rho_bulkInf    # kg/m³
+        self.shrinkage_rhoMax = self.rho_cem0     # kg/m³
+        self.shrinkage_rhoMin = self.rho_cemInf    # kg/m³
         self.shrinkage_t0 = 1.2*self.ts             # s  
 
         # Shrinkage Model Expression

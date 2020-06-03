@@ -86,7 +86,6 @@ def calculateNewInletPressure(TOC,massFlowrate,rho,t,dt,boundaries,Subdomains,in
     # Variation of TopOfCement
     deltaTOC = deltaV/inletArea
 
-    # New Inlet Pressure
     TOC = TOC-deltaTOC
     pInlet = rhoMix*inputs.g*(TOC)
     
