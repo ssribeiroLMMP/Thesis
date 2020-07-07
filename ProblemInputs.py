@@ -7,6 +7,7 @@ Created on Mon Jul 29 08:21:14 2019
 Description: Problem Definitions: Input Dictionary
 """
 from dolfin import *
+import numpy as np
 import math
 
 # Sigmoid Function S(x) = (dtMax-dtMin)/(1+exp(Inclination*(-t+t0)))+dtMin
@@ -30,8 +31,33 @@ def dynamicSaveDt(dt):
 
 class Inputs():
     def __init__(self):
+        
+        #%%############ Problem Geometry   ##############################
+        ## Mesh File
+        self.meshFile = 'WellSimulatorMF10'#'MacroParallelPlates'#'WellSimulator'#
+        self.meshElements = 8813
+        # Geometric Values
+        self.Zmin = 6
+        self.ZVelProf = 6.5
+        self.ZFL = 7
+        self.Zmax = 8
+        self.RIn = 0.1
+        self.stepR = 0.005
+        self.ROut = 0.22
+        self.HFluidLoss = .1
+        ## Mesh Elements
+        # Velocity
+        self.velocityElementfamily = 'Lagrange'
+        self.velocityElementOrder = 2
+        # Pressure
+        self.pressureElementfamily = 'Lagrange'
+        self.pressureElementOrder = 1
+        # Advected Scalar Field
+        self.scalarFieldElementfamily = 'Lagrange'
+        self.scalarFieldElementOrder = 1
+        
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_8_PInlet_test' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulator_8_MeshTest_MF10' ## If name already exists in folder ./PostProcessing/Cases, 
                     ## old data will be overwritten.
         
         # Output Variables
@@ -51,10 +77,12 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 14000 # s
+        self.tEnd = 200 # s
 
+        # MeshTest Radius List
+        self.plotRadiusList = np.arange(self.RIn,self.ROut+self.stepR,self.stepR).tolist()
         # Plot Time List
-        self.plotTimeList = [1, 200, 2500, 4500, 7000, 8250, 9000, 10500, 12000, self.tEnd]#
+        self.plotTimeList = [1, 10, 50, 100, 150, self.tEnd]# 2500, 4500, 7000, 8250, 9000, 10500, 12000, 
         self.plotDepthList = [6, 6.4, 6.8, 7.2, 7.6, 8]
         # self.plotTimeList = [1, self.tEnd]
         self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
@@ -149,26 +177,6 @@ class Inputs():
         #                                 t=self.t0, t0 = self.shrinkage_t0, \
         #                                 rho_water = self.rho_values[self.Fluid1])
                 
-        #%%############ Problem Geometry   ##############################
-        ## Mesh File
-        self.meshFile = 'WellSimulator'#'MacroParallelPlates'#'WellSimulator'#
-        # Geometric Values
-        self.Zmin = 6
-        self.ZFL = 7
-        self.Zmax = 8
-        self.ROut = 0.22
-        self.HFluidLoss = .1
-        ## Mesh Elements
-        # Velocity
-        self.velocityElementfamily = 'Lagrange'
-        self.velocityElementOrder = 2
-        # Pressure
-        self.pressureElementfamily = 'Lagrange'
-        self.pressureElementOrder = 1
-        # Advected Scalar Field
-        self.scalarFieldElementfamily = 'Lagrange'
-        self.scalarFieldElementOrder = 1
-        
         #%%############ Boundary Conditions
         
         ## No slip Boundaries

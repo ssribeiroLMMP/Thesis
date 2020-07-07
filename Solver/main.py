@@ -81,6 +81,7 @@ def main(inputs):
     # Create CSV File
     createCSVOutput(inputs.outputFlowrate,inputs.fieldnamesFlow)
     createCSVOutput(inputs.outputPressure,inputs.fieldnamesPre)
+    initializeVelocityProfile(inputs)
     initializePressureProfile(inputs)
     initializePressurePerDepth(inputs)
 
@@ -159,13 +160,18 @@ def main(inputs):
                     
         	   # Update current time #ERROR ON VERSION 1.0.4
                # Log into CSVFiles
+                       
+            
             w0.assign(w)
             c0.assign(c1)
             t += dt
         
         if t > inputs.tEnd and not(lastStep):
             t = inputs.tEnd
-            lastStep = True    
+            lastStep = True
+            # Get last timestep velocity profile: Only turn on in MeshTest cases
+            if inputs.caseId.find('MeshTest'):
+                saveVelocityProfileDuringRun(inputs,u1)
 
         ### Set next timestep
         #Dynamic Timestep

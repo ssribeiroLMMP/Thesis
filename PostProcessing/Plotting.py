@@ -23,15 +23,15 @@ class Style():
                         '#ff1a1a',\
                         '#cc7a00',\
                         '#ff9900',\
-                        '#ffcc80',\
-                        '#ffcc00',\
+                        # '#ffcc80',\
+                        # '#ffcc00',\
                         '#9DD52D',\
                         '#4AD77E',\
                         '#4EDEDE',\
                         '#2880C3',\
                         '#99ebff']
 
-        self.font = {'family': 'serif',
+        self.font = {'family': 'sans-serif',
                 'weight': 'normal',
                 'size': 10}
 
@@ -60,6 +60,30 @@ def plotPressureProfileTime(inputFile,outputFile):
     plt.savefig('./'+outputFile+'.png',dpi=300)
 
     return fig, ax
+
+def plotVelocityProfile(inputFile,outputFile):
+
+    dataframe = pd.read_csv(inputFile) #Time(s),Depth(m),Pressure(Pa)
+    fig, ax = plt.subplots()
+    plt.rc('text', usetex=True)
+    
+    i=0
+
+    for key, grp in dataframe.groupby(['Elements']):
+        elLabel = '{:.0f}'.format(key)
+        ax = grp.plot(ax=ax, kind='line', x='Radius(m)', y='Velocity(m/s)', \
+                      c = Style().colors[i], label=elLabel)
+        i+=1
+    plt.xlim((0.1,0.22))
+    # plt.ylim((0,200000))
+    plt.xlabel(r'$r \ \left( m \right)$',fontdict=Style().font)
+    plt.ylabel(r'$u_z \ \left( m/s \right)$',fontdict=Style().font)
+    plt.xticks(fontsize = 8)
+    plt.yticks(fontsize = 8)
+    plt.grid(color='0.8', linestyle='-')
+    # plt.legend(loc = 'lower center',bbox_to_anchor=(0.5, 1.01),ncol=10,fontsize = 8)
+    lgd = plt.gca().legend(loc='center left', bbox_to_anchor=(1, 0.5),title='Elements')
+    plt.savefig('./'+outputFile+'.pdf',dpi=300,bbox_extra_artists=(lgd,), bbox_inches='tight')
 
 def plotPressureProfileDepth(inputFile,outputFile):
 
@@ -104,7 +128,7 @@ def plotPressureProfile(inputFile,outputFile):
     for i in range(0,len(time)):
         y = dataframe.iloc[i,2:]
         timeLabel = '{:.0f}s'.format(round(time[i],0))
-        plt.plot(x,y,c=colors[i],label = timeLabel)
+        plt.plot(x,y,c=Style().colors[i],label = timeLabel)
         print(i)
 
     plt.xlim((6,8))
@@ -120,14 +144,21 @@ def plotPressureProfile(inputFile,outputFile):
     return fig, ax
 
 def plotPressure(inputs):
-    dir = './PostProcessing/Cases/'+inputs.caseId
-    inputFile1 = dir+'/pressureProfile.csv'
-    outputFile1 = dir+'/ presProf_'+inputs.caseId
-    inputFile2 = dir+'/pressurePerDepth.csv'
-    outputFile2 = dir+'/ presPerDepth_'+inputs.caseId
-    # plotPressureProfile(inputFile,outputFile)
-    plotPressureProfileDepth(inputFile1,outputFile1)
-    plotPressureProfileTime(inputFile2,outputFile2)
+    maindir = './PostProcessing/Cases/'+inputs.caseId
+    inputFile1 = maindir+'/pressureProfile.csv'
+    outputFile1 = maindir+'/ presProf_'+inputs.caseId
+    inputFile2 = maindir+'/pressurePerDepth.csv'
+    outputFile2 = maindir+'/ presPerDepth_'+inputs.caseId
+    plotPressureProfile(inputFile1,outputFile1)
+    # plotPressureProfileDepth(inputFile1,outputFile1)
+    # plotPressureProfileTime(inputFile2,outputFile2)
+
+def plotVelocity(inputs):
+    maindir = './PostProcessing/Cases/'+inputs.caseId
+    inputFile = maindir+'/velocityProfile.csv'
+    outputFile = maindir+'/Images/velProf'+ inputs.caseId
+    if inputs.caseId.find('MeshTest'):
+        plotVelocityProfile(inputFile,outputFile)
 
 def plotResult(output,outputFile,outType = 0):
     fig, ax = plt.subplots()

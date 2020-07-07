@@ -7,6 +7,7 @@ Created on Mon Jul 29 08:21:14 2019
 Description: Module to store simulation Saving Parameters
 """
 import os
+from shutil import copyfile
 import csv
 import sys
 sys.path.append(os.path.abspath('.'))
@@ -115,6 +116,27 @@ def savingPreparation(paraFullPath,ParaViewFilenames):
 
     return paraFiles
 
+def initializeVelocityProfile(inputs):
+    meshpath, paraFullPath, imFullPath,parapath, imagespath, geopath, \
+    postpath = assemblePaths(inputs)
+
+    lastcase = int(inputs.caseId[len(inputs.caseId)-2]+inputs.caseId[len(inputs.caseId)-1])-1
+    print(lastcase)
+    if lastcase < 10:
+        caseStr = '0'+str(lastcase)
+    else:
+        caseStr = str(lastcase)
+        
+    lastcase_filePath = postpath + inputs.caseId[0:len(inputs.caseId)-2] + caseStr +'/velocityProfile.csv'
+    print(lastcase_filePath)
+    
+    filePath = postpath + inputs.caseId+'/velocityProfile.csv'
+    
+    if os.path.exists(lastcase_filePath):
+        copyfile(lastcase_filePath, filePath)  
+    else:
+        createCSVOutput(filePath,['Elements','Radius(m)','Velocity(m/s)'])
+
 def initializePressurePerDepth(inputs):
     meshpath, paraFullPath, imFullPath,parapath, imagespath, geopath, \
     postpath = assemblePaths(inputs)
@@ -136,6 +158,27 @@ def initializePressureProfile(inputs):
         os.truncate(filePath,0)
     
     createCSVOutput(filePath,['Time(s)','Depth(m)','Pressure(Pa)'])
+
+def saveVelocityProfileDuringRun(inputs,v):
+    meshpath, paraFullPath, imFullPath,parapath, imagespath, geopath, \
+    postpath = assemblePaths(inputs)
+
+    filePath = postpath+inputs.caseId+'/velocityProfile.csv'
+
+    # dataframe = pd.read_csv(filePath)
+    dataframe = pd.DataFrame(columns=['Elements','Radius(m)','Velocity(m/s)'])
+
+    for r in inputs.plotRadiusList:
+        # Append PANDAS dataframe
+        if v(inputs.ZVelProf,r)[0] < 1e-15:
+            vz = 0
+        else:
+            vz = v(inputs.ZVelProf,r)[0]
+        dataframe = dataframe.append({'Elements':inputs.meshElements,\
+                                      'Radius(m)': r,\
+                                      'Velocity(m/s)': vz}, ignore_index=True)
+         
+    dataframe.to_csv(filePath, index=False, mode='a',header=False)
 
 def savePressurePerDepthDuringRun(inputs,p,t):
     meshpath, paraFullPath, imFullPath,parapath, imagespath, geopath, \
