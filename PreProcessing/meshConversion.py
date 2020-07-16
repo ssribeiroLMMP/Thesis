@@ -73,7 +73,7 @@ def applyMesh(Type,geopath, meshpath,meshFile):
     return meshObj, boundaries, markers, Subdomains            
    
 # inPath = './Geometry/'
-# File =  'WellSimulator'
+# File =  'WellSimulatorRZ'
 # outPath = './Mesh/'  
 # msh2xml(inPath,File,outPath,File)
     

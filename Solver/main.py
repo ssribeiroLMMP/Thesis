@@ -125,6 +125,7 @@ def main(inputs):
             
             begin('Concentration')
             c1 = transienFieldTransport(C,c0,dt,u1,D,rho_cem_t,rho_cem_t0,mu,inputs,meshObj,boundaries,Subdomains)
+            # c1 = c0
             end()
             
             rho0 = rho

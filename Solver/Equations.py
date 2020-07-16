@@ -117,8 +117,8 @@ def calculateOutletFlowrate(u1,inputs,boundaries,Subdomains):
 
 # Body Forces Term: Gravity
 def fb(inputs):
-    # Body Forces: Gravity
-    return Constant((inputs.g, 0.0)) 
+    # Body Forces: Gravity(RZ)
+    return Constant((0.0, inputs.g)) 
 
 # # Calculates Fluid properties by Mesh Cell
 # def assignFluidProperties(inputs,c0,C=0,u=0,t=0):
@@ -238,12 +238,18 @@ def flowSpaceCreation(inputs,meshObj):
 #     return w
 
 #%% Deformation Tensor 
-def DD(u):
+def DD(u,x):
+    
+    # Cyllindrical Coordinates Test(RZ)
+    # return sym(as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
+    #                       [0, u[0]/x[0], 0],
+    #                       [u[1].dx(0), 0, u[1].dx(1)]]))
     return sym(nabla_grad(u))
 
 # Define stress tensor
-def TT(u, p, mu):
-    return 2*mu*DD(u) - p*Identity(len(u))
+def TT(u, x, p, mu):
+    # return 2*mu*DD(u,x) - p*Identity(3)
+    return 2*mu*DD(u,x) - p*Identity(len(u))
 
 #%% Transient Coupled scheeme for Flow 
 def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):    
@@ -262,6 +268,7 @@ def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin
     
     # Calculate Important Measures: Omega, deltaOmega, Normal Vector
     dx, ds, n = meshMeasures(meshObj,boundaries)
+    x = SpatialCoordinate(meshObj)
     
     # Time step Constant
     Dt = Constant(dt)
@@ -273,8 +280,8 @@ def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin
     # a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho)*dx() + \
     #                            (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p /rho)*dx()    # Relaxation
             # Transient Term                # Inertia Term                           # Surface Forces Term           
-    a1 = rho*dot((u-u0)/Dt,v)*dx() + alpha *(rho*dot(dot(u,nabla_grad(u)), v) + inner(TT(u,p,mu),DD(v)))*dx() + \
-                                (1 - alpha)*(rho*dot(dot(u0,nabla_grad(u0)),v) + inner(TT(u,p,mu),DD(v)))*dx()  # Relaxation
+    a1 = rho*dot((u-u0)/Dt,v)*dx() + alpha *(rho*dot(dot(u,nabla_grad(u)), v) + inner(TT(u,x,p,mu),DD(v,x)))*dx() + \
+                                (1 - alpha)*(rho*dot(dot(u0,nabla_grad(u0)),v) + inner(TT(u,x,p,mu),DD(v,x)))*dx()  # Relaxation
                                 
     L1 = 0
     for key, value in inputs.pressureBCs.items():

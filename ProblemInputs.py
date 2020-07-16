@@ -34,7 +34,7 @@ class Inputs():
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
-        self.meshFile = 'WellSimulatorMF10'#'MacroParallelPlates'#'WellSimulator'#
+        self.meshFile = 'WellSimulatorRZ'#'MacroParallelPlates'#'WellSimulator'#
         self.meshElements = 8813
         # Geometric Values
         self.Zmin = 6
@@ -57,7 +57,7 @@ class Inputs():
         self.scalarFieldElementOrder = 1
         
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_8_MeshTest_MF10' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulatorRZ_8_MeshTest_MF10' ## If name already exists in folder ./PostProcessing/Cases, 
                     ## old data will be overwritten.
         
         # Output Variables
@@ -216,10 +216,10 @@ class Inputs():
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.55 /((pow(t,0.78)))'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : {2: self.VrInlet}}) # m/s
-        self.velocityBCs.update({'Inlet' : {1: self.VrInlet}}) # m/s
+        self.velocityBCs.update({'Inlet' : {0: self.VrInlet}}) # m/s
         # self.velocityBCs.update({'Outlet' : {1: self.VzOutlet}}) # m/s
-        self.velocityBCs.update({'Outlet' : {0: self.VzOutlet}}) # m/s
-        self.velocityBCs.update({'Outlet' : {1: self.VrOutlet}}) # m/s
+        self.velocityBCs.update({'Outlet' : {0: self.VrOutlet}}) # m/s
+        self.velocityBCs.update({'Outlet' : {1: self.VzOutlet}}) # m/s
         
         ## Pressure Inputs
         self.pressureBCs = {}
