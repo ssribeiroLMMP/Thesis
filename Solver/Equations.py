@@ -103,7 +103,7 @@ def calculateOutletFlowrate(u1,inputs,boundaries,Subdomains):
     # Loop over vertices and sum the normal velocity
     for i in range(0,len(yOut)):
         # TODO: add variable velocity with outlet area normal vector
-        cumsum = cumsum + u1(xOut[i],yOut[i])[1]
+        cumsum = cumsum + u1(xOut[i],yOut[i])[0] #RZ
         n += 1
     
     # vAvg

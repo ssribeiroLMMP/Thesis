@@ -218,8 +218,8 @@ class Inputs():
         # self.velocityBCs.update({'Inlet' : {2: self.VrInlet}}) # m/s
         self.velocityBCs.update({'Inlet' : {0: self.VrInlet}}) # m/s
         # self.velocityBCs.update({'Outlet' : {1: self.VzOutlet}}) # m/s
-        self.velocityBCs.update({'Outlet' : {0: self.VrOutlet}}) # m/s
-        self.velocityBCs.update({'Outlet' : {1: self.VzOutlet}}) # m/s
+        self.velocityBCs.update({'Outlet': {0: self.VrOutlet}}) # m/s
+        self.velocityBCs.update({'Outlet': {1: self.VzOutlet}}) # m/s
         
         ## Pressure Inputs
         self.pressureBCs = {}

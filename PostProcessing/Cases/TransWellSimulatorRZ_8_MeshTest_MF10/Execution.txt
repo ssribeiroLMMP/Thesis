@@ -1,4 +1,4 @@
-Simulation Execution: 2020-07-16 15:52:26.506193
+Simulation Execution: 2020-07-16 17:19:37.994862
 Case: TransWellSimulatorRZ_8_MeshTest_MF10
 Source: Thesis
 meshFile=WellSimulatorRZ
