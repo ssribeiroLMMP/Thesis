@@ -16,4 +16,5 @@ os.system(infoCommand())
 # Append Execut                   vi  on.txt with Simulation Residues
 os.system(solveCommand())
 # main(inputs)
-plotPressure(inputs)
+# plotPressure(inputs)
+plotVelocity(inputs)

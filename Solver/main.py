@@ -44,7 +44,6 @@ def main(inputs):
     
     # Get Mesh Dimension: 1, 2 or 3
     Dim = meshObj.geometric_dimension()
-        
     
     #%%#################    Time Loop - If Transient
     t = inputs.t0
@@ -61,6 +60,7 @@ def main(inputs):
     W = flowSpaceCreation(inputs,meshObj)
     C = fieldSpaceCreation(inputs,meshObj)
     w0 = Function(W)
+    rho_cem_t = project(inputs.shrinkage_rhoMax,C)
     
     # Initial Conditions
     c0 = initialMixture(C,inputs)
@@ -81,29 +81,36 @@ def main(inputs):
     # Create CSV File
     createCSVOutput(inputs.outputFlowrate,inputs.fieldnamesFlow)
     createCSVOutput(inputs.outputPressure,inputs.fieldnamesPre)
+    initializeVelocityProfile(inputs)
     initializePressureProfile(inputs)
     initializePressurePerDepth(inputs)
 
     TOC = inputs.Zmin
     rhoMix = inputs.CInitialMixture*inputs.rho_values[0] + \
-             (1-inputs.CInitialMixture)*inputs.rho_values[1]
-             
+            (1-inputs.CInitialMixture)*inputs.rho_values[1]
+    
     while t <= inputs.tEnd:
+        rho_cem_t0 = rho_cem_t
         # Initialize results Vector
         results = []
         
         # Assign Fluids Properties
         (u0, p0) = w0.leaf_node().split()
-        #assignFluidProperties(inputs,C,c,u,t)
-        rho,mu = assignFluidProperties(inputs,C,c0,u0,t)
         
-    	   # Solve Equations
+        #assignFluidProperties(inputs,C,c,u,t)
+        rho,mu,rho_cem_t = assignFluidProperties(inputs,C,c0,u0,t)
+
+        # Set Initial Density Field
+        if t<=inputs.dt:
+            rho0=rho
+    
+        # Solve Equations
         # try:
         begin('Flow - Time:{:.3f}s and dt:{:.5f}s'.format(t,dt))
         if t>0:
             pInlet, TOC, rhoMix = calculateNewInletPressure(TOC,outputMassFlowrate,rho,t,dt,boundaries,Subdomains,inputs)
             
-        (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,mu,inputs,meshObj,boundaries,Subdomains,pInlet)
+        (w,no_iterations,converged) = transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,pInlet)
         end()
         # except: 
         #     no_iterations = inputs.maxIter
@@ -117,8 +124,10 @@ def main(inputs):
             outputMassFlowrate = calculateOutletFlowrate(u1,inputs,boundaries,Subdomains)
             
             begin('Concentration')
-            c1 = transienFieldTransport(C,c0,dt,u1,D,rho,mu,inputs,meshObj,boundaries,Subdomains)
+            c1 = transienFieldTransport(C,c0,dt,u1,D,rho_cem_t,rho_cem_t0,mu,inputs,meshObj,boundaries,Subdomains)
             end()
+            
+            rho0 = rho
             
             # Save Paraview Files
             if t==0 or t >= saveDt:
@@ -127,6 +136,8 @@ def main(inputs):
                 results.append(u1)
                 results.append(p1)
                 results.append(c1)
+                results.append(rho)
+                results.append(mu)
                 saveResults(results,paraFiles,inputs.ParaViewFilenames,inputs.ParaViewTitles)
                 # Pressure per Depth
                 if not(t==0):
@@ -149,13 +160,18 @@ def main(inputs):
                     
         	   # Update current time #ERROR ON VERSION 1.0.4
                # Log into CSVFiles
+                       
+            
             w0.assign(w)
             c0.assign(c1)
             t += dt
         
         if t > inputs.tEnd and not(lastStep):
             t = inputs.tEnd
-            lastStep = True    
+            lastStep = True
+            # Get last timestep velocity profile: Only turn on in MeshTest cases
+            if inputs.caseId.find('MeshTest'):
+                saveVelocityProfileDuringRun(inputs,u1)
 
         ### Set next timestep
         #Dynamic Timestep
