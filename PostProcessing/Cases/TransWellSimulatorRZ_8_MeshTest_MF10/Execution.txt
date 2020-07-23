@@ -1,4 +1,4 @@
-Simulation Execution: 2020-07-16 17:19:37.994862
+Simulation Execution: 2020-07-16 19:07:51.039967
 Case: TransWellSimulatorRZ_8_MeshTest_MF10
 Source: Thesis
 meshFile=WellSimulatorRZ
@@ -70,7 +70,7 @@ COutlet=1
 AOut=0.1382300767579509
 rhoOut=1000
 muOut=0.01
-velocityBCs={'Inlet': {0: Coefficient(FunctionSpace(None, FiniteElement('Lagrange', None, 2)), 7)}, 'Outlet': {1: Coefficient(FunctionSpace(None, FiniteElement('Lagrange', None, 2)), 8)}}
+velocityBCs={'Inlet': {0: Coefficient(FunctionSpace(None, FiniteElement('Lagrange', None, 2)), 7)}, 'Outlet': {1: Coefficient(FunctionSpace(None, FiniteElement('Lagrange', None, 2)), 8), 0: Coefficient(FunctionSpace(None, FiniteElement('Lagrange', None, 2)), 9)}}
 VrInlet=f_7
 VzOutlet=f_8
 VrOutlet=f_9
