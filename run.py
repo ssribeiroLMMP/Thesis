@@ -14,7 +14,7 @@ createDirectories(inputs)
 os.system(infoCommand())
 
 # Append Execut                   vi  on.txt with Simulation Residues
-# os.system(solveCommand())
-main(inputs)
+os.system(solveCommand())
+# main(inputs)
 # plotPressure(inputs)
-plotVelocity(inputs)
+# plotVelocity(inputs)
