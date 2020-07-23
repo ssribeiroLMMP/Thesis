@@ -170,7 +170,7 @@ def saveVelocityProfileDuringRun(inputs,v):
 
     for r in inputs.plotRadiusList:
         # Append PANDAS dataframe
-        if v(r,inputs.ZVelProf)[1] < 1e-15: #RZ
+        if v(r,inputs.ZVelProf)[1] < 1e-15 and v(r,inputs.ZVelProf)[1] > -1e-15: #RZ
             vz = 0
         else:
             vz = v(round(r,4),inputs.ZVelProf)[1] #RZ
