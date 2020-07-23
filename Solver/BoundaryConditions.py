@@ -50,7 +50,7 @@ def noSlip(Dim):
     return Constant(noSlipU)
 
 # Flow Boundary Conditions
-def flowBC(t,U,inputs,meshId,boundariesId,subdomainsDict):
+def flowBC(t,rho,U,inputs,meshId,boundariesId,subdomainsDict):
     Dim = meshId.geometric_dimension()
     
     noSlipU = noSlip(Dim)
@@ -64,6 +64,27 @@ def flowBC(t,U,inputs,meshId,boundariesId,subdomainsDict):
     # OPnly Fluid 0 leaves through outlet
     rhoOut = inputs.rho_values[inputs.Fluid1]
 
+    # Vertices Inlet Coordinates
+    xIn,yIn = coordinatesAt(boundariesId,subdomainsDict['Inlet'])
+
+    # Concentration at the inlet
+    # TODO: Add temporal variant cInlet
+    cInlet = inputs.CInitialMixture
+
+    #Mixture density at the inlet
+
+    # Loop over vertices and sum the rho_cem_inlet
+    cumsum = 0
+    n = 0
+    for i in range(0,len(yIn)):
+        # Local Cement Density by Shrinkage Model
+        rho_Cem_i = rho(xIn[i],yIn[i])
+        cumsum = cumsum + rho_Cem_i
+        n += 1
+    
+    # avg Inlet Cement Density
+    rhoMix = cumsum/n  
+    
     # Initialize Boundary Condition
     bc = []
     
@@ -83,6 +104,8 @@ def flowBC(t,U,inputs,meshId,boundariesId,subdomainsDict):
             else:
                 valueExp.t = t
             dim = key2
+            if DomainKey == 'Inlet' and key2 == 1:
+                valueExp.rho = rhoMix
             bc.append(DirichletBC(U.sub(dim),valueExp,boundariesId,subdomainsDict[DomainKey]))
     
     return bc
