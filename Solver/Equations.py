@@ -236,25 +236,47 @@ def flowSpaceCreation(inputs,meshObj):
     
 #     # Append Flow Problem
 #     return w
+# Cylindrical Divergent
+def divCyl(u,x):
+    divU = u[0].dx(0) + u[1].dx(1)
+    
+    # Cyllindrical Coordinates Test(RZ)
+    # divU = u[0].dx(0) + u[0]/x[0] + u[1].dx(1)
+    return divU
+
+# Cylindrical Gradient
+def gradCyl(u,x):
+    gradU = as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
+                        [0, 0, 0],
+                        [u[1].dx(0), 0, u[1].dx(1)]])
+    # Cyllindrical Coordinates Test(RZ)
+    # gradU = as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
+    #                     [0, u[0]/x[0], 0],
+    #                     [u[1].dx(0), 0, u[1].dx(1)]])
+    return gradU
 
 #%% Deformation Tensor 
 def DD(u,x):
     
-    # Cyllindrical Coordinates Test(RZ)
-    # return sym(as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
+    D = sym(nabla_grad(u))
+    # Cylindrical Coordinates Test(RZ)
+    # D = sym(as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
     #                       [0, u[0]/x[0], 0],
     #                       [u[1].dx(0), 0, u[1].dx(1)]]))
-    return sym(nabla_grad(u))
+    return D
+    # 
 
 # Define stress tensor
 def TT(u, x, p, mu):
-    # return 2*mu*DD(u,x) - p*Identity(3)
-    return 2*mu*DD(u,x) - p*Identity(len(u))
+    T = 2*mu*DD(u,x) - p*Identity(len(u))
+    #Cylindrical Coordinates Tesy(RZ)
+    # T = 2*mu*DD(u,x) - p*Identity(3)
+    return T
 
 #%% Transient Coupled scheeme for Flow 
 def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):    
     #####  Functions and Constants
-        ## Trial and Test function(s)
+    ## Trial and Test function(s)
     dw = TrialFunction(W)
     (v, q) = TestFunctions(W)
     w = Function(W)
@@ -280,8 +302,8 @@ def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin
     # a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho)*dx() + \
     #                            (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p /rho)*dx()    # Relaxation
             # Transient Term                # Inertia Term                           # Surface Forces Term           
-    a1 = rho*dot((u-u0)/Dt,v)*dx() + alpha *(rho*dot(dot(u,nabla_grad(u)), v) + inner(TT(u,x,p,mu),DD(v,x)))*dx() + \
-                                (1 - alpha)*(rho*dot(dot(u0,nabla_grad(u0)),v) + inner(TT(u,x,p,mu),DD(v,x)))*dx()  # Relaxation
+    a1 = rho*dot((u-u0)/Dt,v)*dx() + alpha *(rho*dot(dot(u,grad(u) ) ,v) + inner(TT(u,x,p,mu),DD(v,x)))*dx() + \
+                                (1 - alpha)*(rho*dot(dot(u0,grad(u0)),v) + inner(TT(u,x,p,mu),DD(v,x)))*dx()  # Relaxation
                                 
     L1 = 0
     for key, value in inputs.pressureBCs.items():
@@ -300,8 +322,9 @@ def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin
     # if t <= inputs.dt:
     #     a2 = ((dot(u,grad(rho))*q + rho*div(u)*q)*dx())
     # else:
-    a2 = ((rho-rho0)/Dt)*q*dx() + (alpha)*((dot(u,grad(rho))*q + rho*div(u)*q)*dx()) + \
-                                    (1-alpha)*((inner(u,grad(rho0))*q + rho0*div(u)*q)*dx())
+    r_1 = Expression('1/x[0]', degree=1)
+    a2 = ((rho-rho0)/Dt)*q*dx() + (alpha)*((inner(u,grad(rho))*q + rho*divCyl(u,x)*q)*dx()) + \
+                                    (1-alpha)*((inner(u,grad(rho0))*q + rho0*divCyl(u,x)*q)*dx())
                                 
     L2 = 0
     
@@ -312,7 +335,7 @@ def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin
     J = derivative(F,w,dw)
     
     # Apply Flow Boundary Conditions
-    bcU = flowBC(t,U,inputs,meshObj,boundaries,Subdomains)
+    bcU = flowBC(t,rho,U,inputs,meshObj,boundaries,Subdomains)
         
     ##########   Numerical Solver Properties
     # Problem and Solver definitions
