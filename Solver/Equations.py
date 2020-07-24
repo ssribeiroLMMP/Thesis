@@ -238,39 +238,41 @@ def flowSpaceCreation(inputs,meshObj):
 #     return w
 # Cylindrical Divergent
 def divCyl(u,x):
-    divU = u[0].dx(0) + u[1].dx(1)
+    # divU = u[0].dx(0) + u[1].dx(1)
     
     # Cyllindrical Coordinates Test(RZ)
-    # divU = u[0].dx(0) + u[0]/x[0] + u[1].dx(1)
+    divU = u[0].dx(0) + u[0]/x[0] + u[1].dx(1)
     return divU
 
 # Cylindrical Gradient
 def gradCyl(u,x):
-    gradU = as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
-                        [0, 0, 0],
-                        [u[1].dx(0), 0, u[1].dx(1)]])
-    # Cyllindrical Coordinates Test(RZ)
     # gradU = as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
-    #                     [0, u[0]/x[0], 0],
+    #                     [0, 0, 0],
     #                     [u[1].dx(0), 0, u[1].dx(1)]])
+    # Cyllindrical Coordinates Test(RZ)
+    gradU = as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
+                        [0, u[0]/x[0], 0],
+                        [u[1].dx(0), 0, u[1].dx(1)]])
     return gradU
 
 #%% Deformation Tensor 
 def DD(u,x):
     
-    D = sym(nabla_grad(u))
+    # D = sym(as_tensor([ [u[0].dx(0), 0, u[0].dx(1)],
+    #                     [0, 0, 0],
+    #                     [u[1].dx(0), 0, u[1].dx(1)] ]))
     # Cylindrical Coordinates Test(RZ)
-    # D = sym(as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
-    #                       [0, u[0]/x[0], 0],
-    #                       [u[1].dx(0), 0, u[1].dx(1)]]))
+    D = sym(as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
+                          [0, u[0]/x[0], 0],
+                          [u[1].dx(0), 0, u[1].dx(1)]]))
     return D
     # 
 
 # Define stress tensor
 def TT(u, x, p, mu):
-    T = 2*mu*DD(u,x) - p*Identity(len(u))
+    # T = 2*mu*DD(u,x) - p*Identity(len(u))
     #Cylindrical Coordinates Tesy(RZ)
-    # T = 2*mu*DD(u,x) - p*Identity(3)
+    T = 2*mu*DD(u,x) - p*Identity(3)
     return T
 
 #%% Transient Coupled scheeme for Flow 
@@ -302,8 +304,8 @@ def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin
     # a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho)*dx() + \
     #                            (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p /rho)*dx()    # Relaxation
             # Transient Term                # Inertia Term                           # Surface Forces Term           
-    a1 = rho*dot((u-u0)/Dt,v)*dx() + alpha *(rho*dot(dot(u,grad(u) ) ,v) + inner(TT(u,x,p,mu),DD(v,x)))*dx() + \
-                                (1 - alpha)*(rho*dot(dot(u0,grad(u0)),v) + inner(TT(u,x,p,mu),DD(v,x)))*dx()  # Relaxation
+    a1 = rho*dot((u-u0)/Dt,v)*x[0]*dx() + alpha  *(rho*dot(dot(u,grad(u) ) ,v) + inner(TT(u,x,p,mu),DD(v,x)))*x[0]*dx() + \
+                                            (1-alpha)*(rho*dot(dot(u0,grad(u0)),v) + inner(TT(u,x,p,mu),DD(v,x)))*x[0]*dx()  # Relaxation
                                 
     L1 = 0
     for key, value in inputs.pressureBCs.items():
@@ -316,15 +318,15 @@ def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin
         L1 = L1 + (Pi)*dot(n,v)*ds(Subdomains[key])
     
     # Body Forces Term: Gravity 
-    L1 = - L1 + inner(rho*fb(inputs),v)*dx()
+    L1 = - L1 + inner(rho*fb(inputs),v)*x[0]*dx()
     
     # Add Mass Conservation Equation
     # if t <= inputs.dt:
     #     a2 = ((dot(u,grad(rho))*q + rho*div(u)*q)*dx())
     # else:
-    r_1 = Expression('1/x[0]', degree=1)
-    a2 = ((rho-rho0)/Dt)*q*dx() + (alpha)*((inner(u,grad(rho))*q + rho*divCyl(u,x)*q)*dx()) + \
-                                    (1-alpha)*((inner(u,grad(rho0))*q + rho0*divCyl(u,x)*q)*dx())
+    
+    a2 = ((rho-rho0)/Dt)*q*x[0]*dx() + (alpha)*((inner(u,grad(rho))*q + rho*divCyl(u,x)*q)*x[0]*dx()) + \
+                                        (1 -alpha)*((inner(u,grad(rho0))*q + rho0*divCyl(u,x)*q)*x[0]*dx())
                                 
     L2 = 0
     
@@ -402,6 +404,7 @@ def transienFieldTransport(C,c_i0,dt,u1,D,rho_i_t,rho_i_t0,mu,inputs,meshObj,bou
     
     # Load Important Measures: Omega, deltaOmega, Normal Vector
     dx, ds, n = meshMeasures(meshObj,boundaries)
+    x = SpatialCoordinate(meshObj)
     
     # Time step Constant
     Dt = Constant(dt)
@@ -409,8 +412,8 @@ def transienFieldTransport(C,c_i0,dt,u1,D,rho_i_t,rho_i_t0,mu,inputs,meshObj,bou
     
     # Concentration Equation                         
                 # Transient Term   #                                                # Advection Term                                  # Diffusion Term                            
-    F = inner((rho_i_t*c_i - rho_i_t0*c_i0)/Dt,l)*dx() + alphaC *(inner(u1,(grad(c_i*rho_i_t )) *l) + dot(u1, grad(c_i ))*l + c_i *div(u1)*l + (D)*dot(grad(c_i ),grad(l)))*dx() +\
-                                                    (1 - alphaC)*(inner(u1,(grad(c_i0*rho_i_t0))*l) + dot(u1, grad(c_i0))*l + c_i0*div(u1)*l + (D)*dot(grad(c_i0),grad(l)))*dx() # Relaxation
+    F = inner((rho_i_t*c_i - rho_i_t0*c_i0)/Dt,l)*x[0]*dx() + alphaC *(inner(u1,(grad(c_i*rho_i_t )) *l) + dot(u1, grad(c_i ))*l + c_i *divCyl(u1,x)*l + (D)*dot(grad(c_i ),grad(l)))*x[0]*dx() +\
+                                                        (1 - alphaC)*(inner(u1,(grad(c_i0*rho_i_t0))*l) + dot(u1, grad(c_i0))*l + c_i0*divCyl(u1,x)*l + (D)*dot(grad(c_i0),grad(l)))*x[0]*dx() # Relaxation
     a, L = lhs(F), rhs(F)
 
     # Boundary Conditions    

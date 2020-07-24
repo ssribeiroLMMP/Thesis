@@ -78,12 +78,12 @@ class Inputs():
         self.t0 = 0 # s
         
         # Simulation Time
-        self.tEnd = 14000 # s
+        self.tEnd = 200 # s
 
         # MeshTest Radius List
         self.plotRadiusList = np.arange(self.RIn,self.ROut+self.stepR,self.stepR).tolist()
         # Plot Time List
-        self.plotTimeList = [1, 10, 50, 100, 150, 2500, 4500, 7000, 8250, 9000, 10500, 12000, self.tEnd]# 
+        self.plotTimeList = [1, 10, 50, 100, 150, self.tEnd]# 2500, 4500, 7000, 8250, 9000, 10500, 12000,  
         self.plotDepthList = [6, 6.4, 6.8, 7.2, 7.6, 8]
         # self.plotTimeList = [1, self.tEnd]
         self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']

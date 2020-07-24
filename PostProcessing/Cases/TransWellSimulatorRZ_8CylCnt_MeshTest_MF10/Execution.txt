@@ -1,0 +1,426 @@
+Simulation Execution: 2020-07-23 10:04:42.697790
+Case: TransWellSimulatorRZ_8CylCnt_MeshTest_MF10
+Source: Thesis
+meshFile=WellSimulatorRZ
+meshElements=8813
+Zmin=6
+ZVelProf=6.5
+ZFL=7
+Zmax=8
+RIn=0.1
+stepR=0.005
+ROut=0.22
+HFluidLoss=0.1
+velocityElementfamily=Lagrange
+velocityElementOrder=2
+pressureElementfamily=Lagrange
+pressureElementOrder=1
+scalarFieldElementfamily=Lagrange
+scalarFieldElementOrder=1
+caseId=TransWellSimulatorRZ_8CylCnt_MeshTest_MF10
+ParaViewFilenames=['velocity', 'pressure', 'concentration', 'density', 'viscosity']
+ParaViewTitles=['Velocity (m/s)', 'Pressure (Pa)', 'Mass Fraction (Fluid Tags)', 'Density (kg/m³)', 'Viscosity (Pa.s)']
+outputFlowrate=./PostProcessing/Cases/TransWellSimulatorRZ_8CylCnt_MeshTest_MF10/flowrateInput.csv
+outputPressure=./PostProcessing/Cases/TransWellSimulatorRZ_8CylCnt_MeshTest_MF10/pressureOutput.csv
+outputTOC=./PostProcessing/Cases/TransWellSimulatorRZ_8CylCnt_MeshTest_MF10/TOC.csv
+t0=0
+tEnd=200
+plotRadiusList=[0.1, 0.10500000000000001, 0.11000000000000001, 0.11500000000000002, 0.12000000000000002, 0.12500000000000003, 0.13000000000000003, 0.13500000000000004, 0.14000000000000004, 0.14500000000000005, 0.15000000000000005, 0.15500000000000005, 0.16000000000000006, 0.16500000000000006, 0.17000000000000007, 0.17500000000000007, 0.18000000000000008, 0.18500000000000008, 0.19000000000000009, 0.1950000000000001, 0.2000000000000001, 0.2050000000000001, 0.2100000000000001, 0.2150000000000001, 0.2200000000000001]
+plotTimeList=[1, 10, 50, 100, 150, 200]
+plotDepthList=[6, 6.4, 6.8, 7.2, 7.6, 8]
+fieldnamesFlow=['Time(s)', 'outletFlowRate(Kg/s)']
+dZPlot=0.01
+fieldnamesPre=['Time(s)', 'rhoInlet(Kg/m3)']
+dtMin=0.0001
+dtMax=20.0
+tChange=0
+dt=0.001
+savedt=100
+g=9.81
+Fluid0=0
+Fluid1=1
+CInitialMixture=0.5
+D=0.001
+mu_water=0.01
+mu_cem=0.3
+mu_values=[0.3, 0.01]
+tau0=19.019
+eta0=13000.0
+etaInf=1300.0
+K=1.43
+n=0.572
+ts=6000
+eps=1e-10
+tauY_t=f_0
+rheologicalModel=f_3
+rho_water=1000
+rho_bulk0=1845.48
+rho_bulkInf=1200
+rho_cem0=2690.96
+rho_cemInf=1400.0
+rho_values=[2690.96, 1000]
+shrinkage_inclination=0.0004
+shrinkage_rhoMax=2690.96
+shrinkage_rhoMin=1400.0
+shrinkage_t0=7200.0
+shrinkageModel=f_4
+noSlipBCs=['InnerPipe', 'OuterWall', 'BottomWall']
+scalarFieldBCs={'Inlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 5), 'Outlet': Coefficient(FunctionSpace(None, FiniteElement('Real', None, 0)), 6)}
+COutlet=1
+AOut=0.1382300767579509
+AIn=0.12063715789784804
+rhoOut=1000
+muOut=0.01
+rho_mix0=1845.48
+velocityBCs={'Inlet': {0: Coefficient(FunctionSpace(None, FiniteElement('Lagrange', None, 2)), 8)}, 'Outlet': {0: Coefficient(FunctionSpace(None, FiniteElement('Lagrange', None, 2)), 9), 1: Coefficient(FunctionSpace(None, FiniteElement('Lagrange', None, 1)), 7)}}
+VzOutlet=f_7
+VrInlet=f_8
+VrOutlet=f_9
+pressureBCs={'Inlet': 108624.95280000001}
+pInlet=108624.95280000001
+absTol=1e-12
+relTol=1e-13
+maxIter=15
+linearSolver=mumps
+alpha=0.9
+alphaC=0.9
+
+
+Flow - Time:0.000s and dt:0.00100s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.553e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 4.540e-09 (tol = 1.000e-12) r (rel) = 2.924e-12 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.530e-11 (tol = 1.000e-12) r (rel) = 1.630e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:0.001s and dt:0.00200s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 1.023e-08 (tol = 1.000e-12) r (rel) = 6.717e-12 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.536e-11 (tol = 1.000e-12) r (rel) = 1.665e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:0.003s and dt:0.00400s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 2.421e-07 (tol = 1.000e-12) r (rel) = 1.589e-10 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.475e-11 (tol = 1.000e-12) r (rel) = 1.625e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:0.007s and dt:0.00800s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 2.346e-07 (tol = 1.000e-12) r (rel) = 1.540e-10 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.520e-11 (tol = 1.000e-12) r (rel) = 1.654e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:0.015s and dt:0.01600s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 2.298e-07 (tol = 1.000e-12) r (rel) = 1.508e-10 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.499e-11 (tol = 1.000e-12) r (rel) = 1.640e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:0.031s and dt:0.03200s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 2.258e-07 (tol = 1.000e-12) r (rel) = 1.482e-10 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.488e-11 (tol = 1.000e-12) r (rel) = 1.633e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:0.063s and dt:0.06400s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 2.205e-07 (tol = 1.000e-12) r (rel) = 1.447e-10 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.499e-11 (tol = 1.000e-12) r (rel) = 1.640e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:0.127s and dt:0.12800s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 2.118e-07 (tol = 1.000e-12) r (rel) = 1.390e-10 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.463e-11 (tol = 1.000e-12) r (rel) = 1.617e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:0.255s and dt:0.25600s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 1.967e-07 (tol = 1.000e-12) r (rel) = 1.291e-10 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.484e-11 (tol = 1.000e-12) r (rel) = 1.630e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:0.511s and dt:0.51200s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 1.731e-07 (tol = 1.000e-12) r (rel) = 1.136e-10 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.522e-11 (tol = 1.000e-12) r (rel) = 1.655e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:1.023s and dt:1.02400s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 1.410e-07 (tol = 1.000e-12) r (rel) = 9.253e-11 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.503e-11 (tol = 1.000e-12) r (rel) = 1.643e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:2.047s and dt:2.04800s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 1.054e-07 (tol = 1.000e-12) r (rel) = 6.916e-11 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.486e-11 (tol = 1.000e-12) r (rel) = 1.632e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:4.095s and dt:4.09600s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 7.350e-08 (tol = 1.000e-12) r (rel) = 4.824e-11 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.468e-11 (tol = 1.000e-12) r (rel) = 1.620e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:8.191s and dt:8.19200s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.524e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 4.962e-08 (tol = 1.000e-12) r (rel) = 3.257e-11 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.492e-11 (tol = 1.000e-12) r (rel) = 1.636e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:16.383s and dt:16.38400s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.523e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 3.355e-08 (tol = 1.000e-12) r (rel) = 2.203e-11 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.494e-11 (tol = 1.000e-12) r (rel) = 1.637e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:32.767s and dt:20.00000s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.523e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 3.472e-08 (tol = 1.000e-12) r (rel) = 2.280e-11 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.488e-11 (tol = 1.000e-12) r (rel) = 1.633e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:52.767s and dt:20.00000s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.523e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 3.191e-08 (tol = 1.000e-12) r (rel) = 2.095e-11 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.488e-11 (tol = 1.000e-12) r (rel) = 1.634e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:72.767s and dt:20.00000s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.523e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 2.817e-08 (tol = 1.000e-12) r (rel) = 1.850e-11 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.470e-11 (tol = 1.000e-12) r (rel) = 1.622e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:92.767s and dt:20.00000s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.522e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 2.473e-08 (tol = 1.000e-12) r (rel) = 1.624e-11 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.488e-11 (tol = 1.000e-12) r (rel) = 1.634e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:112.767s and dt:20.00000s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.522e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 1.771e-08 (tol = 1.000e-12) r (rel) = 1.164e-11 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.481e-11 (tol = 1.000e-12) r (rel) = 1.630e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:132.767s and dt:20.00000s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.522e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 1.555e-08 (tol = 1.000e-12) r (rel) = 1.022e-11 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.496e-11 (tol = 1.000e-12) r (rel) = 1.640e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:152.767s and dt:20.00000s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.522e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 1.365e-08 (tol = 1.000e-12) r (rel) = 8.972e-12 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.500e-11 (tol = 1.000e-12) r (rel) = 1.643e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Flow - Time:172.767s and dt:20.00000s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.521e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 1.261e-08 (tol = 1.000e-12) r (rel) = 8.290e-12 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.499e-11 (tol = 1.000e-12) r (rel) = 1.642e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Flow - Time:192.767s and dt:20.00000s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.521e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 1.218e-08 (tol = 1.000e-12) r (rel) = 8.005e-12 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.481e-11 (tol = 1.000e-12) r (rel) = 1.631e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+Building point search tree to accelerate distance queries.
+Computed bounding box tree with 16617 nodes for 8309 points.
+Flow - Time:200.000s and dt:20.00000s
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Iterating over subset, found 39 entities out of 12715.
+  Solving nonlinear variational problem.
+    Newton iteration 0: r (abs) = 1.521e+03 (tol = 1.000e-12) r (rel) = 1.000e+00 (tol = 1.000e-13)
+    Newton iteration 1: r (abs) = 2.257e-08 (tol = 1.000e-12) r (rel) = 1.484e-11 (tol = 1.000e-13)
+    Newton iteration 2: r (abs) = 2.501e-11 (tol = 1.000e-12) r (rel) = 1.644e-14 (tol = 1.000e-13)
+    Newton solver finished in 2 iterations and 2 linear solver iterations.
+Iterating over subset, found 39 entities out of 12715.
+Concentration
+  Iterating over subset, found 39 entities out of 12715.
+  Solving linear variational problem.
+---------------- Saving ----------------
+Total running time: 0h:0min:36s 
+
+9
+./PostProcessing/Cases/TransWellSimulatorRZ_8CylCnt_MeshTest_MF09/velocityProfile.csv
+Finished

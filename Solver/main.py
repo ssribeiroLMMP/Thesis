@@ -61,6 +61,8 @@ def main(inputs):
     C = fieldSpaceCreation(inputs,meshObj)
     w0 = Function(W)
     rho_cem_t = project(inputs.shrinkage_rhoMax,C)
+    r = Expression('x[0]', degree=1)
+    
     
     # Initial Conditions
     c0 = initialMixture(C,inputs)
