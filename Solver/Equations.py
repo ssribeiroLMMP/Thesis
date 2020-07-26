@@ -429,10 +429,11 @@ def transienFieldTransport(C,c_i0,dt,u1,D,rho_i_t,rho_i_t0,mu,inputs,meshObj,bou
     #                 # Transient Term   #                                                # Advection Term                                  # Diffusion Term                            
     # F = inner((rho_i_t*c_i - rho_i_t0*c_i0)/Dt,l)*dx() + alphaC *(inner(u1,(grad(c_i*rho_i_t )) *l) + dot(u1, grad(c_i ))*l + c_i *div2d(u1,x)*l + (D)*dot(grad(c_i ),grad(l)))*dx() +\
     #                                                 (1 - alphaC)*(inner(u1,(grad(c_i0*rho_i_t0))*l) + dot(u1, grad(c_i0))*l + c_i0*div2d(u1,x)*l + (D)*dot(grad(c_i0),grad(l)))*dx() # Relaxation                         
+    # rho_i_t*dot(u1, grad(c_i ))*l + + rho_i_t0*dot(u1, grad(c_i0))*l 
     # Cylindrical
-                # Transient Term   #                                                # Advection Term                                  # Diffusion Term                            
-    F = inner((rho_i_t*c_i - rho_i_t0*c_i0)/Dt,l)*x[0]*dx() + alphaC*(inner(u1,(grad(c_i*rho_i_t )) *l) + dot(u1, grad(c_i ))*l + c_i *div2d(u1,x)*l + (D)*dot(grad(c_i ),grad(l)))*x[0]*dx() +\
-                                                        (1 - alphaC)*(inner(u1,(grad(c_i0*rho_i_t0))*l) + dot(u1, grad(c_i0))*l + c_i0*div2d(u1,x)*l + (D)*dot(grad(c_i0),grad(l)))*x[0]*dx() # Relaxation
+                # Transient Term   #                                                   # Advection Term                                                               # Diffusion Term                            
+    F = inner((rho_i_t*c_i - rho_i_t0*c_i0)/Dt,l)*x[0]*dx() + alphaC*(inner(rho_i_t *u1,(grad(c_i ))*l) +  c_i *rho_i_t*div2d(u1,x)*l + (D)*dot(grad(c_i ),grad(l)))*x[0]*dx() +\
+                                                        (1 - alphaC)*(inner(rho_i_t0*u1,(grad(c_i0))*l) + c_i0 *rho_i_t0*div2d(u1,x)*l + (D)*dot(grad(c_i0),grad(l)))*x[0]*dx() # Relaxation
     a, L = lhs(F), rhs(F)
 
     # Boundary Conditions    
