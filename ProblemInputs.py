@@ -34,7 +34,7 @@ class Inputs():
         
         #%%############ Problem Geometry   ##############################
         ## Mesh File
-        self.meshFile = 'WellSimulatorMF10'#'MacroParallelPlates'#'WellSimulator'#
+        self.meshFile = 'WellSimulatorRZ'#'MacroParallelPlates'#'WellSimulator'#
         self.meshElements = 8813
         # Geometric Values
         self.Zmin = 6
@@ -43,6 +43,7 @@ class Inputs():
         self.Zmax = 8
         self.RIn = 0.1
         self.stepR = 0.005
+        self.RIn = 0.1
         self.ROut = 0.22
         self.HFluidLoss = .1
         ## Mesh Elements
@@ -57,7 +58,7 @@ class Inputs():
         self.scalarFieldElementOrder = 1
         
         #%%############ Case Definition    ##############################
-        self.caseId = 'TransWellSimulator_8_MeshTest_MF10' ## If name already exists in folder ./PostProcessing/Cases, 
+        self.caseId = 'TransWellSimulatorRZ_8Cyl_MeshTest_MF10' ## If name already exists in folder ./PostProcessing/Cases, 
                     ## old data will be overwritten.
         
         # Output Variables
@@ -82,7 +83,7 @@ class Inputs():
         # MeshTest Radius List
         self.plotRadiusList = np.arange(self.RIn,self.ROut+self.stepR,self.stepR).tolist()
         # Plot Time List
-        self.plotTimeList = [1, 10, 50, 100, 150, self.tEnd]# 2500, 4500, 7000, 8250, 9000, 10500, 12000, 
+        self.plotTimeList = [1, 10, 50, 100, 150, self.tEnd]# 2500, 4500, 7000, 8250, 9000, 10500, 12000,  
         self.plotDepthList = [6, 6.4, 6.8, 7.2, 7.6, 8]
         # self.plotTimeList = [1, self.tEnd]
         self.fieldnamesFlow = ['Time(s)','outletFlowRate(Kg/s)']
@@ -97,7 +98,7 @@ class Inputs():
 #        self.dt = dynamicTimestep(self.t0,self.dtMax,self.gging Options   ###############################
         
         # Result Saving time step
-        self.savedt = 100    # s
+        self.savedt = 100  # s
 
         #%%############ Gravitationa Field ##############################
         # Gravity Acceleration (m/s²) on axis X
@@ -198,33 +199,38 @@ class Inputs():
         ## Velocity Inputs
         t=self.dtMin
         self.AOut = 2*pi*self.ROut*self.HFluidLoss
+        self.AIn = pi*(self.ROut**2 - self.RIn**2)
         self.rhoOut = self.rho_values[self.Fluid1] # Water Only
         self.muOut = self.mu_values[self.Fluid1] # Water Only
+        self.rho_mix0 = (self.rho_values[0]*self.CInitialMixture + self.rho_values[1]*(1-self.CInitialMixture))
         self.velocityBCs = {}
         # self.VrOutlet = '0.00043 + 0*t*A*rho'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*0.061/((pow(t,0.78)))' # BaseCase 0
-        # self.VrInlet = Expression('VrInlet',VrInlet=0.0,degree=1)
+        self.VzOutlet = Expression('VzOutlet',VzOutlet=0.0,degree=1)
         self.VrInlet = Expression('VrInlet',VrInlet=0.0,degree=2)
-        self.VzOutlet = Expression('VzOutlet',VzOutlet=0.0,degree=2)
         # self.VrOutlet = Expression('(1/(rho*A))*0.000163 + 0*t',\
         #                     A=self.AOut,rho=self.rhoOut,t=t,degree=2) # Constant Flow Rate
         self.VrOutlet = Expression('t <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*(a/(pow(t,b)) - (1/(d*c))*exp((t-ts)/(e*c)))',\
                                     A=self.AOut,rho=self.rhoOut,t=t,degree=2, \
                                     a= 0.032,b=0.67 ,c=1300, d=8, e=3 ,ts=17000) # Best Experimental Fit
+        # self.VzInlet = Expression('t <= 100 ? (1/(rho*A))*0.00163 : (1/(rho*A))*(a/(pow(t,b)) - (1/(d*c))*exp((t-ts)/(e*c)))',\
+        #                             A=self.AIn,rho=self.rho_mix0,t=t,degree=2, \
+        #                             a= 0.032,b=0.67 ,c=1300, d=8, e=3 ,ts=17000) # Best Experimental Fit
         # self.VrOutlet = Expression('t <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))',\
         #                            A=self.AOut,rho=self.rhoOut,t=t,degree=2) # All BaseCases
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.0163 : (1/(rho*A))*0.55 /((pow(t,0.78)))'
         # self.VrOutlet = 't <= 100 ? (1/(rho*A))*0.000163 : (1/(rho*A))*0.0055 /((pow(t,0.78)))'#'2*exp(1-(t/200))/300'#'2*exp(1-(t/200))/300'#
         # self.velocityBCs.update({'Inlet' : {2: self.VrInlet}}) # m/s
-        self.velocityBCs.update({'Inlet' : {1: self.VrInlet}}) # m/s
+        InletVelBC = {0: self.VrInlet}
+        # InletVelBC.update({1: self.VzInlet})
+        self.velocityBCs.update({'Inlet' : InletVelBC}) # m/s
         # self.velocityBCs.update({'Outlet' : {1: self.VzOutlet}}) # m/s
-        self.velocityBCs.update({'Outlet' : {0: self.VzOutlet}}) # m/s
-        self.velocityBCs.update({'Outlet' : {1: self.VrOutlet}}) # m/s
+        OutletVelBC = {0: self.VrOutlet}
+        OutletVelBC.update({1: self.VzOutlet})
+        self.velocityBCs.update({'Outlet' : OutletVelBC}) # m/s
         
         ## Pressure Inputs
         self.pressureBCs = {}
-        # Mixture Initial Density
-        self.rho_mix0 = (self.rho_values[0]*self.CInitialMixture + self.rho_values[1]*(1-self.CInitialMixture))
         # Inlet Pressure
         self.pInlet = self.rho_mix0*self.Zmin*self.g #0.3164557 #self.rho_values[0]*2*self.g
         self.pressureBCs.update({'Inlet' : self.pInlet}) # Pa
@@ -234,10 +240,10 @@ class Inputs():
         
         #%%############ Solver parameters ###############################
         # Absolute Tolerance    
-        self.absTol = 1e-10
+        self.absTol = 1e-12
         
         # Relative Tolerance
-        self.relTol = 1e-15
+        self.relTol = 1e-13
         
         # Maximum Iterations
         self.maxIter = 15

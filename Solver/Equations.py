@@ -103,7 +103,7 @@ def calculateOutletFlowrate(u1,inputs,boundaries,Subdomains):
     # Loop over vertices and sum the normal velocity
     for i in range(0,len(yOut)):
         # TODO: add variable velocity with outlet area normal vector
-        cumsum = cumsum + u1(xOut[i],yOut[i])[1]
+        cumsum = cumsum + u1(xOut[i],yOut[i])[0] #RZ
         n += 1
     
     # vAvg
@@ -117,8 +117,8 @@ def calculateOutletFlowrate(u1,inputs,boundaries,Subdomains):
 
 # Body Forces Term: Gravity
 def fb(inputs):
-    # Body Forces: Gravity
-    return Constant((inputs.g, 0.0)) 
+    # Body Forces: Gravity(RZ)
+    return Constant((0.0, inputs.g)) 
 
 # # Calculates Fluid properties by Mesh Cell
 # def assignFluidProperties(inputs,c0,C=0,u=0,t=0):
@@ -237,18 +237,54 @@ def flowSpaceCreation(inputs,meshObj):
 #     # Append Flow Problem
 #     return w
 
-#%% Deformation Tensor 
-def DD(u):
-    return sym(nabla_grad(u))
+# 3D->2D Divergent
+def div2d(u,x):
+    ## Cartesian
+    # divU = u[0].dx(0) + u[1].dx(1)
+    
+    # Cyllindrical Coordinates(RZ)
+    divU = u[0].dx(0) + u[0]/x[0] + u[1].dx(1)
+    return divU
 
-# Define stress tensor
-def TT(u, p, mu):
-    return 2*mu*DD(u) - p*Identity(len(u))
+# 3D->2D Gradient
+def grad2d(u,x):
+    ## Cartesian
+    # gradU = as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
+    #                     [0, 0, 0],
+    #                     [u[1].dx(0), 0, u[1].dx(1)]])
+    # Cyllindrical Coordinates Test(RZ)
+    gradU = as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
+                        [0, u[0]/x[0], 0],
+                        [u[1].dx(0), 0, u[1].dx(1)]])
+    return gradU
+
+#%% 3D->2D Strain Rate Tensor 
+def DD(u,x):
+    ## Cartesian
+    # D = sym(as_tensor([ [u[0].dx(0), 0, u[0].dx(1)],
+    #                     [0, 0, 0],
+    #                     [u[1].dx(0), 0, u[1].dx(1)] ]))
+    
+    # Cylindrical Coordinates(RZ)
+    D = sym(as_tensor([[u[0].dx(0), 0, u[0].dx(1)],
+                          [0, u[0]/x[0], 0],
+                          [u[1].dx(0), 0, u[1].dx(1)]]))
+    return D
+    # 
+
+# 3D->2D Stress tensor
+def TT(u, x, p, mu):
+    #Cartesian
+    # T = 2*mu*DD(u,x) - p*Identity(len(u))
+    
+    #Cylindrical(RZ)
+    T = 2*mu*DD(u,x) - p*Identity(3)
+    return T
 
 #%% Transient Coupled scheeme for Flow 
 def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin=0):    
     #####  Functions and Constants
-        ## Trial and Test function(s)
+    ## Trial and Test function(s)
     dw = TrialFunction(W)
     (v, q) = TestFunctions(W)
     w = Function(W)
@@ -262,19 +298,22 @@ def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin
     
     # Calculate Important Measures: Omega, deltaOmega, Normal Vector
     dx, ds, n = meshMeasures(meshObj,boundaries)
+    x = SpatialCoordinate(meshObj)
     
     # Time step Constant
     Dt = Constant(dt)
     
     alpha = Constant(inputs.alpha)
     ##########   Equations
-    # Linear Momentum Conservation
+    # Linear Momentum Conservation 
+    # ##Cartesian
     #        # Transient Term            # Inertia Term             # Surface Forces Term           # Pressure Force
-    # a1 = inner((u-u0)/Dt,v)*dx() + alpha*(inner(grad(u)*u , v) + (mu/rho)*inner(grad(u), grad(v)) - div(v)*p /rho)*dx() + \
-    #                            (1-alpha)*(inner(grad(u0)*u0,v) + (mu/rho)*inner(grad(u0),grad(v)) - div(v)*p /rho)*dx()    # Relaxation
+    # a1 = rho*dot((u-u0)/Dt,v)*dx() + alpha  *(rho*dot(dot(u,grad(u) ) ,v) + inner(TT(u,x,p,mu),DD(v,x)))*dx() + \
+    #                                (1-alpha)*(rho*dot(dot(u0,grad(u0)),v) + inner(TT(u,x,p,mu),DD(v,x)))*dx()
+    # ##Cylindrical
             # Transient Term                # Inertia Term                           # Surface Forces Term           
-    a1 = rho*dot((u-u0)/Dt,v)*dx() + alpha *(rho*dot(dot(u,nabla_grad(u)), v) + inner(TT(u,p,mu),DD(v)))*dx() + \
-                                (1 - alpha)*(rho*dot(dot(u0,nabla_grad(u0)),v) + inner(TT(u,p,mu),DD(v)))*dx()  # Relaxation
+    a1 = rho*dot((u-u0)/Dt,v)*x[0]*dx() + alpha  *(rho*dot(dot(u,grad(u) ) ,v) + inner(TT(u,x,p,mu),DD(v,x)))*x[0]*dx() + \
+                                            (1-alpha)*(rho*dot(dot(u0,grad(u0)),v) + inner(TT(u,x,p,mu),DD(v,x)))*x[0]*dx()  # Relaxation
                                 
     L1 = 0
     for key, value in inputs.pressureBCs.items():
@@ -286,15 +325,22 @@ def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin
         # L1 = L1 + (Pi/rho)*dot(v,n)*ds(Subdomains[key])
         L1 = L1 + (Pi)*dot(n,v)*ds(Subdomains[key])
     
-    # Body Forces Term: Gravity 
-    L1 = - L1 + inner(rho*fb(inputs),v)*dx()
+    # Body Forces Term: Gravity
+    ## Cartesian
+    # L1 = - L1 + inner(rho*fb(inputs),v)*dx() 
+    ## Cilyndrical
+    L1 = - L1 + inner(rho*fb(inputs),v)*x[0]*dx()
     
     # Add Mass Conservation Equation
     # if t <= inputs.dt:
     #     a2 = ((dot(u,grad(rho))*q + rho*div(u)*q)*dx())
     # else:
-    a2 = ((rho-rho0)/Dt)*q*dx() + (alpha)*((dot(u,grad(rho))*q + rho*div(u)*q)*dx()) + \
-                                    (1-alpha)*((inner(u,grad(rho0))*q + rho0*div(u)*q)*dx())
+    # ## Cartesian
+    # a2 = ((rho-rho0)/Dt)*q*dx() + (alpha )*((inner(u,grad(rho) )*q + rho*div2d(u,x)*q) *dx()) + \
+    #                             (1 -alpha)*((inner(u,grad(rho0))*q + rho0*div2d(u,x)*q)*dx())
+    ## 2dindrical
+    a2 = ((rho-rho0)/Dt)*q*x[0]*dx() +(alpha)*((inner(u,grad(rho) )*q + rho*div2d(u,x)*q)*x[0] *dx()) + \
+                                    (1-alpha)*((inner(u,grad(rho0))*q + rho0*div2d(u,x)*q)*x[0]*dx())
                                 
     L2 = 0
     
@@ -305,7 +351,7 @@ def transientFlow(t,W,w0,dt,rho,rho0,mu,inputs,meshObj,boundaries,Subdomains,Pin
     J = derivative(F,w,dw)
     
     # Apply Flow Boundary Conditions
-    bcU = flowBC(t,U,inputs,meshObj,boundaries,Subdomains)
+    bcU = flowBC(t,rho,U,inputs,meshObj,boundaries,Subdomains)
         
     ##########   Numerical Solver Properties
     # Problem and Solver definitions
@@ -372,15 +418,22 @@ def transienFieldTransport(C,c_i0,dt,u1,D,rho_i_t,rho_i_t0,mu,inputs,meshObj,bou
     
     # Load Important Measures: Omega, deltaOmega, Normal Vector
     dx, ds, n = meshMeasures(meshObj,boundaries)
+    x = SpatialCoordinate(meshObj)
     
     # Time step Constant
     Dt = Constant(dt)
     alphaC = Constant(inputs.alphaC)
     
-    # Concentration Equation                         
-                # Transient Term   #                                                # Advection Term                                  # Diffusion Term                            
-    F = inner((rho_i_t*c_i - rho_i_t0*c_i0)/Dt,l)*dx() + alphaC *(inner(u1,(grad(c_i*rho_i_t )) *l) + dot(u1, grad(c_i ))*l + c_i *div(u1)*l + (D)*dot(grad(c_i ),grad(l)))*dx() +\
-                                                    (1 - alphaC)*(inner(u1,(grad(c_i0*rho_i_t0))*l) + dot(u1, grad(c_i0))*l + c_i0*div(u1)*l + (D)*dot(grad(c_i0),grad(l)))*dx() # Relaxation
+    # Concentration Equation
+    ## Cartesian
+    #                 # Transient Term   #                                                # Advection Term                                  # Diffusion Term                            
+    # F = inner((rho_i_t*c_i - rho_i_t0*c_i0)/Dt,l)*dx() + alphaC *(inner(u1,(grad(c_i*rho_i_t )) *l) + dot(u1, grad(c_i ))*l + c_i *div2d(u1,x)*l + (D)*dot(grad(c_i ),grad(l)))*dx() +\
+    #                                                 (1 - alphaC)*(inner(u1,(grad(c_i0*rho_i_t0))*l) + dot(u1, grad(c_i0))*l + c_i0*div2d(u1,x)*l + (D)*dot(grad(c_i0),grad(l)))*dx() # Relaxation                         
+    # rho_i_t*dot(u1, grad(c_i ))*l + + rho_i_t0*dot(u1, grad(c_i0))*l 
+    # Cylindrical
+                # Transient Term   #                                                   # Advection Term                                                               # Diffusion Term                            
+    F = inner((rho_i_t*c_i - rho_i_t0*c_i0)/Dt,l)*x[0]*dx() + alphaC*(inner(rho_i_t *u1,(grad(c_i ))*l) +  c_i *rho_i_t*div2d(u1,x)*l + (D)*dot(grad(c_i ),grad(l)))*x[0]*dx() +\
+                                                        (1 - alphaC)*(inner(rho_i_t0*u1,(grad(c_i0))*l) + c_i0 *rho_i_t0*div2d(u1,x)*l + (D)*dot(grad(c_i0),grad(l)))*x[0]*dx() # Relaxation
     a, L = lhs(F), rhs(F)
 
     # Boundary Conditions    
