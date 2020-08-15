@@ -24,15 +24,16 @@ def coordinatesAt(boundaries,SubdomainVal):
 
     return x,y
 
+#RZ
 def calculateCyllinderOuterArea(xOut,yOut):
-    # Outlet cross-section Area
-    outletArea = 2*np.pi*(max(xOut)-min(xOut))*max(yOut)
+    # Outlet cross-section Area: 2*pi*ROut(max(Zfl) - min(Zfl))
+    outletArea = 2*np.pi*max(xOut)*(max(yOut)-min(yOut))
     return outletArea
 
-
+#RZ
 def calculateAnnulusCrossArea(xIn,yIn):
-    # Inlet cross-section area
-    inletArea = np.pi*(max(yIn)**2 - min(yIn)**2)
+    # Inlet cross-section area: pi*(Rout²-Rin²)
+    inletArea = np.pi*(max(xIn)**2 - min(xIn)**2)
     return inletArea
     
 #%%############     Initial Conditions
@@ -49,7 +50,7 @@ def noSlip(Dim):
     return Constant(noSlipU)
 
 # Flow Boundary Conditions
-def flowBC(t,U,inputs,meshId,boundariesId,subdomainsDict):
+def flowBC(t,rho,U,inputs,meshId,boundariesId,subdomainsDict):
     Dim = meshId.geometric_dimension()
     
     noSlipU = noSlip(Dim)
@@ -58,11 +59,32 @@ def flowBC(t,U,inputs,meshId,boundariesId,subdomainsDict):
     xOut,yOut = coordinatesAt(boundariesId,subdomainsDict['Outlet'])
     
     # Outlet cross-section Area
-    outletArea = 2*np.pi*(max(xOut)-min(xOut))*max(yOut)
+    outletArea = calculateCyllinderOuterArea(xOut,yOut)
 
     # OPnly Fluid 0 leaves through outlet
     rhoOut = inputs.rho_values[inputs.Fluid1]
 
+    # Vertices Inlet Coordinates
+    xIn,yIn = coordinatesAt(boundariesId,subdomainsDict['Inlet'])
+
+    # Concentration at the inlet
+    # TODO: Add temporal variant cInlet
+    cInlet = inputs.CInitialMixture
+
+    #Mixture density at the inlet
+
+    # Loop over vertices and sum the rho_cem_inlet
+    cumsum = 0
+    n = 0
+    for i in range(0,len(yIn)):
+        # Local Cement Density by Shrinkage Model
+        rho_Cem_i = rho(xIn[i],yIn[i])
+        cumsum = cumsum + rho_Cem_i
+        n += 1
+    
+    # avg Inlet Cement Density
+    rhoMix = cumsum/n  
+    
     # Initialize Boundary Condition
     bc = []
     
@@ -82,6 +104,8 @@ def flowBC(t,U,inputs,meshId,boundariesId,subdomainsDict):
             else:
                 valueExp.t = t
             dim = key2
+            if DomainKey == 'Inlet' and key2 == 1:
+                valueExp.rho = rhoMix
             bc.append(DirichletBC(U.sub(dim),valueExp,boundariesId,subdomainsDict[DomainKey]))
     
     return bc

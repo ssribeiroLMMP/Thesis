@@ -78,8 +78,8 @@ def writeCSVLine(outputCSV,line):
         writer.writerow(line) 
 
 def savingCheckings(inputs,mainPaths):    
-    meshFile = inputs.meshFile;
-    caseId = inputs.caseId;
+    meshFile = inputs.meshFile
+    caseId = inputs.caseId
     
     meshpath, paraFullPath, imFullPath,parapath, imagespath,geopath,  \
     postpath = assemblePaths(inputs)
@@ -170,10 +170,10 @@ def saveVelocityProfileDuringRun(inputs,v):
 
     for r in inputs.plotRadiusList:
         # Append PANDAS dataframe
-        if v(inputs.ZVelProf,r)[0] < 1e-15:
+        if v(r,inputs.ZVelProf)[1] < 1e-15 and v(r,inputs.ZVelProf)[1] > -1e-15: #RZ
             vz = 0
         else:
-            vz = v(inputs.ZVelProf,r)[0]
+            vz = v(round(r,4),inputs.ZVelProf)[1] #RZ
         dataframe = dataframe.append({'Elements':inputs.meshElements,\
                                       'Radius(m)': r,\
                                       'Velocity(m/s)': vz}, ignore_index=True)
@@ -190,10 +190,10 @@ def savePressurePerDepthDuringRun(inputs,p,t):
     dataframe = pd.DataFrame(columns=['Time(s)','Depth(m)','Pressure(Pa)'])
 
     for z in inputs.plotDepthList:
-        # Append PANDAS dataframe
+        # Append PANDAS dataframe #RZ
         dataframe = dataframe.append({'Time(s)':round(t,1),\
                                       'Depth(m)': z,\
-                                      'Pressure(Pa)': p(z,inputs.ROut)}, ignore_index=True)
+                                      'Pressure(Pa)': p(inputs.ROut,z)}, ignore_index=True) #RZ
          
     dataframe.to_csv(filePath, index=False, mode='a',header=False)
 
@@ -216,10 +216,10 @@ def savePressureProfileDuringRun(inputs,p,t):
     z = inputs.Zmin
 
     while z < inputs.Zmax:
-        # Append PANDAS dataframe
+        # Append PANDAS dataframe #RZ
         dataframe = dataframe.append({'Time(s)':round(t,1),\
                                       'Depth(m)': z,\
-                                      'Pressure(Pa)': p(z,inputs.ROut)}, ignore_index=True)
+                                      'Pressure(Pa)': p(inputs.ROut,z)}, ignore_index=True) #RZ
         z += inputs.dZPlot
         z = round(z,2)
         # print(z)        
@@ -251,11 +251,13 @@ def logResults(t,results,listId,inputs,meshObj,cbarU=0,cbarP=0):
         savePressureProfileDuringRun(inputs,pi,t)
         rhoMix = results[5]
         dicTitle = {1:'Pressure',2:'Concentration',3:'Velocity'}
-        cbarU, cbarP, uXYValues, lValues, pValues, nVertices = prettyplot(1,meshObj,t,ui,pi,ci,dicTitle, resultspath='./PostProcessing/Cases/'+inputs.caseId,tag='/Images/',cbarU=cbarU,cbarP=cbarP,cbarDirection = 0)
+        # cbarU, cbarP, uXYValues, lValues, pValues, nVertices = prettyplot(1,meshObj,t,ui,pi,ci,dicTitle, resultspath='./PostProcessing/Cases/'+inputs.caseId,tag='/Images/',cbarU=cbarU,cbarP=cbarP,cbarDirection = 0)
         
-
-        linePre = [t , rhoMix, pi(6,0.22), pi(6.125,0.22), pi(6.25,0.22), pi(6.375,0.22), pi(6.5,0.22), pi(6.625,0.22), pi(6.75,0.22), pi(6.875,0.22),\
-                      pi(7,0.22), pi(7.125,0.22), pi(7.25,0.22), pi(7.375,0.22), pi(7.5,0.22), pi(7.625,0.22), pi(7.75,0.22), pi(7.875,0.22), pi(8,0.22)]
+        #RZ
+        # linePre = [t , rhoMix, pi(6,0.22), pi(6.125,0.22), pi(6.25,0.22), pi(6.375,0.22), pi(6.5,0.22), pi(6.625,0.22), pi(6.75,0.22), pi(6.875,0.22),\
+                    #   pi(7,0.22), pi(7.125,0.22), pi(7.25,0.22), pi(7.375,0.22), pi(7.5,0.22), pi(7.625,0.22), pi(7.75,0.22), pi(7.875,0.22), pi(8,0.22)]
+        linePre = [t , rhoMix, pi(0.22,6), pi(0.22,6.125), pi(0.22,6.25), pi(0.22,6.375), pi(0.22,6.5), pi(0.22,6.625), pi(0.22,6.75), pi(0.22,6.875),\
+                        pi(0.22,7), pi(0.22,7.125), pi(0.22,7.25), pi(0.22,7.375), pi(0.22,7.5), pi(0.22,7.625), pi(0.22,7.75), pi(0.22,7.875), pi(0.22,8)]
         writeCSVLine(inputs.outputPressure,linePre)
         listId += 1
 
